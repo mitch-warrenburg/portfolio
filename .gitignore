@@ -1,0 +1,12 @@
+.DS_Store
+dist/
+.vscode/
+node_modules/
+coverage/
+*.cache
+.cache/
+.firebase
+*.tgz
+*.log
+.eslintcache
+package-lock.json

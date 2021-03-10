@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "stylelint-prettier/recommended",
+    "stylelint-config-idiomatic-order"
+  ],
+  "plugins": [
+    "stylelint-prettier",
+    "stylelint-order"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      true,
+      {
+        "tabWidth": 2,
+        "printWidth": 200,
+        "singleQuote": false
+      }
+    ],
+    "max-empty-lines": 1,
+    "rule-empty-line-before": "always",
+    "declaration-empty-line-before": "never"
+  }
+}
