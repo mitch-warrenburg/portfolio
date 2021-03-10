@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "@types/gsap": "^1.20.2",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.2",
+    "@types/react": "^17.0.1",
+    "@types/react-dom": "^17.0.1",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
@@ -67,7 +67,6 @@
     "format": "run-p format:*",
     "format:code": "prettier --write 'src/**/*.{js,ts,jsx,tsx}'",
     "format:scss": "stylelint **/*.scss --color --fix",
-    "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx}'",
-    "prepare": "husky install"
+    "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx}'"
   }
 }
