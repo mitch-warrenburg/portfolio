@@ -1,0 +1,58 @@
+$particles: 240;
+$particleH: 300px;
+$length: 1000px;
+$startOffset: 500px;
+$spreadMax: 45px;
+$spreadMin: 15px;
+$duration: 2s;
+
+.hyperspeed-backdrop {
+  background-color: currentColor;
+  display: flex;
+  height: 100vh;
+  line-height: 1.5;
+  overflow: hidden;
+  perspective: 800px;
+
+  &__particles {
+    animation: speed $duration cubic-bezier(.8,.1,.9,.25) infinite;
+    margin: auto;
+    will-change: transform;
+    width: $spreadMax*2;
+    height: $spreadMax*2;
+  }
+
+  &__particles, &__particle {
+    transform-style: preserve-3d;
+  }
+
+  &__particle {
+    animation: fadeIn $duration linear infinite;
+    background-image: radial-gradient(50% 75% at center,#fff,#88f,transparent);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    width: 3px;
+    height: $particleH;
+    transform-origin: 50% 0;
+    @for $i from 1 through $particles {
+      $transPt1: translateX(-50%) rotateZ(360deg * random()) rotateX(90deg) translateZ($spreadMin + (($spreadMax - $spreadMin) * random()));
+      $transPt2: translateY($length  * random());
+      &:nth-of-type(#{$i}) {
+        transform: $transPt1 $transPt2;
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0 }
+    25%, to { opacity: 1 }
+  }
+  @keyframes speed {
+    from { transform: translateZ(-$length + $startOffset) }
+    75%, to { transform: translateZ($length) }
+  }
+}
+
