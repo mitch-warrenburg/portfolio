@@ -1,12 +1,13 @@
 import { Action, Reducer } from 'redux';
-import { PersistPartial } from "redux-persist/es/persistReducer";
+import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 export interface RootState {
-  ui: UiState
+  ui: UiState;
 }
 
 export interface UiState {
   hasRunIntro: boolean;
+  isIntroRunning: boolean;
 }
 
 export type State = RootState & PersistPartial;

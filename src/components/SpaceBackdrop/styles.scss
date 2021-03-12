@@ -1,13 +1,50 @@
+@import "../../variables";
+
+$fade-out-duration: 500ms;
+
 .space-backdrop {
+  height: 100vh;
+  width: 100vw;
+  background: black;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+  position: fixed;
+  opacity: 1;
 
   &__stars {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: 0;
-    position: fixed;
-    background: black;
+    height: 100vh;
+    width: 100vw;
+
+    background: transparent;
     padding: 0;
+  }
+
+  &-enter {
+    opacity: 1;
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transition: opacity ease-in-out $fade-out-duration;
+  }
+
+  &-enter-done {
+    opacity: 1;
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transition: opacity ease-in-out $fade-out-duration;
+  }
+
+  &-exit-done {
+    opacity: 0;
   }
 }

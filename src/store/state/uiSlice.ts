@@ -1,8 +1,9 @@
-import { UiState } from "../types";
+import { UiState } from '../types';
 import { createSlice, PayloadAction, SliceCaseReducers } from '@reduxjs/toolkit';
 
 const initialState: UiState = {
-  hasRunIntro: false
+  hasRunIntro: false,
+  isIntroRunning: false,
 };
 
 const uiSlice = createSlice<UiState, SliceCaseReducers<UiState>>({
@@ -12,8 +13,11 @@ const uiSlice = createSlice<UiState, SliceCaseReducers<UiState>>({
     setHasRunIntro: (state, { payload }: PayloadAction<boolean>) => {
       state.hasRunIntro = payload;
     },
+    setIsIntroRunning: (state, { payload }: PayloadAction<boolean>) => {
+      state.isIntroRunning = payload;
+    },
   },
 });
 
 export const uiReducer = uiSlice.reducer;
-export const { setHasRunIntro } = uiSlice.actions;
+export const { setHasRunIntro, setIsIntroRunning } = uiSlice.actions;

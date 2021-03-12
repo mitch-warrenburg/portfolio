@@ -1,3 +1,5 @@
+export const backdropFadeOutDurationMs = 500;
+
 export const particlesOptions = {
   particles: {
     number: {

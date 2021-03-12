@@ -1,8 +1,8 @@
+import { setIsIntroRunningWatcher } from './uiSagas';
 import { all, call, spawn } from 'redux-saga/effects';
-import { hasIntroRunWatcher } from './uiSagas';
 
 export default function* rootSaga() {
-  const sagas = [hasIntroRunWatcher];
+  const sagas = [setIsIntroRunningWatcher];
 
   yield all(
     sagas.map(saga =>

@@ -18,8 +18,8 @@ $duration: 2s;
     animation: stretch-particles $duration cubic-bezier(.8,.1,.9,.25);
     margin: auto;
     will-change: transform;
-    width: $spreadMax*2;
-    height: $spreadMax*2;
+    width: $spreadMax * 2;
+    height: $spreadMax * 2;
   }
 
   &__particles, &__particle {
@@ -27,8 +27,8 @@ $duration: 2s;
   }
 
   &__particle {
-    animation: fade-in $duration linear infinite;
-    background-image: radial-gradient(50% 75% at center,#fff,#88f,transparent);
+    animation: fade-in $duration linear;
+    background-image: radial-gradient(50% 75% at center, white, #88f, transparent);
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -37,6 +37,7 @@ $duration: 2s;
     width: 3px;
     height: $particleH;
     transform-origin: 50% 0;
+
     @for $i from 1 through $particles {
       $transPt1: translateX(-50%) rotateZ(360deg * random()) rotateX(90deg) translateZ($spreadMin + (($spreadMax - $spreadMin) * random()));
       $transPt2: translateY($length  * random());
@@ -51,7 +52,7 @@ $duration: 2s;
     25%, to { opacity: 1 }
   }
   @keyframes stretch-particles {
-    from { transform: translateZ(-$length + $startOffset) }
+    from { transform: translateZ($startOffset - $length) }
     75%, to { transform: translateZ($length) }
   }
 }
