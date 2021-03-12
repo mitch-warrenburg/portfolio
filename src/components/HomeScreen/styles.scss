@@ -1,0 +1,15 @@
+$fade-in-duration: 1s;
+
+.home-screen {
+  background: black;
+  animation: fade-in-from-black $fade-in-duration cubic-bezier(.8,.1,.9,.25);
+
+  @keyframes fade-in-from-black {
+    0% {
+      background: black;
+    }
+    100% {
+      background: darkslategray;
+    }
+  }
+}

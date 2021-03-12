@@ -1,18 +1,7 @@
-$intro-animation-duration: 10s;
+$intro-animation-duration: 8s;
 $intro-animation-frequency: normal;
 
 .intro-screen-animation {
-
-  &__stars-background {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: 0;
-    position: fixed;
-    background: black;
-    padding: 0;
-  }
 
   .animated-intro-section {
     position: fixed;
@@ -123,7 +112,7 @@ $intro-animation-frequency: normal;
       opacity: 1;
       transform: scale(1);
     }
-    80%, 99% {
+    80%, 90% {
       opacity: 1;
       transform: scale(0.75);
     }

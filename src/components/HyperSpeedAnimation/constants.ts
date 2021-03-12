@@ -1,1 +1,1 @@
-export const hyperspeedParticleCount = 240;
+export const hyperSpeedParticleCount = 240;

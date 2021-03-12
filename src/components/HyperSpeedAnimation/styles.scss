@@ -6,8 +6,8 @@ $spreadMax: 45px;
 $spreadMin: 15px;
 $duration: 2s;
 
-.hyperspeed-backdrop {
-  background-color: currentColor;
+.hyperspeed-animation {
+  background-color: transparent;
   display: flex;
   height: 100vh;
   line-height: 1.5;
@@ -15,7 +15,7 @@ $duration: 2s;
   perspective: 800px;
 
   &__particles {
-    animation: speed $duration cubic-bezier(.8,.1,.9,.25) infinite;
+    animation: stretch-particles $duration cubic-bezier(.8,.1,.9,.25);
     margin: auto;
     will-change: transform;
     width: $spreadMax*2;
@@ -27,7 +27,7 @@ $duration: 2s;
   }
 
   &__particle {
-    animation: fadeIn $duration linear infinite;
+    animation: fade-in $duration linear infinite;
     background-image: radial-gradient(50% 75% at center,#fff,#88f,transparent);
     border-radius: 50%;
     position: absolute;
@@ -46,11 +46,11 @@ $duration: 2s;
     }
   }
 
-  @keyframes fadeIn {
+  @keyframes fade-in {
     from { opacity: 0 }
     25%, to { opacity: 1 }
   }
-  @keyframes speed {
+  @keyframes stretch-particles {
     from { transform: translateZ(-$length + $startOffset) }
     75%, to { transform: translateZ($length) }
   }

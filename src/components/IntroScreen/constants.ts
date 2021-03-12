@@ -1,1 +1,1 @@
-export const introAnimationDurationMs = 10000;
+export const introAnimationDurationMs = 7800;

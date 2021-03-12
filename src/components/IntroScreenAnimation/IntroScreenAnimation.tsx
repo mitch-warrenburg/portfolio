@@ -1,8 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
-import Particles from 'react-tsparticles';
-import { particlesOptions } from '../../constants';
 import lastNameImage from '../../../assets/lastname.png';
-import firstNameImage from '../../../assets/lastname.png';
+import firstNameImage from '../../../assets/firstname.png';
 import './styles.scss';
 
 const IntroScreenAnimation: FC = () => {
@@ -14,22 +12,23 @@ const IntroScreenAnimation: FC = () => {
     if (occupationElement) {
       const occupationChars = occupationElement.innerHTML.split('');
 
+      occupationElement.innerText = '';
+
       occupationChars.forEach(item => {
         const letter = document.createTextNode(item);
         const span = document.createElement('span');
-        span.appendChild(letter);
-        occupationElement.appendChild(span);
+        if (item === ' ') {
+          occupationElement.appendChild(letter);
+        } else {
+          span.appendChild(letter);
+          occupationElement.appendChild(span);
+        }
       });
     }
   }, [occupationTextRef]);
 
   return (
     <div className="intro-screen-animation">
-      <Particles
-        id="stars-background"
-        className="intro-screen-animation__stars-background"
-        options={particlesOptions}
-      />
       <section className="animated-intro-section">
         <img
           alt="firstname"

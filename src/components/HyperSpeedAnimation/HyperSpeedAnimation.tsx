@@ -1,16 +1,16 @@
-import React, { FC } from 'react';
 import { range } from 'lodash';
-import { hyperspeedParticleCount } from './constants';
+import React, { FC } from 'react';
+import { hyperSpeedParticleCount } from './constants';
 import './styles.scss';
 
 const HyperSpeedAnimation: FC = () => {
   return (
-    <div className="hyperspeed-backdrop">
-      <div className="hyperspeed-backdrop__particles">
-        {range(hyperspeedParticleCount).map(index => (
+    <div className="hyperspeed-animation">
+      <div className="hyperspeed-animation__particles">
+        {range(hyperSpeedParticleCount).map(index => (
           <div
             key={`hyperspeed-particle-${index}`}
-            className="hyperspeed-backdrop__particle"
+            className="hyperspeed-animation__particle"
           />
         ))}
       </div>
