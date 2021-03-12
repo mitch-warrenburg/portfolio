@@ -3,7 +3,7 @@ import Particles from 'react-tsparticles';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/types';
 import { CSSTransition } from 'react-transition-group';
-import { particlesOptions, backdropFadeOutDurationMs } from './constants';
+import { spaceBackdropParticlesOptions, backdropFadeOutDurationMs } from './constants';
 import './styles.scss';
 
 const SpaceBackdrop: FC = () => {
@@ -19,7 +19,11 @@ const SpaceBackdrop: FC = () => {
       onEnter={() => console.log('entered')}
       onExit={() => console.log('exited')}>
       <div className="space-backdrop">
-        <Particles options={particlesOptions} className="space-backdrop__stars" />
+        <Particles
+          id="space"
+          options={spaceBackdropParticlesOptions}
+          className="space-backdrop__stars"
+        />
       </div>
     </CSSTransition>
   );
