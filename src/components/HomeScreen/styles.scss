@@ -5,9 +5,6 @@
   top: 0;
   position: absolute;
   background: transparent;
-  //background-image: url("https://4kwallpapers.com/images/wallpapers/macos-big-sur-apple-layers-fluidic-colorful-dark-wwdc-2020-5120x2880-1432.jpg");
-  //background-size: cover;
-  //background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -345,6 +342,8 @@ body.light-mode:before {
 }
 
 .content-wrapper {
+  align-items: center;
+  width: 100%;
   display: flex;
   flex-direction: column;
   color: var(--theme-color);
@@ -462,6 +461,7 @@ body.light-mode:before {
 }
 
 .content-section {
+  width: 100%;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
