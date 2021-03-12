@@ -1,9 +1,10 @@
-$intro-animation-duration: 8s;
+$intro-animation-duration: 4s;
 $intro-animation-frequency: normal;
 
 .intro-screen-animation {
 
   .animated-intro-section {
+    z-index: 3;
     position: fixed;
     left: 0;
     right: 0;
