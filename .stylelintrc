@@ -1,7 +1,9 @@
 {
   "extends": [
     "stylelint-prettier/recommended",
-    "stylelint-config-idiomatic-order"
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-recommended",
+    "stylelint-config-styled-components"
   ],
   "plugins": [
     "stylelint-prettier",
@@ -19,5 +21,8 @@
     "max-empty-lines": 1,
     "rule-empty-line-before": "always",
     "declaration-empty-line-before": "never"
-  }
+  },
+  "processors": [
+    "stylelint-processor-styled-components"
+  ]
 }

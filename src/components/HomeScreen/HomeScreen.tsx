@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-
-import './styles.scss';
-import PolygonWarpBackdrop from '../PolygonWarpBackdrop';
 import TerminalEmulator from '../TerminalEmulator';
+import PolygonWarpBackdrop from '../PolygonWarpBackdrop';
+import './styles.scss';
 
 const HomeScreen: FC = () => {
   return (
@@ -20,14 +19,14 @@ const HomeScreen: FC = () => {
             <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
           </svg>
         </div>
-        <div className="app">
-          <div className="header">
+        <div className="content-panel">
+          <div className="content-panel__header">
             <img
               className="profile-img"
               src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
               alt=""
             />
-            <div className="header-menu">
+            <div className="content-panel__header-menu">
               <a className="menu-link is-active" href="#">
                 Apps
               </a>
@@ -42,9 +41,9 @@ const HomeScreen: FC = () => {
               </a>
             </div>
           </div>
-          <div className="wrapper">
-            <div className="left-side">
-              <div className="side-wrapper">
+          <div className="content-panel__nav-left-container">
+            <div className="content-panel__nav-left">
+              <div className="content-panel__nav-left-section">
                 <div className="side-title">Options</div>
                 <div className="side-menu">
                   <a href="#">
