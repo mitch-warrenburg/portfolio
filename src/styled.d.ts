@@ -23,6 +23,7 @@ declare module 'styled-components' {
       font: {
         primary: string;
         secondary: string;
+        inactive: string;
       };
       background: {
         primary: string;
@@ -32,6 +33,9 @@ declare module 'styled-components' {
         containerMedium: string;
         containerLight: string;
         backdrop: string;
+        dropdown: string;
+        panel: string;
+        menu: string;
       };
       theme: {
         primary: string;

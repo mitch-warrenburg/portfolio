@@ -5,7 +5,13 @@ import IntroPage from './components/pages/IntroPage';
 import SpaceBackdrop from './components/molecules/SpaceBackdrop';
 import HomePage from './components/pages/HomePage/HomePage';
 import { Route, Switch, useHistory } from 'react-router-dom';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import './index.scss';
+
+library.add(fab, fas, far);
 
 const App: FC = () => {
   const history = useHistory();

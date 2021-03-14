@@ -2,8 +2,7 @@
 
 .terminal-emulator {
   font-size: 1rem;
-  min-height: 320px;
-  max-width: 760px;
+  min-height: 140px;
   background-color: $container-darkest-background-color;
   border-radius: 4px;
   width: 100%;
@@ -48,7 +47,6 @@
     flex-flow: column nowrap;
     align-items: flex-start;
     justify-content: flex-start;
-    background-color: #151515;
     width: 100%;
     padding: 30px 4px 30px 8px;
     border-radius: 0 0 4px 4px;

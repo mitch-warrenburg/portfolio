@@ -1,43 +1,35 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { PageTemplateProps } from './types';
+import PolygonWarpBackdrop from '../../molecules/PolygonWarpBackdrop';
 
-const Wrapper = styled.div`
+const Content = styled.section`
+  top: 32px;
+  position: absolute;
+  background: transparent;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   flex-direction: column;
-  padding-top: 3.75rem;
-  min-height: 100vh;
-  box-sizing: border-box;
-  @media screen and (max-width: 640px) {
-    padding-top: 3.25rem;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  @media screen and (max-width: 480px) {
+    padding: 0.8em;
+  }
+
+  img {
+    max-width: 100%;
   }
 `;
 
-const Header = styled.header`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-`;
-
-const Content = styled.section`
-  width: 100%;
-  box-sizing: border-box;
-  margin: 2rem auto;
-  max-width: ${size('maxWidth')};
-`;
-
-const Footer = styled.footer`
-  margin-top: auto;
-`;
-
-const PageTemplate: FC<PageTemplateProps> = ({ header, footer, children, ...props }) => {
+const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
   return (
-    <Wrapper {...props}>
-      <Header>{header}</Header>
+    <>
+      <PolygonWarpBackdrop />
       <Content>{children}</Content>
-      <Footer>{footer}</Footer>
-    </Wrapper>
+    </>
   );
 };
 

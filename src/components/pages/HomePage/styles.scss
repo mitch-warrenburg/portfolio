@@ -1,31 +1,5 @@
 @import 'src/variables';
 
-.home-screen {
-  pointer-events: none;
-  top: 0;
-  position: absolute;
-  background: transparent;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-
-  @media screen and (max-width: 480px) {
-    padding: 0.8em;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  a, li, button {
-    pointer-events: initial;
-  }
-}
-
-
 .theme-toggle-btn {
   position: fixed;
   bottom: 50px;
@@ -375,7 +349,6 @@
   }
 
   &.overlay {
-    pointer-events: none;
     transition: 0.3s;
     background-color: var(--overlay-bg);
   }
@@ -387,7 +360,6 @@
   position: fixed;
   left: 0;
   top: 0;
-  pointer-events: all;
   background-color: rgba(36, 39, 59, 0.8);
   opacity: 0;
   visibility: hidden;
@@ -602,7 +574,6 @@
     width: 120px;
     right: 0;
     top: 20px;
-    pointer-events: none;
     opacity: 0;
     transform: translatey(10px);
     transition: all 0.4s ease;
@@ -618,7 +589,6 @@
 .dropdown.is-active {
   ul {
     opacity: 1;
-    pointer-events: all;
     transform: translatey(25px);
 
     li:hover {

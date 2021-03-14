@@ -15,9 +15,7 @@ const SpaceBackdrop: FC = () => {
       unmountOnExit
       in={!hasRunIntro}
       classNames="space-backdrop"
-      timeout={backdropFadeOutDurationMs}
-      onEnter={() => console.log('entered')}
-      onExit={() => console.log('exited')}>
+      timeout={backdropFadeOutDurationMs}>
       <div className="space-backdrop">
         <Particles
           id="space"
