@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import Particles from 'react-tsparticles';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/types';
+import { RootState } from '../../../store/types';
 import { CSSTransition } from 'react-transition-group';
 import { spaceBackdropParticlesOptions, backdropFadeOutDurationMs } from './constants';
 import './styles.scss';

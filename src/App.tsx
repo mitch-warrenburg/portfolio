@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { UiState, RootState } from './store/types';
-import IntroScreen from './components/IntroScreen';
-import SpaceBackdrop from './components/SpaceBackdrop';
-import HomeScreen from './components/HomeScreen/HomeScreen';
+import IntroPage from './components/pages/IntroPage';
+import SpaceBackdrop from './components/molecules/SpaceBackdrop';
+import HomePage from './components/pages/HomePage/HomePage';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import './index.scss';
 
@@ -22,8 +22,8 @@ const App: FC = () => {
       <SpaceBackdrop />
       <div className="app-root">
         <Switch>
-          <Route exact path="/" component={IntroScreen} />
-          <Route path="/home" component={HomeScreen} />
+          <Route exact path="/" component={IntroPage} />
+          <Route path="/home" component={HomePage} />
         </Switch>
       </div>
     </>

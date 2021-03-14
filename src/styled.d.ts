@@ -10,6 +10,13 @@ export interface DeviceOrientationBreakpoints {
   landscape: BreakpointRange;
 }
 
+export interface ThemeBreakpoints {
+  mobile: DeviceOrientationBreakpoints;
+  tablet: DeviceOrientationBreakpoints;
+  desktop: BreakpointRange;
+  largeScreen: BreakpointRange;
+}
+
 declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
@@ -36,11 +43,6 @@ declare module 'styled-components' {
       border: string;
       divider: string;
     };
-    breakpoints: {
-      mobile: DeviceOrientationBreakpoints;
-      tablet: DeviceOrientationBreakpoints;
-      desktop: BreakpointRange;
-      largeScreen: BreakpointRange;
-    };
+    breakpoints: ThemeBreakpoints;
   }
 }

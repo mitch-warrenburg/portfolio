@@ -1,17 +1,16 @@
 import React, { FC, useEffect } from 'react';
 import { identity } from 'lodash';
-import Optional from '../Optional';
 import { useTimeout } from 'react-use';
+import Optional from '../../atoms/Optional';
 import { useHistory } from 'react-router-dom';
-import { RootState, UiState } from '../../store/types';
 import { useSelector, useDispatch } from 'react-redux';
-import HyperSpeedAnimation from '../HyperSpeedAnimation';
-import IntroScreenAnimation from '../IntroScreenAnimation';
-import { setHasRunIntro } from '../../store/state/uiSlice';
+import { RootState, UiState } from '../../../store/types';
+import { setHasRunIntro } from '../../../store/state/uiSlice';
+import HyperSpeedAnimation from '../../molecules/HyperSpeedAnimation';
+import IntroScreenAnimation from '../../molecules/IntroScreenAnimation';
 import { introAnimationDurationMs, introToHomePageDelayMs } from './constants';
-import './styles.scss';
 
-const IntroScreen: FC = () => {
+const IntroPage: FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isComplete] = useTimeout(introAnimationDurationMs);
@@ -46,4 +45,4 @@ const IntroScreen: FC = () => {
   );
 };
 
-export default IntroScreen;
+export default IntroPage;

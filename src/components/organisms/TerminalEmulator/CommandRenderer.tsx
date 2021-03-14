@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState, useEffect } from 'react';
 import Typist from 'react-typist';
-import Optional from '../Optional';
+import Optional from '../../atoms/Optional';
 import { CommandRendererProps, CommandRendererState } from './types';
 import './styles.scss';
 

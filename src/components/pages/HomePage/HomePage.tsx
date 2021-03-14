@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import TerminalEmulator from '../TerminalEmulator';
-import PolygonWarpBackdrop from '../PolygonWarpBackdrop';
+import TerminalEmulator from '../../organisms/TerminalEmulator';
+import PolygonWarpBackdrop from '../../molecules/PolygonWarpBackdrop';
 import './styles.scss';
 
-const HomeScreen: FC = () => {
+const HomePage: FC = () => {
   return (
     <div>
       <PolygonWarpBackdrop />
@@ -440,4 +440,4 @@ const HomeScreen: FC = () => {
   );
 };
 
-export default HomeScreen;
+export default HomePage;
