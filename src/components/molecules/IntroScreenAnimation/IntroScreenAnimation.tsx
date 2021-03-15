@@ -3,6 +3,8 @@ import lastNameImage from '../../../../assets/lastname.png';
 import firstNameImage from '../../../../assets/firstname.png';
 import './styles.scss';
 
+// TODO: use styled components
+
 const IntroScreenAnimation: FC = () => {
   const occupationTextRef = useRef<HTMLHeadingElement>(null);
 

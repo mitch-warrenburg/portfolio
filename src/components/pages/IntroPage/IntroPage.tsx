@@ -34,14 +34,14 @@ const IntroPage: FC = () => {
   }, [hasRunIntro]);
 
   return (
-    <div className="intro-screen">
+    <Optional renderIf={!hasRunIntro}>
       <Optional renderIf={!isAnimationComplete}>
         <IntroScreenAnimation />
       </Optional>
       <Optional renderIf={isAnimationComplete}>
         <HyperSpeedAnimation />
       </Optional>
-    </div>
+    </Optional>
   );
 };
 

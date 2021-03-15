@@ -3,6 +3,7 @@ import { MenuItem } from '../../molecules/Menu';
 import Icon from '../../atoms/Icon';
 import React from 'react';
 import { HeaderTabId, TechMenuItemId } from './types';
+import { TerminalCommand } from '../../organisms/TerminalEmulator';
 
 export const headerTabs: Array<Tab<HeaderTabId>> = [
   {
@@ -59,5 +60,13 @@ export const techMenuItems: Array<MenuItem<TechMenuItemId>> = [
         <span>Java</span>
       </>
     ),
+  },
+];
+
+export const terminalCommands: Array<TerminalCommand> = [
+  {
+    simulateCommandProcessMs: 1500,
+    input: `curl 'https://mitch.engineer/api/v1/messages' -d 'message=im mitch.  i write code.'`,
+    output: `{"status": 200, "result": "SUCCESS"}`,
   },
 ];

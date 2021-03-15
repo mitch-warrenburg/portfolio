@@ -3,6 +3,8 @@ import React, { FC } from 'react';
 import { hyperSpeedParticleCount } from './constants';
 import './styles.scss';
 
+// TODO: use styled components
+
 const HyperSpeedAnimation: FC = () => {
   return (
     <div className="hyperspeed-animation">

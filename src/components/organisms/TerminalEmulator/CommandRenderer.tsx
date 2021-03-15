@@ -1,13 +1,20 @@
-import React, { FC, useCallback, useState, useEffect } from 'react';
+import React, { FC, useCallback, useState, useEffect, useMemo } from 'react';
 import Typist from 'react-typist';
+import { uniqueId } from 'lodash';
+import styled from 'styled-components';
+import Cursor from "../../atoms/Cursor";
 import Optional from '../../atoms/Optional';
 import { CommandRendererProps, CommandRendererState } from './types';
 import './styles.scss';
 
+const Prompt = styled.p`
+  color: ${({ theme }) => theme.colors.theme.success};
+`;
+
 const CommandRenderer: FC<CommandRendererProps> = ({
   index,
-  keyFrequencyMs,
   isLastCommand,
+  keyFrequencyMs,
   onCommandCompleted,
   command: { input = '', output = '', simulateCommandProcessMs = 0 },
 }) => {
@@ -15,6 +22,8 @@ const CommandRenderer: FC<CommandRendererProps> = ({
     isDone: false,
     isProcessing: false,
   });
+
+  const promptInputId = useMemo(() => uniqueId('prompt-input'), []);
 
   const onTypingDone = useCallback(() => {
     setState({ isDone: false, isProcessing: true });
@@ -30,33 +39,34 @@ const CommandRenderer: FC<CommandRendererProps> = ({
   useEffect(() => {
     // Hacky fix to get around a bug with react-typist.
     // Classes do not update using state nor refs.
-    const noInputCursorClass = 'commandline__prompt-input--no-cursor';
-    const promptInputClasses = document.getElementById('prompt-input')?.classList;
+    const noInputCursorClass = 'terminal-prompt__input--no-cursor';
+    const promptInputClasses = document.getElementById(promptInputId)?.classList;
 
-    isProcessing || isLastCommand
+    isDone || isProcessing || isLastCommand
       ? promptInputClasses?.add(noInputCursorClass)
       : promptInputClasses?.remove(noInputCursorClass);
-  }, [isProcessing, isLastCommand]);
+  }, [isProcessing, isLastCommand, promptInputId, isDone]);
 
   return (
-    <div className="commandline__prompts" key={`commandline-${index}`}>
+    <div key={`commandline-${index}`} className="terminal-prompt">
       <Typist
         avgTypingDelay={keyFrequencyMs}
         onTypingDone={onTypingDone}
-        cursor={{ show: false }}>
-        <p className="commandline__prompt">
-          <span className="commandline__prompt-cursor">$&nbsp;</span>
-          <span id="prompt-input" className="'commandline__prompt-input">
+        cursor={{ show: false }}
+      >
+        <Prompt>
+          <Cursor>$&nbsp;</Cursor>
+          <span id={promptInputId} className="terminal-prompt__input">
             {input}
           </span>
-        </p>
+        </Prompt>
       </Typist>
       <Optional renderIf={isDone}>
-        <p className="commandline__prompt-output">{output}</p>
+        <p>{output}</p>
         <br />
       </Optional>
       <Optional renderIf={isProcessing}>
-        <span className="commandline__prompt-cursor-underscore">{'_'}</span>
+        <Cursor blinking>{'_'}</Cursor>
       </Optional>
     </div>
   );

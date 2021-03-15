@@ -14,7 +14,7 @@ const ListItem = styled.li<ListItemProps>`
   transition: 0.3s;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.background.panel};
+    background-color: ${({ theme }) => theme.colors.background.primary};
 
     &:first-child {
       border-radius: 13px 13px 0 0;

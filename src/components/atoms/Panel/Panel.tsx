@@ -11,7 +11,7 @@ const Panel = styled.div<PanelProps>`
   width: 100%;
   border-radius: 14px;
   font-size: 15px;
-  background: ${({ theme }) => theme.colors.background.panel};
+  background: ${({ theme }) => theme.colors.background.primary};
 `;
 
 export default Panel;

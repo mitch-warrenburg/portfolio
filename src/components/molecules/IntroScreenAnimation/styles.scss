@@ -39,6 +39,7 @@ $intro-animation-frequency: normal;
     }
 
     &__occupation-text {
+      opacity: 0;
       color: white;
       font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
       font-size: 2.5vw;

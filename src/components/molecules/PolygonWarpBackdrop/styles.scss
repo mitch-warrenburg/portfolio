@@ -1,16 +1,4 @@
-@import 'src/variables';
-
-.polygon-warp-backdrop {
-  height: 100vh;
-  width: 100vw;
-  background: $primary-background-color;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  position: fixed;
-
-  &__polygons {
+.polygon-warp-particles {
     left: 0;
     right: 0;
     top: 0;
@@ -18,6 +6,6 @@
     margin: 0;
     height: 100vh;
     width: 100vw;
+    pointer-events: all;
     background: transparent;
-  }
 }

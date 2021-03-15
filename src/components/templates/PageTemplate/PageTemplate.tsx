@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { PageTemplateProps } from './types';
 import PolygonWarpBackdrop from '../../molecules/PolygonWarpBackdrop';
 
-const Content = styled.section`
+const Content = styled.div`
   top: 32px;
+  pointer-events: none;
   position: absolute;
   background: transparent;
   display: flex;
@@ -14,7 +15,7 @@ const Content = styled.section`
   width: 100%;
   height: 100vh;
   overflow: hidden;
-
+  
   @media screen and (max-width: 480px) {
     padding: 0.8em;
   }

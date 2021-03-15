@@ -8,14 +8,14 @@ const Tab = styled.li<TabProps>`
   align-items: center;
   justify-content: center;
   border-bottom: 2px solid transparent;
-  transition: 0.3s;
+  transition: color ease-in-out 300ms, background-color ease-in-out 200ms;
   cursor: pointer;
   color: ${({ selected, theme }) =>
     selected ? theme.colors.font.primary : theme.colors.font.inactive};
   border-bottom: ${({ selected, theme }) =>
     selected ? `2px solid ${theme.colors.font.primary}` : 'none'};
 
-  &:hover {
+  &:hover:not(:active) {
     color: ${({ theme }) => theme.colors.font.primary};
     background: ${({ theme }) => theme.colors.background.menuHover};
   }

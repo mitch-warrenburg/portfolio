@@ -11,6 +11,7 @@ const List = styled.ul<ListProps>`
   padding-left: 0;
   margin: 0;
   border-radius: 14px;
+  pointer-events: initial;
   border: 1px solid ${({ theme }) => theme.colors.border};
   background-color: ${({ theme }) => theme.colors.background.content};
 `;

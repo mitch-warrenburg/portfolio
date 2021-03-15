@@ -48,7 +48,6 @@ declare module 'styled-components' {
         modal: string;
         dropdown: string;
         overlay: string;
-        panel: string;
         menu: string;
         menuHover: string;
         content: string;

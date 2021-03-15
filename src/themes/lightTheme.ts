@@ -32,7 +32,6 @@ const lightTheme: DefaultTheme = {
       secondary: '',
       dropdown: 'white',
       overlay: 'rgba(36, 39, 59, 0.8)',
-      panel: '',
       menu: '',
       menuHover: '',
       content: '',

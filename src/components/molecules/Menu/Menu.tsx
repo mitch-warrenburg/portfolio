@@ -12,6 +12,7 @@ const MenuContainer = styled.div`
 `;
 
 const MenuList = styled.ul`
+  pointer-events: initial;
   display: flex;
   cursor: pointer;
   flex-direction: column;
