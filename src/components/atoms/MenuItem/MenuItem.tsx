@@ -18,7 +18,7 @@ const MenuItem = styled.li<MenuItemProps>`
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.background.menu};
+    background-color: ${({ theme }) => theme.colors.background.menuHover};
   }
 `;
 

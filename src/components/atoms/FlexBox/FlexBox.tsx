@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const FlexBox = styled.div<FlexBoxProps>`
   display: flex;
+  width: 100%;
   align-items: ${({align}) => align};
   justify-content: ${({justify}) => justify};
   flex-direction: ${({direction}) => direction};

@@ -14,9 +14,10 @@ const Tab = styled.li<TabProps>`
     selected ? theme.colors.font.primary : theme.colors.font.inactive};
   border-bottom: ${({ selected, theme }) =>
     selected ? `2px solid ${theme.colors.font.primary}` : 'none'};
+
   &:hover {
     color: ${({ theme }) => theme.colors.font.primary};
-    border-bottom: ${({ theme }) => `2px solid ${theme.colors.font.inactive}`};
+    background: ${({ theme }) => theme.colors.background.menuHover};
   }
 
   * {

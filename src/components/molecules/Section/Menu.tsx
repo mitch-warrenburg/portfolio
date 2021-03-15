@@ -16,7 +16,7 @@ const Menu: FC<SectionProps> = ({ children, header, ...props }) => {
     <SectionContainer {...props}>
       <Optional renderIf={header}>{header}</Optional>
       <SectionHeader>{header}</SectionHeader>
-      {header}
+      {children}
     </SectionContainer>
   );
 };

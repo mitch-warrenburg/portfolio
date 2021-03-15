@@ -1,3 +1,3 @@
 import { HTMLAttributes } from 'react';
 
-export interface ContentListProps extends HTMLAttributes<HTMLUListElement> {}
+export type ContentListProps = HTMLAttributes<HTMLUListElement>;

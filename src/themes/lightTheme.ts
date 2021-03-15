@@ -4,12 +4,22 @@ import { commonBreakpoints } from './commons';
 const lightTheme: DefaultTheme = {
   breakpoints: commonBreakpoints,
   colors: {
+    border: '',
+    divider: '',
     theme: {
-      error: '',
-      highlightGreen: '',
-      highlightYellow: '',
       primary: '',
       secondary: '',
+      error: '#ff3b47',
+      active: '#396df0',
+      success: '#3bf083',
+      pending: '#ffe564',
+    },
+    font: {
+      primary: '',
+      secondary: '',
+      header: '',
+      inactive: 'rgb(113, 119, 144, 0.78)',
+      transparentButton: '',
     },
     background: {
       backdrop: '',
@@ -17,21 +27,16 @@ const lightTheme: DefaultTheme = {
       containerDarkest: '',
       containerLight: '',
       containerMedium: '',
+      modal: '',
       primary: '',
       secondary: '',
       dropdown: 'white',
+      overlay: 'rgba(36, 39, 59, 0.8)',
       panel: '',
       menu: '',
-      content: ''
+      menuHover: '',
+      content: '',
     },
-    font: {
-      primary: '',
-      secondary: '',
-      header: '',
-      inactive: 'rgb(113, 119, 144, 0.78)',
-    },
-    border: '',
-    divider: '',
   },
 };
 

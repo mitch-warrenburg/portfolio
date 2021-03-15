@@ -20,11 +20,22 @@ export interface ThemeBreakpoints {
 declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
+      border: string;
+      divider: string;
+      theme: {
+        primary: string;
+        secondary: string;
+        error: string;
+        success: string;
+        active: string;
+        pending: string;
+      };
       font: {
         primary: string;
         secondary: string;
         inactive: string;
         header: string;
+        transparentButton: string;
       };
       background: {
         primary: string;
@@ -34,20 +45,14 @@ declare module 'styled-components' {
         containerMedium: string;
         containerLight: string;
         backdrop: string;
+        modal: string;
         dropdown: string;
+        overlay: string;
         panel: string;
         menu: string;
+        menuHover: string;
         content: string;
       };
-      theme: {
-        primary: string;
-        secondary: string;
-        error: string;
-        highlightGreen: string;
-        highlightYellow: string;
-      };
-      border: string;
-      divider: string;
     };
     breakpoints: ThemeBreakpoints;
   }
