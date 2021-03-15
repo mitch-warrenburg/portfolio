@@ -24,6 +24,7 @@ declare module 'styled-components' {
         primary: string;
         secondary: string;
         inactive: string;
+        header: string;
       };
       background: {
         primary: string;
@@ -36,6 +37,7 @@ declare module 'styled-components' {
         dropdown: string;
         panel: string;
         menu: string;
+        content: string;
       };
       theme: {
         primary: string;

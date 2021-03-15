@@ -22,14 +22,16 @@ const darkTheme: DefaultTheme = {
       dropdown: '#21242d',
       panel: 'rgb(16, 18, 27, 0.9)',
       menu: 'rgba(12, 15, 25, 0.30)',
+      content: 'rgb(146, 151, 179, 0.13)',
     },
     font: {
       primary: '#f9fafb',
       inactive: 'rgb(113, 119, 144, 0.78)',
       secondary: '',
+      header: '#999ba5',
     },
-    border: '',
     divider: '',
+    border: 'rgba(113, 119, 144, 0.25)',
   },
 };
 

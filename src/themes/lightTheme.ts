@@ -22,10 +22,12 @@ const lightTheme: DefaultTheme = {
       dropdown: 'white',
       panel: '',
       menu: '',
+      content: ''
     },
     font: {
       primary: '',
       secondary: '',
+      header: '',
       inactive: 'rgb(113, 119, 144, 0.78)',
     },
     border: '',
