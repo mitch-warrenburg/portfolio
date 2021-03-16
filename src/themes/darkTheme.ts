@@ -15,11 +15,11 @@ const darkTheme: DefaultTheme = {
       pending: '#ffe564',
     },
     font: {
-      primary: '#f9fafb',
-      inactive: 'rgba(113, 119, 144, 0.78)',
+      primary: 'rgb(249,250,251)',
+      inactive: 'rgba(113, 119, 144, 0.8)',
       secondary: '',
       header: '#999ba5',
-      transparentButton: 'rgba(249, 250, 251, 0.55)',
+      transparentButton: 'rgba(249, 250, 251, 0.7)',
     },
     background: {
       backdrop: '',
@@ -27,7 +27,7 @@ const darkTheme: DefaultTheme = {
       containerDarkest: '',
       containerLight: '',
       containerMedium: '',
-      primary: 'rgba(16, 18, 27, 0.8)',
+      primary: 'rgba(16, 18, 27, 0.9)',
       secondary: '',
       modal: '#161925',
       dropdown: '#21242d',
@@ -35,6 +35,7 @@ const darkTheme: DefaultTheme = {
       menu: 'rgba(12, 15, 25, 0.30)',
       menuHover: '#0c0f19',
       content: 'rgba(146, 151, 179, 0.13)',
+      input: 'rgba(113, 119, 144, 0.1)',
     },
   },
 };

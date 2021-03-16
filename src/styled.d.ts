@@ -51,6 +51,7 @@ declare module 'styled-components' {
         menu: string;
         menuHover: string;
         content: string;
+        input: string;
       };
     };
     breakpoints: ThemeBreakpoints;

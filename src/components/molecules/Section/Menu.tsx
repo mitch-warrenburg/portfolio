@@ -14,8 +14,9 @@ const SectionContainer = styled.section`
 const Menu: FC<SectionProps> = ({ children, header, ...props }) => {
   return (
     <SectionContainer {...props}>
-      <Optional renderIf={header}>{header}</Optional>
-      <SectionHeader>{header}</SectionHeader>
+      <Optional renderIf={header}>
+        <SectionHeader>{header}</SectionHeader>
+      </Optional>
       {children}
     </SectionContainer>
   );

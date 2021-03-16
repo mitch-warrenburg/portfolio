@@ -1,0 +1,137 @@
+.email-editor {
+  background: transparent;
+  margin-bottom: 16px;
+
+  * {
+    pointer-events: initial;
+  }
+
+  .rdw-option-wrapper {
+    background: transparent;
+    border: 1px solid rgba(113, 119, 144, 0.25);
+  }
+
+  .rdw-editor-toolbar {
+    background: #bbbbbb;
+    border: 1px solid rgba(113, 119, 144, 0.25);
+  }
+
+  .rdw-dropdown-wrapper {
+    color: black;
+    background: transparent;
+    border: 1px solid rgba(113, 119, 144, 0.25);
+
+  }
+
+  .rdw-dropdown-optionwrapper {
+    border: 1px solid rgba(113, 119, 144, 0.25);
+    background: rgba(36, 39, 59);
+    color: white;
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
+
+  .rdw-dropdownoption-default {
+    background: transparent;
+
+    &:hover {
+      background: rgba(113, 119, 144, 0.25);
+    }
+  }
+
+  .rdw-dropdownoption-active {
+    background: rgba(113, 119, 144, 0.25);
+  }
+
+  .rdw-colorpicker-modal {
+    height: 210px;
+  }
+
+  .rdw-emoji-modal, .rdw-image-modal, .rdw-colorpicker-modal, .rdw-link-modal, .rdw-embedded-modal {
+    font-size: 12px;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    padding: 6px;
+    box-shadow: none;
+    border: 1px solid rgba(113, 119, 144, 0.25);
+    background: rgba(36, 39, 59);
+  }
+
+  .rdw-colorpicker-modal-style-label, .rdw-link-modal-label, .rdw-embedded-modal-header-option, .rdw-colorpicker-modal-style-label-active, .rdw-image-modal-header-label-highlighted, .rdw-image-modal-header-label, .rdw-image-modal-header-option, .rdw-embedded-modal-header-label {
+    font-size: 12px;
+    font-family: "Poppins", sans-serif;
+    border-bottom: none;
+  }
+
+  input {
+    font-size: 12px;
+    font-family: "Poppins", sans-serif;
+    color: rgb(176, 183, 210);
+    border: 1px solid rgba(113, 119, 144, 0.25);
+    background: rgba(113, 119, 144, 0.1);
+
+    &::placeholder {
+      color: rgb(130, 136, 153);
+    }
+  }
+
+  button {
+    font-size: 12px;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    background: transparent;
+    border: 1px solid rgba(113, 119, 144, 0.25);
+
+    &:hover {
+      box-shadow: none;
+      border: 1px solid rgba(113, 119, 144, 1);
+    }
+
+    &:disabled {
+      color: white;
+      background: transparent;
+    }
+  }
+
+  label {
+    display: flex;
+  }
+
+  .rdw-colorpicker-modal-style-label-active, .rdw-image-modal-header-label-highlighted {
+    border-bottom: 1px solid white;
+  }
+
+  .rdw-colorpicker-modal-options {
+    margin: 0;
+    justify-content: center;
+  }
+
+  .rdw-image-modal-header {
+    margin: 0;
+  }
+
+  .rdw-option-active {
+    background: rgba(113, 119, 144, 0.2);
+    border: 1px solid rgba(113, 119, 144, 0.7);
+    box-shadow: none;
+  }
+
+  .rdw-image-modal-upload-option {
+    font-size: 12px;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    background: transparent;
+  }
+
+  &__textarea {
+    padding: 0 8px;
+    color: white;
+    cursor: text;
+    background: rgba(113, 119, 144, 0.1);
+    min-height: 200px;
+    border: 1px solid rgba(113, 119, 144, 0.25);
+    border-radius: 4px;
+  }
+}

@@ -3,6 +3,7 @@ import { ButtonProps } from './types';
 import styled from 'styled-components';
 
 const Button = styled.button<ButtonProps>`
+  pointer-events: initial;
   cursor: pointer;
   outline: none;
   padding: 6px 24px;
@@ -16,6 +17,13 @@ const Button = styled.button<ButtonProps>`
     transparent ? theme.colors.font.transparentButton : theme.colors.font.primary};
   background: ${({ theme, transparent }) =>
     transparent ? 'transparent' : theme.colors.theme.primary};
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: white;
+    border-color: white;
+  }
 `;
 
 export default Button;

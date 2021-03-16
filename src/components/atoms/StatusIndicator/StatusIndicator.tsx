@@ -3,26 +3,27 @@ import styled from 'styled-components';
 import { StatusIndicatorProps } from './types';
 
 const Container = styled.div`
-  margin-left: 16px;
-  font-size: 0.875rem;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  text-transform: none;
+  padding: 12px 0;
 `;
 
 const Circle = styled.div<StatusIndicatorProps>`
-  width: 6px;
-  height: 6px;
-  position: absolute;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  top: 4px;
-  left: -20px;
+  margin-left: 8px;
   background-color: ${({ theme, status }) => theme.colors.theme[status]};
 `;
 
 const StatusIndicator: FC<StatusIndicatorProps> = ({ status, children, ...props }) => {
   return (
     <Container {...props}>
-      <Circle status={status} />
       {children}
+      <Circle status={status} />
     </Container>
   );
 };

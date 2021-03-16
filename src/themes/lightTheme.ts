@@ -35,6 +35,7 @@ const lightTheme: DefaultTheme = {
       menu: '',
       menuHover: '',
       content: '',
+      input: '',
     },
   },
 };

@@ -1,24 +1,27 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "strict": true,
+    "noEmit": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
     "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "jsx": "preserve",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "isolatedModules": true,
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true
+    "typeRoots": [
+      "./node_modules/@types/"
+    ]
   },
   "include": [
     "src/**/*"
