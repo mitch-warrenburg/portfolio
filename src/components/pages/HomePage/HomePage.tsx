@@ -54,9 +54,9 @@ const HomePage: FC = () => {
   return (
     <Optional renderIf={hasRunIntro}>
       <PageTemplate>
-        {/*<FloatingButton>*/}
-        {/*  <Icon icon="moon" color={theme?.colors.theme.pending} />*/}
-        {/*</FloatingButton>*/}
+        <FloatingButton>
+          <Icon icon="moon" color={theme?.colors.theme.pending} />
+        </FloatingButton>
         <Panel>
           <Header>
             <RoundImage

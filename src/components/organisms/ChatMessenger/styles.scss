@@ -2,10 +2,10 @@
 Mixins
 --------------------*/
 @mixin center {
-  //position: fixed;
-  //bottom: 32px;
-  //right: 32px;
-  //transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @mixin ball {
@@ -19,17 +19,6 @@ Mixins
   z-index: 2;
   margin-top: 4px;
   animation: ball .45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
-}
-
-.bg {
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  //background: url('https://images.unsplash.com/photo-1451186859696-371d9477be93?crop=entropy&fit=crop&fm=jpg&h=975&ixjsv=2.1.0&ixlib=rb-0.3.5&q=80&w=1925') no-repeat 0 0;
-  filter: blur(80px);
-  transform: scale(1.2);
 }
 
 .chat-container {
@@ -136,116 +125,85 @@ Mixins
     height: 101%;
     width: 100%;
   }
-
-
-  .message {
-    clear: both;
-    float: left;
-    padding: 6px 10px 7px;
-    border-radius: 10px 10px 10px 0;
-    background: rgba(0, 0, 0, .3);
-    font-size: 12px;
-    line-height: 1.4;
-    margin: 8px 0 8px 35px;
-    position: relative;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-
-    .timestamp {
-      position: absolute;
-      bottom: -15px;
-      font-size: 9px;
-      color: rgba(255, 255, 255, .3);
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      border-top: 6px solid rgba(0, 0, 0, .3);
-      left: 0;
-      border-right: 7px solid transparent;
-    }
-
-    .avatar {
-      position: absolute;
-      z-index: 1;
-      bottom: -15px;
-      left: -35px;
-      border-radius: 30px;
-      width: 30px;
-      height: 30px;
-      overflow: hidden;
-      margin: 0;
-      padding: 0;
-      border: 2px solid rgba(255, 255, 255, 0.24);
-
-      img {
-        width: 100%;
-        height: auto;
-      }
-    }
-
-    &.message-personal {
-      float: right;
-      color: #fff;
-      text-align: right;
-      background: linear-gradient(120deg, #248A52, #257287);
-      border-radius: 10px 10px 0 10px;
-
-      &::before {
-        left: auto;
-        right: 0;
-        border-right: none;
-        border-left: 5px solid transparent;
-        border-top: 4px solid #257287;
-        bottom: -4px;
-      }
-    }
-
-    &:last-child {
-      margin-bottom: 30px;
-    }
-
-    &.new {
-      transform: scale(0);
-      transform-origin: 0 0;
-      animation: bounce 500ms linear both;
-    }
-
-    &.loading {
-
-      &::before {
-        @include ball;
-        border: none;
-        animation-delay: .15s;
-      }
-
-      & span {
-        display: block;
-        font-size: 0;
-        width: 20px;
-        height: 10px;
-        position: relative;
-
-        &::before {
-          @include ball;
-          margin-left: -7px;
-        }
-
-        &::after {
-          @include ball;
-          margin-left: 7px;
-          animation-delay: .3s;
-        }
-      }
-    }
-  }
 }
 
+.message {
+  clear: both;
+  float: left;
+  padding: 6px 10px 7px;
+  border-radius: 10px 10px 10px 0;
+  background: rgba(0, 0, 0, .3);
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 8px 0 8px 35px;
+  position: relative;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
 
-/*--------------------
-Message Box
---------------------*/
+  .timestamp {
+    position: absolute;
+    bottom: -15px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, .3);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    border-top: 6px solid rgba(0, 0, 0, .3);
+    left: 0;
+    border-right: 7px solid transparent;
+  }
+
+  .avatar {
+    position: absolute;
+    z-index: 1;
+    bottom: -15px;
+    left: -35px;
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.24);
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &.message-personal {
+    float: right;
+    color: #fff;
+    text-align: right;
+    background: linear-gradient(120deg, #248A52, #257287);
+    border-radius: 10px 10px 0 10px;
+
+    &::before {
+      left: auto;
+      right: 0;
+      border-right: none;
+      border-left: 5px solid transparent;
+      border-top: 4px solid #257287;
+      bottom: -4px;
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 30px;
+  }
+
+  &.new {
+    transform: scale(0);
+    transform-origin: 0 0;
+    animation: bounce 500ms linear both;
+  }
+
+
+}
+
 .message-box {
   flex: 0 1 40px;
   width: 100%;
@@ -361,5 +319,33 @@ Message Box
   }
   to {
     transform: translateY(-10px);
+  }
+}
+
+.poop {
+
+  &::before {
+    @include ball;
+    border: none;
+    animation-delay: .15s;
+  }
+
+  & span {
+    display: block;
+    font-size: 0;
+    width: 20px;
+    height: 10px;
+    position: relative;
+
+    &::before {
+      @include ball;
+      margin-left: -7px;
+    }
+
+    &::after {
+      @include ball;
+      margin-left: 7px;
+      animation-delay: .3s;
+    }
   }
 }

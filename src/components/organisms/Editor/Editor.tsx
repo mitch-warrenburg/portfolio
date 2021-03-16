@@ -1,6 +1,5 @@
-import React, { FC, useState, useCallback, useEffect } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { EditorProps } from './types';
-import styled from 'styled-components';
 import Button from '../../atoms/Button';
 import draftToHtml from 'draftjs-to-html';
 import FlexBox from '../../atoms/FlexBox';
@@ -10,13 +9,7 @@ import { Editor as DraftEditor } from 'react-draft-wysiwyg';
 import './styles.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-const EditorContainer = styled.div`
-  margin-top: 16px;
-`;
-
-const uploadImageCallBack = (file: File) => {
-
-};
+const uploadImageCallBack = (file: File) => {};
 
 const editorStateToHtml = (editorState: EditorState): string => {
   return draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -29,10 +22,6 @@ const Editor: FC<EditorProps> = () => {
   const submitButtonClickHandler = useCallback(() => {
     setEditorHtml(editorStateToHtml(editorState));
   }, [editorState]);
-
-  useEffect(() => {
-    console.log('content:', editorHtml);
-  }, [editorHtml]);
 
   return (
     <FlexBox direction="column" align="flex-end" margin="16px 0 0 0">

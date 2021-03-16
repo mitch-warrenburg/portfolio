@@ -12,3 +12,21 @@ body {
   overflow: hidden;
   background: rgba(16, 18, 27, 0.8);
 }
+
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 4px;
+  background: rgba(16, 18, 27, 1);
+}
+
+::-webkit-scrollbar-thumb {
+  width: 6px;
+  border-radius: 4px;
+  background: rgba(16, 18, 27, 1);
+}
+
+::-webkit-scrollbar-track {
+  width: 6px;
+  background: rgba(249, 250, 251, 0.3);
+}

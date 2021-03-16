@@ -21,6 +21,9 @@
     background: transparent;
     border: 1px solid rgba(113, 119, 144, 0.25);
 
+    &:hover {
+      background: transparent;
+    }
   }
 
   .rdw-dropdown-optionwrapper {
@@ -30,6 +33,7 @@
 
     &:hover {
       box-shadow: none;
+      background: rgba(36, 39, 59);
     }
   }
 

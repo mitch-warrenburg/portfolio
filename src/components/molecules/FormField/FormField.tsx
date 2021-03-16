@@ -20,13 +20,13 @@ const Label = styled.label`
   font-size: 0.875rem;
 `;
 
-const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({ label, ...props }) => {
+const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({ label, ...props }, ref) => {
   return (
     <Wrapper>
       <Optional renderIf={label}>
         <Label>{label}</Label>
       </Optional>
-      <Input {...props} />
+      <Input {...props} ref={ref} />
     </Wrapper>
   );
 });
