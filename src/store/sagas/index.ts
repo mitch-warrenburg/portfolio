@@ -1,8 +1,13 @@
 import { setIsIntroRunningWatcher } from './uiSagas';
 import { all, call, spawn } from 'redux-saga/effects';
+import { userSessionsEventWatcher, userConnectedEventWatcher } from './chatSagas';
 
 export default function* rootSaga() {
-  const sagas = [setIsIntroRunningWatcher];
+  const sagas = [
+    setIsIntroRunningWatcher,
+    userSessionsEventWatcher,
+    userConnectedEventWatcher,
+  ];
 
   yield all(
     sagas.map(saga =>

@@ -1,13 +1,9 @@
-export interface ChatEvent {
-  body: string;
-  senderId: string;
-  isForCurrentUser?: boolean;
+import { ChatUser } from '../store/types';
 
-  [key: string]: any;
-}
+export type SendMessage = (content: string) => void;
 
-export interface ChatProps {
-  roomId?: string;
-  messages: Array<ChatEvent>;
-  sendMessage: (message: string) => void;
+export interface UseChatState {
+  userId: string;
+  sendMessage: SendMessage;
+  currentChatUser: ChatUser;
 }

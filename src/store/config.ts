@@ -8,5 +8,5 @@ export const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   version: 1,
   storage: localForage,
-  blacklist: [''],
+  blacklist: [],
 };

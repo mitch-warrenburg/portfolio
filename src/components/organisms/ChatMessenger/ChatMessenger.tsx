@@ -197,7 +197,8 @@ const MessageScrollContent = styled.div`
 const ChatMessenger: FC = () => {
   const [draft, setDraft] = useState('');
   const [isOpen, setIsOpen] = useState(true);
-  const { roomId, messages, sendMessage } = useChat('bill');
+  const { userId, currentChatUser, sendMessage } = useChat();
+  const { userId: chatUserId, messages, username, connected } = currentChatUser;
 
   const draftChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     ({ target }) => {
@@ -211,13 +212,11 @@ const ChatMessenger: FC = () => {
   }, []);
 
   const submitButtonHandler = useCallback(() => {
-    if (draft) {
-      try {
-        sendMessage(draft);
-        setDraft('');
-      } catch (e) {
-        console.error(e);
-      }
+    try {
+      sendMessage(draft);
+      setDraft('');
+    } catch (e) {
+      console.error(e);
     }
   }, [draft]);
 
@@ -239,20 +238,29 @@ const ChatMessenger: FC = () => {
               <Avatar image={adminAvatar} />
             </Optional>
             <TitleContainer>
-              <h4>HITARTH PATEL</h4>
-              <SubTitle open={isOpen}>Does that Help?</SubTitle>
+              <h4>{username}</h4>
+              <SubTitle open={isOpen}>What should I put here?</SubTitle>
             </TitleContainer>
           </FlexBox>
           <FlexBox justify="flex-end">
-            <StatusIndicator status="success">Online</StatusIndicator>
+            <Optional renderIf={connected}>
+              <StatusIndicator status="success">Online</StatusIndicator>
+            </Optional>
+            <Optional renderIf={connected}>
+              <StatusIndicator status="error">Offline</StatusIndicator>
+            </Optional>
           </FlexBox>
         </HeaderContainer>
         <MessageSection>
           <MessagesWrapper>
             <MessageScrollPane>
               <MessageScrollContent>
-                {messages.map((message, index) => (
-                  <ChatMessage key={`${roomId}-${index}}`} {...message} />
+                {messages.map(({ content, from, to }, index) => (
+                  <ChatMessage
+                    key={`${chatUserId}-${index}}`}
+                    content={content}
+                    isFromCurrentUser={from === userId}
+                  />
                 ))}
               </MessageScrollContent>
             </MessageScrollPane>

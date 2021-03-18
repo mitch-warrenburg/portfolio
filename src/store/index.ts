@@ -3,6 +3,7 @@ import { uiReducer } from './state/uiSlice';
 import createSagaMiddleware from 'redux-saga';
 import { persistReducer } from 'redux-persist';
 import { PersistedRootReducer } from './types';
+import { chatReducer } from './state/chatSlice';
 import { IS_PROD, persistConfig } from './config';
 import { Persistor } from 'redux-persist/es/types';
 import persistStore from 'redux-persist/es/persistStore';
@@ -12,6 +13,7 @@ const rootReducer: PersistedRootReducer = persistReducer(
   persistConfig,
   combineReducers({
     ui: uiReducer,
+    chat: chatReducer,
   })
 );
 

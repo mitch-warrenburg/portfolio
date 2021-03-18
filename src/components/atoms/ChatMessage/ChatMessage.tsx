@@ -20,8 +20,8 @@ const MessageContainer = styled.div<Partial<ChatMessageProps>>`
   animation: bounce 500ms linear both;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 
-  ${({ isForCurrentUser }) =>
-    isForCurrentUser &&
+  ${({ isFromCurrentUser }) =>
+    isFromCurrentUser &&
     `
     float: right;
     color: white;
@@ -41,11 +41,11 @@ const ChatAvatar = styled(Avatar)`
   width: 30px;
 `;
 
-const ChatMessage: FC<ChatMessageProps> = ({ body, senderId, isForCurrentUser, ...props }) => {
+const ChatMessage: FC<ChatMessageProps> = ({ content, isFromCurrentUser, ...props }) => {
   return (
-    <MessageContainer {...props} isForCurrentUser={isForCurrentUser}>
+    <MessageContainer {...props} isFromCurrentUser={isFromCurrentUser}>
       <ChatAvatar image={adminAvatar} />
-      <span>{body}</span>
+      <span>{content}</span>
     </MessageContainer>
   );
 };
