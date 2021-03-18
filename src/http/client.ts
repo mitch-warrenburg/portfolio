@@ -1,7 +1,11 @@
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { API_SERVER_URL } from '../store/config';
 import { AnyObject, HttpRequestFunction } from './types';
-import axios, { AxiosInstance } from 'axios';
 
-const axiosClient: AxiosInstance = axios.create({ responseType: 'json' });
+const client: AxiosInstance = axios.create({
+  responseType: 'json',
+  baseURL: API_SERVER_URL,
+});
 
 const withErrorHandling = async <R>(
   request: HttpRequestFunction<R>,
@@ -15,16 +19,17 @@ const withErrorHandling = async <R>(
 };
 
 export default {
-  get: async <R>(path: string, params?: AnyObject): Promise<R> => {
-    return withErrorHandling(axiosClient.get, path, params);
+  get: async <R>(path: string, config?: AxiosRequestConfig): Promise<R> => {
+    return withErrorHandling(client.get, path, config);
   },
-  delete: async <R>(path: string, params?: AnyObject): Promise<R> => {
-    return withErrorHandling(axiosClient.delete, path, params);
+  delete: async <R>(path: string, config?: AxiosRequestConfig): Promise<R> => {
+    return withErrorHandling(client.delete, path, config);
   },
-  put: async <R>(path: string, params?: AnyObject, body?: AnyObject): Promise<R> => {
-    return withErrorHandling(axiosClient.put, path, body, params);
+  put: async <R>(path: string, config?: AxiosRequestConfig, body?: AnyObject): Promise<R> => {
+    return withErrorHandling(client.put, path, body, config);
   },
-  post: async <R>(path: string, params?: AnyObject, body?: AnyObject): Promise<R> => {
-    return withErrorHandling(axiosClient.post, path, body, params);
+  post: async <R>(path: string, config?: AxiosRequestConfig, body?: AnyObject): Promise<R> => {
+    return withErrorHandling(client.post, path, body, config);
   },
+  instance: client,
 };

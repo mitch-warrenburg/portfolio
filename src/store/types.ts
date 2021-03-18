@@ -89,3 +89,8 @@ export interface SubmitChatFormPayload {
   firstName: string;
   lastName: string;
 }
+
+export interface AdminLoginPayload {
+  username: string;
+  password: string;
+}

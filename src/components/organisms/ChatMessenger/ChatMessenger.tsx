@@ -1,7 +1,6 @@
 import React, {
   FC,
   useRef,
-  useMemo,
   useState,
   useEffect,
   useCallback,
@@ -11,55 +10,18 @@ import React, {
 import Icon from '../../atoms/Icon';
 import Loader from '../../atoms/Loader';
 import Avatar from '../../atoms/Avatar';
-import { fadeIn } from '../../animations';
 import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
-import useChat from '../../../hooks/useChat';
-import ChatSignUpForm from '../ChatSignUpForm';
 import { sendMessage } from '../../../ws/socket';
 import ChatMessage from '../../atoms/ChatMessage';
-import { CollapsibleElementProps } from './types';
+import { CollapsibleElementProps, ChatMessengerProps } from './types';
 import styled, { useTheme } from 'styled-components';
 import { adminAvatar } from '../../../globalConstants';
 import { useSelector, useDispatch } from 'react-redux';
 import StatusIndicator from '../../atoms/StatusIndicator';
-import { State, UserState, UiState } from '../../../store/types';
-import { setIsChatMinimized } from '../../../store/state/uiSlice';
+import { State, ChatState } from '../../../store/types';
 import { disconnectFromChatServer } from '../../../store/state/chatSlice';
 import './styles.scss';
-
-const Container = styled.div<CollapsibleElementProps>`
-  opacity: 1;
-  z-index: 1;
-  position: fixed;
-  bottom: 0;
-  right: 32px;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  transition: ease-in-out 300ms;
-  min-width: 240px;
-  max-height: ${({ open }) => (open ? 500 : 48)}px;
-  max-width: ${({ open }) => (open ? 380 : 240)}px;
-  border-radius: ${({ open }) => (open ? 20 : 8)}px;
-  background: linear-gradient(130deg, rgba(59, 240, 131, 1) 20%, rgba(146, 151, 179, 1) 80%);
-  animation: ${fadeIn} ease-in 300ms;
-`;
-
-const Content = styled.div<CollapsibleElementProps>`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  overflow: hidden;
-  background: rgba(36, 39, 59, 0.85);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: ease-in-out 300ms;
-  border: 1px solid rgba(249, 250, 251, 0.3);
-  border-radius: ${({ open }) => (open ? 20 : 8)}px;
-`;
 
 const HeaderContainer = styled.div<CollapsibleElementProps>`
   display: flex;
@@ -157,8 +119,6 @@ const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
     outline: none;
     cursor: pointer;
     border-radius: 50%;
-    align-items: center;
-    justify-content: center;
     transition: background 0.2s ease;
     color: ${({ theme }) => theme.colors.theme.success};
     background: ${({ theme }) => theme.colors.background.dropdown};
@@ -225,21 +185,25 @@ const LoadingOverlay = styled.div`
   }
 `;
 
-const ChatMessenger: FC = () => {
+const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [draft, setDraft] = useState('');
-  const { userId, currentChatUser, isConnecting, error } = useChat();
-  const { userId: chatUserId, username: chatUsername, messages, connected } = currentChatUser;
-  const { username } = useSelector<State, UserState>(({ user }) => user);
-  const { isChatOpen, isChatMinimized } = useSelector<State, UiState>(({ ui }) => ui);
+  const { isConnecting, userId, users, currentChatUserId = '' } = useSelector<
+    State,
+    ChatState
+  >(({ chat }) => chat);
+
   const messageScrollPaneRef = useRef<HTMLDivElement>(null);
   const { current: scrollPane } = messageScrollPaneRef;
 
-  const isChatFormShown = useMemo(
-    () => (!username || !chatUserId || !!error) && !isChatMinimized,
-    [error, username, isConnecting, chatUsername]
-  );
+  const currentChatUser = users[currentChatUserId] || {};
+  const {
+    connected,
+    messages = [],
+    userId: chatUserId,
+    username: chatUsername,
+  } = currentChatUser;
 
   const draftChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
     ({ target }) => {
@@ -247,10 +211,6 @@ const ChatMessenger: FC = () => {
     },
     []
   );
-
-  const headerContainerClickHandler = useCallback(() => {
-    dispatch(setIsChatMinimized(!isChatMinimized));
-  }, [isChatMinimized]);
 
   const submitButtonHandler = useCallback(() => {
     sendMessage(draft);
@@ -283,79 +243,67 @@ const ChatMessenger: FC = () => {
   }, []);
 
   return (
-    <Optional renderIf={isChatOpen}>
-      <Container open={!isChatMinimized}>
-        <Content open={!isChatMinimized}>
-          <Optional renderIf={isChatFormShown}>
-            <ChatSignUpForm />
+    <>
+      <HeaderContainer open={!isChatMinimized} onClick={onClickHeader}>
+        <FlexBox justify="flex-start">
+          <Optional renderIf={!isChatMinimized}>
+            <Avatar image={adminAvatar} />
           </Optional>
-          <Optional renderIf={!isChatFormShown}>
-            <HeaderContainer open={!isChatMinimized} onClick={headerContainerClickHandler}>
-              <FlexBox justify="flex-start">
-                <Optional renderIf={!isChatMinimized}>
-                  <Avatar image={adminAvatar} />
-                </Optional>
-                <TitleContainer>
-                  <h4>{chatUsername}</h4>
-                  <SubTitle open={!isChatMinimized}>What should I put here?</SubTitle>
-                </TitleContainer>
-              </FlexBox>
-              <FlexBox justify="flex-end">
-                <Optional renderIf={connected}>
-                  <StatusIndicator status="success">Online</StatusIndicator>
-                </Optional>
-                <Optional renderIf={!connected}>
-                  <StatusIndicator status="error">Offline</StatusIndicator>
-                </Optional>
-              </FlexBox>
-            </HeaderContainer>
-            <MessageSection>
-              <MessagesWrapper>
-                <Optional renderIf={isConnecting}>
-                  <LoadingOverlay>
-                    <Loader color={theme.colors.theme.error} size={2} durationSeconds={1.75} />
-                    <span>Reconnecting...</span>
-                  </LoadingOverlay>
-                </Optional>
-                <Optional renderIf={!isConnecting}>
-                  <MessageScrollPane ref={messageScrollPaneRef}>
-                    <MessageScrollContent>
-                      {messages
-                        .filter(({ from, to }) => userId === from || userId === to)
-                        .map(({ content, from, to }, index) => (
-                          <ChatMessage
-                            key={`${chatUserId}-${index}}`}
-                            content={content}
-                            isFromCurrentUser={from === userId}
-                          />
-                        ))}
-                    </MessageScrollContent>
-                  </MessageScrollPane>
-                </Optional>
-              </MessagesWrapper>
-            </MessageSection>
-            <Optional renderIf={!isChatMinimized}>
-              <MessageTextAreaContainer>
-                <textarea
-                  value={draft}
-                  disabled={isConnecting}
-                  onChange={draftChangeHandler}
-                  onKeyDown={textAreaKeyDownHandler}
-                  placeholder="Write a message..."
-                />
-                <button
-                  type="submit"
-                  className="message-submit"
-                  onClick={submitButtonHandler}
-                  disabled={!draft || isConnecting}>
-                  <Icon icon="paper-plane" />
-                </button>
-              </MessageTextAreaContainer>
-            </Optional>
+          <TitleContainer>
+            <h4>{chatUsername}</h4>
+            <SubTitle open={!isChatMinimized}>What should I put here?</SubTitle>
+          </TitleContainer>
+        </FlexBox>
+        <FlexBox justify="flex-end">
+          <StatusIndicator status={connected ? 'success' : 'error'}>
+            {connected ? 'Online' : 'offline'}
+          </StatusIndicator>
+        </FlexBox>
+      </HeaderContainer>
+      <MessageSection>
+        <MessagesWrapper>
+          <Optional renderIf={isConnecting}>
+            <LoadingOverlay>
+              <Loader color={theme.colors.theme.error} size={2} durationSeconds={1.75} />
+              <span>Reconnecting...</span>
+            </LoadingOverlay>
           </Optional>
-        </Content>
-      </Container>
-    </Optional>
+          <Optional renderIf={!isConnecting}>
+            <MessageScrollPane ref={messageScrollPaneRef}>
+              <MessageScrollContent>
+                {messages
+                  .filter(({ from, to }) => userId === from || userId === to)
+                  .map(({ content, from, to }, index) => (
+                    <ChatMessage
+                      key={`${chatUserId}-${index}}`}
+                      content={content}
+                      isFromCurrentUser={from === userId}
+                    />
+                  ))}
+              </MessageScrollContent>
+            </MessageScrollPane>
+          </Optional>
+        </MessagesWrapper>
+      </MessageSection>
+      <Optional renderIf={!isChatMinimized}>
+        <MessageTextAreaContainer>
+          <textarea
+            value={draft}
+            disabled={isConnecting}
+            onChange={draftChangeHandler}
+            onKeyDown={textAreaKeyDownHandler}
+            placeholder="Write a message..."
+          />
+          <button
+            type="submit"
+            className="message-submit"
+            onClick={submitButtonHandler}
+            disabled={!draft || isConnecting}>
+            <Icon icon="paper-plane" />
+          </button>
+        </MessageTextAreaContainer>
+      </Optional>
+    </>
   );
 };
 

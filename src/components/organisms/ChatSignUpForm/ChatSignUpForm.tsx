@@ -83,7 +83,6 @@ const ChatSignUpForm: FC = () => {
 
   const fieldChangeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
     ({ target: field }) => {
-      console.log(company);
       setFormState(prev => ({
         ...prev,
         [field.name]: field.value,

@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useMemo,
-  useState,
-  useEffect,
-  useCallback,
-  MouseEventHandler,
-} from 'react';
+import React, { FC, useMemo, useState, useCallback, MouseEventHandler } from 'react';
 import Nav from '../../atoms/Nav';
 import Icon from '../../atoms/Icon';
 import { HeaderTabId } from './types';
@@ -19,14 +12,21 @@ import Optional from '../../atoms/Optional';
 import Section from '../../molecules/Section';
 import { useHistory } from 'react-router-dom';
 import RoundImage from '../../atoms/RoundImage';
+import { History, LocationState } from 'history';
 import styled, { useTheme } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import PageTemplate from '../../templates/PageTemplate';
 import FloatingButton from '../../atoms/FloatingButton';
-import ChatMessenger from '../../organisms/ChatMessenger';
 import { RootState, UiState } from '../../../store/types';
 import TerminalEmulator from '../../organisms/TerminalEmulator';
-import { headerTabs, techMenuItems, terminalCommands, contactMenuItems } from './constants';
+import ChatMessengerWidget from '../../organisms/ChatMessenger/ChatMessengerWidget';
+import {
+  headerTabs,
+  techMenuItems,
+  adminMenuItems,
+  terminalCommands,
+  contactMenuItems,
+} from './constants';
 
 const PanelContentContainer = styled.div`
   align-items: center;
@@ -43,7 +43,7 @@ const PanelContentContainer = styled.div`
 
 const HomePage: FC = () => {
   const theme = useTheme();
-  const history = useHistory();
+  const history: History<LocationState> = useHistory();
   const dispatch = useDispatch();
   const [selectedTabId, setSelectedTabId] = useState<HeaderTabId>('home');
   const { hasRunIntro } = useSelector<RootState, UiState>(({ ui }) => ui);
@@ -53,13 +53,8 @@ const HomePage: FC = () => {
     setSelectedTabId(id as HeaderTabId);
   }, []);
 
+  const adminItems = useMemo(() => adminMenuItems(history), []);
   const contactItems = useMemo(() => contactMenuItems(dispatch), []);
-
-  useEffect(() => {
-    if (!hasRunIntro) {
-      history.push('/');
-    }
-  }, [hasRunIntro]);
 
   return (
     <Optional renderIf={hasRunIntro}>
@@ -79,6 +74,7 @@ const HomePage: FC = () => {
             <Nav>
               <Menu label="Get in Touch" items={contactItems} />
               <Menu label="Skills" items={techMenuItems} />
+              <Menu label="Administration" items={adminItems} />
             </Nav>
             <PanelContentContainer>
               <TerminalEmulator commands={terminalCommands} />
@@ -87,7 +83,7 @@ const HomePage: FC = () => {
                   <Editor />
                 </Section>
               </FlexBox>
-              <ChatMessenger />
+              <ChatMessengerWidget />
             </PanelContentContainer>
           </FlexBox>
         </Panel>

@@ -1,4 +1,4 @@
-import { setIsIntroRunningWatcher } from './uiSagas';
+import { adminLoginWatcher } from './userSagas';
 import { rehydrateStateWatcher } from './globalSagas';
 import { all, call, spawn } from 'redux-saga/effects';
 import {
@@ -10,8 +10,8 @@ import {
 
 export default function* rootSaga() {
   const sagas = [
+    adminLoginWatcher,
     rehydrateStateWatcher,
-    setIsIntroRunningWatcher,
     userSessionsEventWatcher,
     userConnectedEventWatcher,
     connectToChatServerWatcher,

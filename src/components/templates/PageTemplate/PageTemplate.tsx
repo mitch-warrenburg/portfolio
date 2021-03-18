@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { PageTemplateProps } from './types';
-import PolygonWarpBackdrop from '../../molecules/PolygonWarpBackdrop';
 
 const Content = styled.div`
   top: 32px;
@@ -15,7 +14,7 @@ const Content = styled.div`
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  
+
   @media screen and (max-width: 480px) {
     padding: 0.8em;
   }
@@ -26,12 +25,7 @@ const Content = styled.div`
 `;
 
 const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
-  return (
-    <>
-      <PolygonWarpBackdrop />
-      <Content id="ass">{children}</Content>
-    </>
-  );
+  return <Content>{children}</Content>;
 };
 
 export default PageTemplate;

@@ -34,13 +34,15 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
     },
     clearUserLoadState: state => {
       state.isLoading = false;
+      state.error = undefined;
     },
     adminLogin: state => {
       state.isLoading = true;
     },
     adminLoginSuccess: state => {
-      state.isLoading = false;
       state.isAdmin = true;
+      state.isLoading = false;
+      state.error = undefined;
     },
     adminLoginFailure: (state, { payload }: PayloadAction<string>) => {
       state.isLoading = false;

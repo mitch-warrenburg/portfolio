@@ -4,6 +4,7 @@ import FlexBox from '../../atoms/FlexBox';
 import { Tab } from '../../molecules/Tabs';
 import { Dispatch } from '@reduxjs/toolkit';
 import { MenuItem } from '../../molecules/Menu';
+import { History, LocationState } from 'history';
 import { HeaderTabId, TechMenuItemId } from './types';
 import { setIsChatOpen } from '../../../store/state/uiSlice';
 import { TerminalCommand } from '../../organisms/TerminalEmulator';
@@ -101,6 +102,21 @@ export const contactMenuItems = (dispatch: Dispatch) => [
       </>
     ),
     onClick: () => dispatch(setIsChatOpen(true)),
+  },
+];
+
+export const adminMenuItems = (history: History<LocationState>) => [
+  {
+    id: 'admin-console',
+    content: (
+      <>
+        <Icon icon="user-lock" />
+        <FlexBox justify="flex-start" margin="0 0 0 8px">
+          Access Admin Console
+        </FlexBox>
+      </>
+    ),
+    onClick: () => history.push('/admin'),
   },
 ];
 

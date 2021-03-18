@@ -15,7 +15,7 @@ const initialState: ChatState = {
   username: undefined,
   email: undefined,
   phoneNumber: undefined,
-  currentChatUserId: 'mw',
+  currentChatUserId: 'mw4',
   error: undefined,
   isConnecting: false,
   users: {},

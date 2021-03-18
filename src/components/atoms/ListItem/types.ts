@@ -1,3 +1,6 @@
 import { HTMLAttributes } from 'react';
 
-export type ListItemProps = HTMLAttributes<HTMLUListElement>;
+export interface ListItemProps extends HTMLAttributes<HTMLLIElement> {
+  selected?: boolean;
+  cursorPointer?: boolean;
+}

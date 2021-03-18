@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { PanelProps } from '../../atoms/Panel';
-import AdminLoginForm from '../../organisms/AdminLoginForm';
 import PageTemplate from '../../templates/PageTemplate';
+import AdminLoginForm from '../../organisms/AdminLoginForm';
 
 const Container = styled.div<PanelProps>`
   top: 25%;

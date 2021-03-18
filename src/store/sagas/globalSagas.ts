@@ -12,7 +12,7 @@ export function* initializeApp() {
   const state: State = yield select();
   const { user, chat } = state;
 
-  if (user.isLoading) {
+  if (user.isLoading || user.error) {
     yield put(clearUserLoadState(false));
   }
   if (chat.isConnecting || chat.error) {
