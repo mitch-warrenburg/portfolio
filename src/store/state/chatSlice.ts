@@ -2,21 +2,22 @@ import { identity } from 'lodash';
 import { createSlice, PayloadAction, SliceCaseReducers } from '@reduxjs/toolkit';
 import {
   ChatState,
-  NewSessionEvent,
-  ChatUsers,
   ChatUser,
+  ChatUsers,
   ChatMessage,
+  NewSessionEvent,
   UserDisconnectedEvent,
 } from '../types';
 
 const initialState: ChatState = {
-  userId: null,
-  sessionId: null,
-  username: null,
-  email: null,
-  phoneNumber: null,
-  connected: false,
-  currentChatUserId: null,
+  userId: undefined,
+  sessionId: undefined,
+  username: undefined,
+  email: undefined,
+  phoneNumber: undefined,
+  currentChatUserId: 'mw',
+  error: undefined,
+  isConnecting: false,
   users: {},
 };
 
@@ -32,9 +33,26 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     newSessionEvent: (state, { payload }: PayloadAction<NewSessionEvent>) => {
       state.userId = payload.userId;
       state.sessionId = payload.sessionId;
+      state.isConnecting = false;
     },
     privateMessageEvent: (state, { payload }: PayloadAction<ChatMessage>) => {
-      state.users[payload.from].messages.push(payload);
+      state.users[payload.from === state.userId ? payload.to : payload.from].messages.push(
+        payload
+      );
+    },
+    connectToChatServer: state => {
+      state.error = undefined;
+      state.isConnecting = true;
+    },
+    disconnectFromChatServer: state => {
+      state.isConnecting = false;
+    },
+    clearChatConnectionState: state => {
+      state.error = undefined;
+      state.isConnecting = false;
+    },
+    setError: (state, { payload }: PayloadAction<string>) => {
+      state.error = payload;
     },
     addMessage: (state, { payload }: PayloadAction<ChatMessage>) => {
       state.users[payload.to].messages.push(payload);
@@ -58,12 +76,16 @@ export const chatReducer = chatSlice.reducer;
 export const {
   addUser,
   setUsers,
+  setError,
   addMessage,
   newSessionEvent,
   setUserConnected,
   userSessionsEvent,
   userConnectedEvent,
+  connectToChatServer,
   privateMessageEvent,
   setCurrentChatUserId,
   userDisconnectedEvent,
+  disconnectFromChatServer,
+  clearChatConnectionState,
 } = chatSlice.actions;

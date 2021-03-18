@@ -3,10 +3,15 @@ import { ButtonProps } from './types';
 import styled from 'styled-components';
 
 const Button = styled.button<ButtonProps>`
+  overflow: hidden;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: initial;
   cursor: pointer;
   outline: none;
-  padding: 6px 24px;
+  padding: 0 24px;
   font-size: 0.875rem;
   border-radius: 20px;
   transition: 300ms;
@@ -18,11 +23,17 @@ const Button = styled.button<ButtonProps>`
   background: ${({ theme, transparent }) =>
     transparent ? 'transparent' : theme.colors.theme.primary};
 
-  &:hover,
+  &:hover:not(:disabled),
   &:active,
   &:focus {
     color: white;
     border-color: white;
+  }
+
+  &:disabled {
+    cursor: initial;
+    color: ${({ theme }) => theme.colors.font.inactive};
+    border-color: ${({ theme }) => theme.colors.font.inactive};
   }
 `;
 

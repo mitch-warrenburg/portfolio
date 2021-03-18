@@ -6,7 +6,6 @@ const FlexBox = styled.div<FlexBoxProps>`
   pointer-events: initial;
   display: flex;
   width: 100%;
-  height: 100%;
   flex-wrap: ${({ wrap }) => wrap};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};

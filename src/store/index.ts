@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import { persistReducer } from 'redux-persist';
 import { PersistedRootReducer } from './types';
 import { chatReducer } from './state/chatSlice';
+import { userReducer } from './state/userSlice';
 import { IS_PROD, persistConfig } from './config';
 import { Persistor } from 'redux-persist/es/types';
 import persistStore from 'redux-persist/es/persistStore';
@@ -14,6 +15,7 @@ const rootReducer: PersistedRootReducer = persistReducer(
   combineReducers({
     ui: uiReducer,
     chat: chatReducer,
+    user: userReducer,
   })
 );
 

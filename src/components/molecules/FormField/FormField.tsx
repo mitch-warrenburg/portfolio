@@ -13,6 +13,10 @@ const Wrapper = styled.div`
   max-width: 200px;
   min-width: 140px;
   flex-grow: 1;
+
+  input:disabled {
+    color: ${({ theme }) => theme.colors.font.inactive};
+  }
 `;
 
 const Label = styled.label`

@@ -1,4 +1,11 @@
-import React, { FC, useState, useCallback, MouseEventHandler, useEffect } from 'react';
+import React, {
+  FC,
+  useMemo,
+  useState,
+  useEffect,
+  useCallback,
+  MouseEventHandler,
+} from 'react';
 import Nav from '../../atoms/Nav';
 import Icon from '../../atoms/Icon';
 import { HeaderTabId } from './types';
@@ -7,19 +14,19 @@ import Header from '../../atoms/Header';
 import Menu from '../../molecules/Menu';
 import Tabs from '../../molecules/Tabs';
 import FlexBox from '../../atoms/FlexBox';
-import { useSelector } from 'react-redux';
+import Editor from '../../organisms/Editor';
 import Optional from '../../atoms/Optional';
 import Section from '../../molecules/Section';
 import { useHistory } from 'react-router-dom';
 import RoundImage from '../../atoms/RoundImage';
 import styled, { useTheme } from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import PageTemplate from '../../templates/PageTemplate';
 import FloatingButton from '../../atoms/FloatingButton';
+import ChatMessenger from '../../organisms/ChatMessenger';
 import { RootState, UiState } from '../../../store/types';
 import TerminalEmulator from '../../organisms/TerminalEmulator';
-import { headerTabs, techMenuItems, terminalCommands } from './constants';
-import Editor from '../../organisms/Editor';
-import ChatMessenger from '../../organisms/ChatMessenger';
+import { headerTabs, techMenuItems, terminalCommands, contactMenuItems } from './constants';
 
 const PanelContentContainer = styled.div`
   align-items: center;
@@ -37,6 +44,7 @@ const PanelContentContainer = styled.div`
 const HomePage: FC = () => {
   const theme = useTheme();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [selectedTabId, setSelectedTabId] = useState<HeaderTabId>('home');
   const { hasRunIntro } = useSelector<RootState, UiState>(({ ui }) => ui);
 
@@ -44,6 +52,8 @@ const HomePage: FC = () => {
     const { id } = event.target as HTMLLIElement;
     setSelectedTabId(id as HeaderTabId);
   }, []);
+
+  const contactItems = useMemo(() => contactMenuItems(dispatch), []);
 
   useEffect(() => {
     if (!hasRunIntro) {
@@ -67,6 +77,7 @@ const HomePage: FC = () => {
           </Header>
           <FlexBox align="stretch" justify="stretch">
             <Nav>
+              <Menu label="Get in Touch" items={contactItems} />
               <Menu label="Skills" items={techMenuItems} />
             </Nav>
             <PanelContentContainer>
@@ -76,9 +87,7 @@ const HomePage: FC = () => {
                   <Editor />
                 </Section>
               </FlexBox>
-              <FlexBox margin="16px 0 0 0">
-                <ChatMessenger />
-              </FlexBox>
+              <ChatMessenger />
             </PanelContentContainer>
           </FlexBox>
         </Panel>

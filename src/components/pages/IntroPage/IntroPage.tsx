@@ -3,8 +3,8 @@ import { identity } from 'lodash';
 import { useTimeout } from 'react-use';
 import Optional from '../../atoms/Optional';
 import { useHistory } from 'react-router-dom';
+import { UiState, State } from '../../../store/types';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, UiState } from '../../../store/types';
 import { setHasRunIntro } from '../../../store/state/uiSlice';
 import HyperSpeedAnimation from '../../molecules/HyperSpeedAnimation';
 import IntroScreenAnimation from '../../molecules/IntroScreenAnimation';
@@ -14,7 +14,7 @@ const IntroPage: FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isComplete] = useTimeout(introAnimationDurationMs);
-  const { hasRunIntro } = useSelector<RootState, UiState>(({ ui }) => ui);
+  const { hasRunIntro } = useSelector<State, UiState>(({ ui }) => ui);
 
   const isAnimationComplete = isComplete();
 

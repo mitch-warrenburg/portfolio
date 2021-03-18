@@ -1,12 +1,21 @@
 import { setIsIntroRunningWatcher } from './uiSagas';
+import { rehydrateStateWatcher } from './globalSagas';
 import { all, call, spawn } from 'redux-saga/effects';
-import { userSessionsEventWatcher, userConnectedEventWatcher } from './chatSagas';
+import {
+  userSessionsEventWatcher,
+  userConnectedEventWatcher,
+  connectToChatServerWatcher,
+  disconnectFromChatServerWatcher,
+} from './chatSagas';
 
 export default function* rootSaga() {
   const sagas = [
+    rehydrateStateWatcher,
     setIsIntroRunningWatcher,
     userSessionsEventWatcher,
     userConnectedEventWatcher,
+    connectToChatServerWatcher,
+    disconnectFromChatServerWatcher,
   ];
 
   yield all(

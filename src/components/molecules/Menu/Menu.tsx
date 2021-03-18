@@ -36,8 +36,8 @@ const Menu: FC<MenuItemProps> = ({ items, label, onClickItem, ...props }) => {
         <Label>{label}</Label>
       </Optional>
       <MenuList>
-        {items.map(({ id, content }) => (
-          <MenuItem key={id} id={id} onClick={onClickItem}>
+        {items.map(({ id, content, onClick }) => (
+          <MenuItem key={id} id={id} onClick={onClick || onClickItem}>
             <Optional renderIf={content}>{content}</Optional>
           </MenuItem>
         ))}

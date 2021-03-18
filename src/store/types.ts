@@ -4,6 +4,7 @@ import { PersistPartial } from 'redux-persist/es/persistReducer';
 export interface RootState {
   ui: UiState;
   chat: ChatState;
+  user: UserState;
 }
 
 export type State = RootState & PersistPartial;
@@ -12,6 +13,8 @@ export type PersistedRootReducer = Reducer<State, Action>;
 export interface UiState {
   hasRunIntro: boolean;
   isIntroRunning: boolean;
+  isChatOpen: boolean;
+  isChatMinimized: boolean;
 }
 
 export interface ChatState {
@@ -22,7 +25,18 @@ export interface ChatState {
   username?: string;
   email?: string;
   phoneNumber?: string;
-  connected: boolean;
+  error?: string;
+  isConnecting: boolean;
+}
+
+export interface UserState {
+  email?: string;
+  company?: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  isLoading: boolean;
 }
 
 export type ChatUsers = {
@@ -64,4 +78,12 @@ export type ChatEventType =
   | 'USER_SESSIONS'
   | 'PRIVATE_MESSAGE'
   | 'USER_CONNECTED'
-  | 'USER_DISCONNECTED';
+  | 'USER_DISCONNECTED'
+  | 'connect_error';
+
+export interface SubmitChatFormPayload {
+  company: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+}

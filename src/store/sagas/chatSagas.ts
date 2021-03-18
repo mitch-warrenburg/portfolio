@@ -1,7 +1,8 @@
+import socket from '../../ws';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { takeEvery, select, put } from 'redux-saga/effects';
+import { takeEvery, select, put, delay } from 'redux-saga/effects';
 import { addUser, setUserConnected, setUsers } from '../state/chatSlice';
-import { UserConnectedEvent, ChatState, UserSessionsEvent, ChatUsers } from '../types';
+import { ChatState, ChatUsers, UserSessionsEvent, UserConnectedEvent } from '../types';
 
 export function* userSessionsEventWatcher() {
   yield takeEvery('chat/userSessionsEvent', userSessionsEventHandler);
@@ -9,6 +10,23 @@ export function* userSessionsEventWatcher() {
 
 export function* userConnectedEventWatcher() {
   yield takeEvery('chat/userConnectedEvent', userConnectedEventHandler);
+}
+
+export function* connectToChatServerWatcher() {
+  yield takeEvery('chat/connectToChatServer', connectToChatServerHandler);
+}
+
+export function* disconnectFromChatServerWatcher() {
+  yield takeEvery('chat/disconnectFromChatServer', disconnectFromChatServerHandler);
+}
+
+export function* disconnectFromChatServerHandler() {
+  yield socket.disconnect();
+}
+
+export function* connectToChatServerHandler() {
+  yield delay(1500);
+  yield socket.connect();
 }
 
 export function* userSessionsEventHandler({

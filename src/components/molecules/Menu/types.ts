@@ -3,6 +3,7 @@ import { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 export interface MenuItem<MenuItemId = string> {
   id: MenuItemId;
   content?: ReactNode;
+  onClick?: MouseEventHandler<HTMLLIElement>;
 }
 
 export interface MenuItemProps<MenuItemId = string> extends HTMLAttributes<HTMLDivElement> {

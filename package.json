@@ -114,8 +114,8 @@
   },
   "scripts": {
     "start": "yarn run clean && parcel src/index.html --port 3000",
-    "build": "parcel build src/index.html --detailed-report",
-    "clean": "rimraf .cache dist",
+    "build": "parcel build src/index.html --detailed-report --no-cache --out-dir build",
+    "clean": "rimraf .cache dist build",
     "tidy": "run-s ts format lint && git add .",
     "ts": "tsc",
     "format": "run-p format:*",

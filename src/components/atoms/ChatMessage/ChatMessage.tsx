@@ -3,6 +3,7 @@ import Avatar from '../Avatar';
 import styled from 'styled-components';
 import { ChatMessageProps } from './types';
 import { adminAvatar } from '../../../globalConstants';
+import Optional from '../Optional';
 
 const MessageContainer = styled.div<Partial<ChatMessageProps>>`
   clear: both;
@@ -44,7 +45,9 @@ const ChatAvatar = styled(Avatar)`
 const ChatMessage: FC<ChatMessageProps> = ({ content, isFromCurrentUser, ...props }) => {
   return (
     <MessageContainer {...props} isFromCurrentUser={isFromCurrentUser}>
-      <ChatAvatar image={adminAvatar} />
+      <Optional renderIf={!isFromCurrentUser}>
+        <ChatAvatar image={adminAvatar} />
+      </Optional>
       <span>{content}</span>
     </MessageContainer>
   );
