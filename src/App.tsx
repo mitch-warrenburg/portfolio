@@ -6,6 +6,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import HomePage from './components/pages/HomePage/HomePage';
+import AdminLoginPage from './components/pages/AdminLoginPage';
 import SpaceBackdrop from './components/molecules/SpaceBackdrop';
 import './_index.scss';
 
@@ -19,6 +20,7 @@ const App: FC = () => {
         <Switch>
           <Route exact path="/" component={IntroPage} />
           <Route path="/home" component={HomePage} />
+          <Route path="/admin/login" component={AdminLoginPage} />
         </Switch>
       </div>
     </>

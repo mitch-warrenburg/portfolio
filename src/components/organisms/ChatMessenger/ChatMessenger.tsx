@@ -1,15 +1,15 @@
 import React, {
   FC,
+  useRef,
   useMemo,
   useState,
   useEffect,
   useCallback,
   ChangeEventHandler,
   KeyboardEventHandler,
-  useRef,
 } from 'react';
 import Icon from '../../atoms/Icon';
-import styled, { useTheme } from 'styled-components';
+import Loader from '../../atoms/Loader';
 import Avatar from '../../atoms/Avatar';
 import { fadeIn } from '../../animations';
 import FlexBox from '../../atoms/FlexBox';
@@ -19,14 +19,14 @@ import ChatSignUpForm from '../ChatSignUpForm';
 import { sendMessage } from '../../../ws/socket';
 import ChatMessage from '../../atoms/ChatMessage';
 import { CollapsibleElementProps } from './types';
+import styled, { useTheme } from 'styled-components';
 import { adminAvatar } from '../../../globalConstants';
 import { useSelector, useDispatch } from 'react-redux';
-import { State, UserState, UiState } from '../../../store/types';
 import StatusIndicator from '../../atoms/StatusIndicator';
+import { State, UserState, UiState } from '../../../store/types';
+import { setIsChatMinimized } from '../../../store/state/uiSlice';
 import { disconnectFromChatServer } from '../../../store/state/chatSlice';
 import './styles.scss';
-import { setIsChatMinimized } from '../../../store/state/uiSlice';
-import Loader from '../../atoms/Loader';
 
 const Container = styled.div<CollapsibleElementProps>`
   opacity: 1;
@@ -284,7 +284,7 @@ const ChatMessenger: FC = () => {
 
   return (
     <Optional renderIf={isChatOpen}>
-      <Container id="messenger" open={!isChatMinimized}>
+      <Container open={!isChatMinimized}>
         <Content open={!isChatMinimized}>
           <Optional renderIf={isChatFormShown}>
             <ChatSignUpForm />

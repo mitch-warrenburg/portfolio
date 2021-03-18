@@ -29,7 +29,7 @@ const PageTemplate: FC<PageTemplateProps> = ({ children }) => {
   return (
     <>
       <PolygonWarpBackdrop />
-      <Content>{children}</Content>
+      <Content id="ass">{children}</Content>
     </>
   );
 };

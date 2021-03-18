@@ -3,6 +3,7 @@ import { ButtonProps } from './types';
 import styled from 'styled-components';
 
 const Button = styled.button<ButtonProps>`
+  min-width: 100px;
   overflow: hidden;
   min-height: 30px;
   display: flex;

@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.label`
+  color: white;
   padding: 0 0 8px 0;
   font-size: 0.875rem;
 `;

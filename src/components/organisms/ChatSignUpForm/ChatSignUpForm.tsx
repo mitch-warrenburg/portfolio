@@ -3,13 +3,11 @@ import React, {
   useMemo,
   useState,
   useCallback,
-  MouseEventHandler,
   ChangeEventHandler,
+  KeyboardEventHandler,
 } from 'react';
 import Icon from '../../atoms/Icon';
 import styled from 'styled-components';
-import Loader from '../../atoms/Loader';
-import Button from '../../atoms/Button';
 import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
 import FormField from '../../molecules/FormField';
@@ -18,6 +16,7 @@ import { setIsChatOpen } from '../../../store/state/uiSlice';
 import { submitChatForm } from '../../../store/state/userSlice';
 import { State, ChatState, UserState } from '../../../store/types';
 import { connectToChatServer, disconnectFromChatServer } from '../../../store/state/chatSlice';
+import FormButton from '../../molecules/FormButton';
 
 const Container = styled.div`
   display: flex;
@@ -76,7 +75,7 @@ const ChatSignUpForm: FC = () => {
     company: user.company,
   });
 
-  const isValidForm = useMemo(() => !!(firstName && lastName && company), [
+  const isFormValid = useMemo(() => !!(firstName && lastName && company), [
     firstName,
     lastName,
     company,
@@ -93,8 +92,8 @@ const ChatSignUpForm: FC = () => {
     []
   );
 
-  const submitButtonClickHandler: MouseEventHandler<HTMLButtonElement> = useCallback(() => {
-    if (isValidForm) {
+  const formSubmissionHandler = useCallback(() => {
+    if (isFormValid) {
       dispatch(
         submitChatForm({
           company,
@@ -105,7 +104,12 @@ const ChatSignUpForm: FC = () => {
       );
       dispatch(connectToChatServer({}));
     }
-  }, [isValidForm, company, lastName, firstName]);
+  }, [isFormValid, company, lastName, firstName]);
+
+  const fieldKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    ({ key }) => isFormValid && key === 'Enter' && formSubmissionHandler(),
+    [formSubmissionHandler, isFormValid]
+  );
 
   const closeButtonClickHandler = useCallback(() => {
     dispatch(setIsChatOpen(false));
@@ -113,52 +117,56 @@ const ChatSignUpForm: FC = () => {
   }, []);
 
   return (
-    <Container id="chat-signup">
+    <Container>
       <FlexBox justify="flex-end">
         <CloseButton onClick={closeButtonClickHandler}>
           <Icon icon="times-circle" size="lg" cursor="pointer" />
         </CloseButton>
       </FlexBox>
-      <FlexBox id="title" margin="30px 0">
+      <FlexBox margin="30px 0">
         <Icon icon="comments" size="3x" />
         <PromptText>Please tell me a bit about yourself to get started...</PromptText>
       </FlexBox>
       <FlexBox justify="flex-start" direction="column">
-        <Form id="chat-signup-form">
+        <Form>
           <FormField
+            type="text"
             name="firstName"
             label="First Name"
             value={firstName}
             disabled={isConnecting}
             onChange={fieldChangeHandler}
+            onKeyDown={fieldKeyDownHandler}
           />
           <FormField
+            type="text"
             name="lastName"
             label="Last Name"
             value={lastName}
             disabled={isConnecting}
             onChange={fieldChangeHandler}
+            onKeyDown={fieldKeyDownHandler}
           />
           <FormField
+            type="text"
             name="company"
             label="Company"
             value={company}
             disabled={isConnecting}
             onChange={fieldChangeHandler}
+            onKeyDown={fieldKeyDownHandler}
           />
         </Form>
       </FlexBox>
       <FlexBox align="flex-end">
-        <Button
+        <FormButton
           type="submit"
           transparent
-          disabled={!isValidForm || isConnecting}
-          onClick={submitButtonClickHandler}>
-          <Optional renderIf={isConnecting}>
-            <Loader durationSeconds={1.25} />
-          </Optional>
-          <Optional renderIf={!isConnecting}>Submit</Optional>
-        </Button>
+          isLoading={isConnecting}
+          onClick={formSubmissionHandler}
+          disabled={!isFormValid || isConnecting}>
+          Start Chat
+        </FormButton>
       </FlexBox>
       <Optional renderIf={error}>
         <ErrorText>Something went wrong. Please try again...</ErrorText>

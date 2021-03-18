@@ -24,7 +24,7 @@ const Container = styled.div<LoaderProps>`
     border: 1px solid rgba(255, 255, 255, 0.3);
     transform: ${transform};
     animation: ${animation};
-    background: ${({ theme, color }) => color || theme.colors.theme.active};
+    background: ${({ color }) => color || 'rgb(57,109,240, 0.3)'};
 
     &:nth-child(2) {
       animation-delay: -0.5s;

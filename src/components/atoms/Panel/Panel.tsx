@@ -10,7 +10,6 @@ const Panel = styled.div<PanelProps>`
   overflow: hidden;
   width: 100%;
   border-radius: 14px;
-  font-size: 15px;
   background: ${({ theme }) => theme.colors.background.primary};
 `;
 

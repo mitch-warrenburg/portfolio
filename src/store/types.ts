@@ -36,7 +36,9 @@ export interface UserState {
   firstName?: string;
   lastName?: string;
   phoneNumber?: string;
+  error?: string;
   isLoading: boolean;
+  isAdmin: boolean;
 }
 
 export type ChatUsers = {

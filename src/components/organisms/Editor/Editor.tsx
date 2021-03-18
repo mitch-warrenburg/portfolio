@@ -26,11 +26,11 @@ const Editor: FC<EditorProps> = () => {
   return (
     <FlexBox direction="column" align="flex-end" margin="16px 0 0 0">
       <FlexBox justify="flex-start" wrap="wrap">
-        <FormField label="First Name" />
-        <FormField label="Last Name" />
-        <FormField label="Company" />
-        <FormField label="Email" />
-        <FormField label="Phone Number" />
+        <FormField type="text" label="First Name" />
+        <FormField type="text" label="Last Name" />
+        <FormField type="text" label="Company" />
+        <FormField type="text" label="Email" />
+        <FormField type="text" label="Phone Number" />
       </FlexBox>
       <div>
         <DraftEditor
