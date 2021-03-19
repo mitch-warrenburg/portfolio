@@ -22,7 +22,19 @@ const Form = styled.form`
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  margin-left: 16px;
+
+  input {
+    min-width: 220px;
+  }
+`;
+
+const FormButtons = styled.div`
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 220px;
+  width: 100%;
 `;
 
 const ErrorText = styled.p`
@@ -41,6 +53,7 @@ const AdminLoginForm: FC = () => {
     password: '',
   });
 
+  const cancelButtonClickHandler = useCallback(() => history.push('/home'), []);
   const isFormValid = useMemo(() => !!(username && password), [username, password]);
 
   const fieldChangeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -90,14 +103,18 @@ const AdminLoginForm: FC = () => {
           onKeyDown={fieldKeyDownHandler}
         />
       </Form>
-      <FormButton
-        type="submit"
-        transparent
-        isLoading={isLoading}
-        disabled={!isFormValid}
-        onClick={formSubmissionHandler}>
-        Login
-      </FormButton>
+      <FormButtons>
+        <FormButton
+          type="submit"
+          isLoading={isLoading}
+          disabled={!isFormValid}
+          onClick={formSubmissionHandler}>
+          Login
+        </FormButton>
+        <FormButton transparent type="button" onClick={cancelButtonClickHandler}>
+          Cancel
+        </FormButton>
+      </FormButtons>
       <Optional renderIf={error}>
         <ErrorText>Authentication failed.</ErrorText>
       </Optional>

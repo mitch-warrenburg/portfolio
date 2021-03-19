@@ -24,6 +24,7 @@ declare module 'styled-components' {
       divider: string;
       theme: {
         primary: string;
+        primaryTransparent: string;
         secondary: string;
         error: string;
         success: string;

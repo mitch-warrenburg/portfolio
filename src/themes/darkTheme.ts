@@ -7,7 +7,8 @@ const darkTheme: DefaultTheme = {
     border: 'rgba(113, 119, 144, 0.25)',
     divider: 'rgba(113, 119, 144, 0.25)',
     theme: {
-      primary: '#3a6df0',
+      primary: 'rgb(58,109,240)',
+      primaryTransparent: 'rgb(58,109,240, 0.5)',
       secondary: '',
       error: '#ff3b47',
       active: '#396df0',
@@ -28,7 +29,7 @@ const darkTheme: DefaultTheme = {
       containerLight: '',
       containerMedium: '',
       primary: 'rgba(16, 18, 27, 0.9)',
-      secondary: '',
+      secondary: 'rgba(36, 39, 59, 1)',
       modal: '#161925',
       dropdown: '#21242d',
       overlay: 'rgba(36, 39, 59, 0.8)',

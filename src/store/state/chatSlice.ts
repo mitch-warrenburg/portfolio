@@ -6,18 +6,19 @@ import {
   ChatUsers,
   ChatMessage,
   NewSessionEvent,
+  AdminLoginResponse,
   UserDisconnectedEvent,
 } from '../types';
 
 const initialState: ChatState = {
   userId: undefined,
   sessionId: undefined,
-  username: undefined,
   email: undefined,
   phoneNumber: undefined,
   currentChatUserId: 'mw4',
   error: undefined,
   isConnecting: false,
+  isLoading: false,
   users: {},
 };
 
@@ -28,7 +29,10 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     userSessionsEvent: identity,
     userConnectedEvent: identity,
     userDisconnectedEvent: (state, { payload }: PayloadAction<UserDisconnectedEvent>) => {
-      state.users[payload.userId].connected = false;
+      const user = state.users[payload.userId];
+      if (user) {
+        user.connected = false;
+      }
     },
     newSessionEvent: (state, { payload }: PayloadAction<NewSessionEvent>) => {
       state.userId = payload.userId;
@@ -36,9 +40,12 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
       state.isConnecting = false;
     },
     privateMessageEvent: (state, { payload }: PayloadAction<ChatMessage>) => {
-      state.users[payload.from === state.userId ? payload.to : payload.from].messages.push(
+      state.users[payload.from === state.userId ? payload.to : payload.from]?.messages.push(
         payload
       );
+    },
+    sentMessageAck: (state, { payload }: PayloadAction<ChatMessage>) => {
+      state.users[payload.to]?.messages.push(payload);
     },
     connectToChatServer: state => {
       state.error = undefined;
@@ -49,6 +56,7 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     },
     clearChatConnectionState: state => {
       state.error = undefined;
+      state.isLoading = false;
       state.isConnecting = false;
     },
     setError: (state, { payload }: PayloadAction<string>) => {
@@ -69,6 +77,23 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     setCurrentChatUserId: (state, { payload }: PayloadAction<string>) => {
       state.currentChatUserId = payload;
     },
+    addAdminLoginSuccessDetails: (state, { payload }: PayloadAction<AdminLoginResponse>) => {
+      state.userId = payload.userId;
+      state.sessionId = payload.sessionId;
+      state.currentChatUserId = undefined;
+    },
+    fetchSendToUserId: state => {
+      state.isLoading = true;
+    },
+    fetchSendToUserIdFailure: (state, { payload }: PayloadAction<string>) => {
+      state.error = payload;
+      state.isLoading = false;
+    },
+    fetchSendToUserIdSuccess: (state, { payload }: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = undefined;
+      state.currentChatUserId = payload;
+    },
   },
 });
 
@@ -78,14 +103,19 @@ export const {
   setUsers,
   setError,
   addMessage,
+  sentMessageAck,
   newSessionEvent,
   setUserConnected,
+  fetchSendToUserId,
   userSessionsEvent,
   userConnectedEvent,
   connectToChatServer,
   privateMessageEvent,
   setCurrentChatUserId,
   userDisconnectedEvent,
+  fetchSendToUserIdSuccess,
+  fetchSendToUserIdFailure,
   disconnectFromChatServer,
   clearChatConnectionState,
+  addAdminLoginSuccessDetails,
 } = chatSlice.actions;

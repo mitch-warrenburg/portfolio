@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { PageTemplateProps } from './types';
 
 const Content = styled.div`
-  top: 32px;
   pointer-events: none;
   position: absolute;
   background: transparent;

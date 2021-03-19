@@ -3,6 +3,7 @@ import { rehydrateStateWatcher } from './globalSagas';
 import { all, call, spawn } from 'redux-saga/effects';
 import {
   userSessionsEventWatcher,
+  fetchSendToUserIdWatcher,
   userConnectedEventWatcher,
   connectToChatServerWatcher,
   disconnectFromChatServerWatcher,
@@ -13,6 +14,7 @@ export default function* rootSaga() {
     adminLoginWatcher,
     rehydrateStateWatcher,
     userSessionsEventWatcher,
+    fetchSendToUserIdWatcher,
     userConnectedEventWatcher,
     connectToChatServerWatcher,
     disconnectFromChatServerWatcher,

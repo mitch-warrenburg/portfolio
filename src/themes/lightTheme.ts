@@ -9,6 +9,7 @@ const lightTheme: DefaultTheme = {
     theme: {
       primary: '',
       secondary: '',
+      primaryTransparent: '',
       error: '#ff3b47',
       active: '#396df0',
       success: '#3bf083',

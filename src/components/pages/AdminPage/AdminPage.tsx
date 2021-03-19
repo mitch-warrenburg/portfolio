@@ -3,37 +3,21 @@ import List from '../../atoms/List';
 import Panel from '../../atoms/Panel';
 import styled from 'styled-components';
 import Header from '../../atoms/Header';
-import { useSelector, useDispatch } from 'react-redux';
 import ListItem from '../../atoms/ListItem';
+import { useHistory } from 'react-router-dom';
+import { HomeButton } from '../../atoms/HomeButton';
+import { useSelector, useDispatch } from 'react-redux';
 import { State, ChatState } from '../../../store/types';
 import PageTemplate from '../../templates/PageTemplate';
 import StatusIndicator from '../../atoms/StatusIndicator';
 import ChatMessenger from '../../organisms/ChatMessenger';
 import { setCurrentChatUserId } from '../../../store/state/chatSlice';
-import Icon from '../../atoms/Icon';
 
 const HeaderContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-
-  button {
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    background: transparent;
-    justify-content: center;
-    transition: 250ms ease-in-out;
-    color: ${({ theme }) => theme.colors.font.inactive};
-
-    &:hover {
-      transform: scale(1.1, 1.1);
-      color: ${({ theme }) => theme.colors.font.primary};
-    }
-  }
 `;
 
 const RowCell = styled.div`
@@ -104,6 +88,7 @@ const ChatContainer = styled.div`
 
 const AdminPage: FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { users, currentChatUserId } = useSelector<State, ChatState>(({ chat }) => chat);
   const userList = Object.values(users);
 
@@ -112,15 +97,15 @@ const AdminPage: FC = () => {
     dispatch(setCurrentChatUserId(id));
   }, []);
 
+  const homeButtonClickHandler = useCallback(() => history.push('/home'), []);
+
   return (
     <PageTemplate>
       <Panel>
         <Header>
           <HeaderContent>
             <span>Chat Sessions</span>
-            <button type="button">
-              <Icon icon="home" size="2x" />
-            </button>
+            <HomeButton type="button" onClick={homeButtonClickHandler} />
           </HeaderContent>
         </Header>
         <ContentPanes>

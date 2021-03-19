@@ -3,6 +3,7 @@ import { PanelProps } from './types';
 import styled from 'styled-components';
 
 const Panel = styled.div<PanelProps>`
+  margin-top: 32px;
   max-width: 1280px;
   height: 90vh;
   display: flex;

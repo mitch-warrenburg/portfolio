@@ -14,12 +14,12 @@ import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
 import { sendMessage } from '../../../ws/socket';
 import ChatMessage from '../../atoms/ChatMessage';
-import { CollapsibleElementProps, ChatMessengerProps } from './types';
 import styled, { useTheme } from 'styled-components';
-import { adminAvatar } from '../../../globalConstants';
+import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
 import { useSelector, useDispatch } from 'react-redux';
-import StatusIndicator from '../../atoms/StatusIndicator';
 import { State, ChatState } from '../../../store/types';
+import StatusIndicator from '../../atoms/StatusIndicator';
+import { CollapsibleElementProps, ChatMessengerProps } from './types';
 import { disconnectFromChatServer } from '../../../store/state/chatSlice';
 import './styles.scss';
 
@@ -189,6 +189,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
   const theme = useTheme();
   const dispatch = useDispatch();
   const [draft, setDraft] = useState('');
+  const isAdmin = useSelector<State, boolean>(({ user }) => user.isAdmin);
   const { isConnecting, userId, users, currentChatUserId = '' } = useSelector<
     State,
     ChatState
@@ -242,24 +243,34 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
     };
   }, []);
 
+  useEffect(() => {
+    if (!isConnecting) {
+      document.getElementById('chat-textarea')?.focus();
+    }
+  }, [isConnecting]);
+
   return (
     <>
-      <HeaderContainer open={!isChatMinimized} onClick={onClickHeader}>
-        <FlexBox justify="flex-start">
-          <Optional renderIf={!isChatMinimized}>
-            <Avatar image={adminAvatar} />
-          </Optional>
-          <TitleContainer>
-            <h4>{chatUsername}</h4>
-            <SubTitle open={!isChatMinimized}>What should I put here?</SubTitle>
-          </TitleContainer>
-        </FlexBox>
-        <FlexBox justify="flex-end">
-          <StatusIndicator status={connected ? 'success' : 'error'}>
-            {connected ? 'Online' : 'offline'}
-          </StatusIndicator>
-        </FlexBox>
-      </HeaderContainer>
+      <Optional renderIf={users}>
+        <HeaderContainer open={!isChatMinimized} onClick={onClickHeader}>
+          <FlexBox justify="flex-start">
+            <Optional renderIf={!isChatMinimized}>
+              <Avatar image={isAdmin ? anonymousAvatar : adminAvatar} />
+            </Optional>
+            <TitleContainer>
+              <h4>{chatUsername}</h4>
+              <Optional renderIf={!isAdmin}>
+                <SubTitle open={!isChatMinimized}>Lead Fullstack Engineer</SubTitle>
+              </Optional>
+            </TitleContainer>
+          </FlexBox>
+          <FlexBox justify="flex-end">
+            <StatusIndicator status={connected ? 'success' : 'error'}>
+              {connected ? 'Online' : 'offline'}
+            </StatusIndicator>
+          </FlexBox>
+        </HeaderContainer>
+      </Optional>
       <MessageSection>
         <MessagesWrapper>
           <Optional renderIf={isConnecting}>
@@ -288,6 +299,8 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
       <Optional renderIf={!isChatMinimized}>
         <MessageTextAreaContainer>
           <textarea
+            id="chat-textarea"
+            autoFocus
             value={draft}
             disabled={isConnecting}
             onChange={draftChangeHandler}

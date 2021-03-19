@@ -11,7 +11,6 @@ const ListItem = styled.li<ListItemProps>`
   font-size: 16px;
   width: 100%;
   white-space: nowrap;
-  transition: 100ms ease-in-out;
   max-height: 40px;
   justify-content: space-between;
   cursor: ${({ cursorPointer }) => (cursorPointer ? 'pointer' : 'initial')};
@@ -33,6 +32,10 @@ const ListItem = styled.li<ListItemProps>`
 
   & + li {
     border-top: 1px solid ${({ theme }) => theme.colors.border};
+  }
+
+  *:not(button):not(input) {
+    pointer-events: none;
   }
 `;
 

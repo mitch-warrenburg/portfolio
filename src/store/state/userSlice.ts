@@ -39,10 +39,11 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
     adminLogin: state => {
       state.isLoading = true;
     },
-    adminLoginSuccess: state => {
+    adminLoginSuccess: (state, { payload }: PayloadAction<string>) => {
       state.isAdmin = true;
       state.isLoading = false;
       state.error = undefined;
+      state.username = payload;
     },
     adminLoginFailure: (state, { payload }: PayloadAction<string>) => {
       state.isLoading = false;

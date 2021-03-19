@@ -17,12 +17,6 @@ const Button = styled.button<ButtonProps>`
   border-radius: 20px;
   transition: 300ms;
   white-space: nowrap;
-  border: ${({ theme, transparent }) =>
-    transparent ? `1px solid ${theme.colors.font.transparentButton}` : 'none'};
-  color: ${({ theme, transparent }) =>
-    transparent ? theme.colors.font.transparentButton : theme.colors.font.primary};
-  background: ${({ theme, transparent }) =>
-    transparent ? 'transparent' : theme.colors.theme.primary};
 
   &:hover:not(:disabled),
   &:active,
@@ -35,7 +29,16 @@ const Button = styled.button<ButtonProps>`
     cursor: initial;
     color: ${({ theme }) => theme.colors.font.inactive};
     border-color: ${({ theme }) => theme.colors.font.inactive};
+    background: ${({ theme, transparent }) =>
+      transparent ? theme.colors.font.inactive : theme.colors.theme.primaryTransparent};
   }
+
+  border: ${({ theme, transparent }) =>
+    transparent ? `1px solid ${theme.colors.font.transparentButton}` : 'none'};
+  color: ${({ theme, transparent }) =>
+    transparent ? theme.colors.font.transparentButton : theme.colors.font.primary};
+  background: ${({ theme, transparent }) =>
+    transparent ? 'transparent' : theme.colors.theme.primary};
 `;
 
 export default Button;

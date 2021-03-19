@@ -22,11 +22,11 @@ export interface ChatState {
   currentChatUserId?: string;
   userId?: string;
   sessionId?: string;
-  username?: string;
   email?: string;
   phoneNumber?: string;
   error?: string;
   isConnecting: boolean;
+  isLoading: boolean;
 }
 
 export interface UserState {
@@ -93,4 +93,15 @@ export interface SubmitChatFormPayload {
 export interface AdminLoginPayload {
   username: string;
   password: string;
+}
+
+export interface AdminLoginResponse {
+  userId: string;
+  username: string;
+  password: string;
+  sessionId: string;
+}
+
+export interface FetchSendToUserIdResponse {
+  userId: string;
 }

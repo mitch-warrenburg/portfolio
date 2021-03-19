@@ -1,8 +1,21 @@
 import socket from '../../ws';
+import client from '../../http/client';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { takeEvery, select, put, delay } from 'redux-saga/effects';
-import { addUser, setUserConnected, setUsers } from '../state/chatSlice';
-import { ChatState, ChatUsers, UserSessionsEvent, UserConnectedEvent } from '../types';
+import { takeEvery, select, put, delay, call } from 'redux-saga/effects';
+import {
+  addUser,
+  setUsers,
+  setUserConnected,
+  fetchSendToUserIdFailure,
+  fetchSendToUserIdSuccess,
+} from '../state/chatSlice';
+import {
+  ChatState,
+  ChatUsers,
+  UserSessionsEvent,
+  UserConnectedEvent,
+  FetchSendToUserIdResponse,
+} from '../types';
 
 export function* userSessionsEventWatcher() {
   yield takeEvery('chat/userSessionsEvent', userSessionsEventHandler);
@@ -18,6 +31,22 @@ export function* connectToChatServerWatcher() {
 
 export function* disconnectFromChatServerWatcher() {
   yield takeEvery('chat/disconnectFromChatServer', disconnectFromChatServerHandler);
+}
+
+export function* fetchSendToUserIdWatcher() {
+  yield takeEvery('chat/fetchSendToUserId', fetchSendToUserIdHandler);
+}
+
+export function* fetchSendToUserIdHandler() {
+  try {
+    const response: FetchSendToUserIdResponse = yield call(
+      client.get,
+      '/api/v1/chat/defaultSendToUserId'
+    );
+    yield put(fetchSendToUserIdSuccess(response.userId));
+  } catch (e) {
+    yield put(fetchSendToUserIdFailure(e.message));
+  }
 }
 
 export function* disconnectFromChatServerHandler() {
@@ -51,8 +80,8 @@ export function* userConnectedEventHandler({
   if (user) {
     yield put(setUserConnected(userId));
   } else {
-    yield addUser(
-      setUserConnected({
+    yield put(
+      addUser({
         userId,
         username,
         messages: [],
