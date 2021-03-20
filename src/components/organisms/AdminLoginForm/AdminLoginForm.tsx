@@ -19,9 +19,9 @@ import { adminLogin } from '../../../store/state/userSlice';
 
 const Form = styled.form`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 
   input {
     min-width: 220px;
@@ -29,19 +29,19 @@ const Form = styled.form`
 `;
 
 const FormButtons = styled.div`
-  margin-top: 30px;
   display: flex;
+  width: 100%;
+  max-width: 220px;
   align-items: center;
   justify-content: space-between;
-  max-width: 220px;
-  width: 100%;
+  margin-top: 30px;
 `;
 
 const ErrorText = styled.p`
-  font-size: 12px;
   margin-top: 16px;
-  text-align: center;
   color: ${({ theme }) => theme.colors.theme.error};
+  font-size: 12px;
+  text-align: center;
 `;
 
 const AdminLoginForm: FC = () => {

@@ -3,15 +3,15 @@ import { FlexBoxProps } from './types';
 import styled from 'styled-components';
 
 const FlexBox = styled.div<FlexBoxProps>`
-  pointer-events: initial;
   display: flex;
   width: 100%;
+  flex-direction: ${({ direction }) => direction};
   flex-wrap: ${({ wrap }) => wrap};
-  margin: ${({ margin }) => margin};
-  padding: ${({ padding }) => padding};
   align-items: ${({ align }) => align};
   justify-content: ${({ justify }) => justify};
-  flex-direction: ${({ direction }) => direction};
+  padding: ${({ padding }) => padding};
+  margin: ${({ margin }) => margin};
+  pointer-events: initial;
 `;
 
 FlexBox.defaultProps = {

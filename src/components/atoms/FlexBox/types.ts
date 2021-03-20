@@ -1,5 +1,5 @@
-import { HTMLAttributes } from "react";
-import { Property } from "csstype";
+import { HTMLAttributes } from 'react';
+import { Property } from 'csstype';
 
 export interface FlexBoxProps extends HTMLAttributes<HTMLDivElement> {
   wrap?: Property.FlexWrap;

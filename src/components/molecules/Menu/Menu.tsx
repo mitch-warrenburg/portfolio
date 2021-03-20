@@ -12,12 +12,12 @@ const MenuContainer = styled.div`
 `;
 
 const MenuList = styled.ul`
-  pointer-events: initial;
   display: flex;
-  cursor: pointer;
-  flex-direction: column;
-  white-space: nowrap;
   width: 100%;
+  flex-direction: column;
+  cursor: pointer;
+  pointer-events: initial;
+  white-space: nowrap;
 
   :not(last-child) {
     margin-bottom: 20px;

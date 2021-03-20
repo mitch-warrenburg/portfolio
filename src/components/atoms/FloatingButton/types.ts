@@ -1,3 +1,3 @@
 import { ButtonHTMLAttributes } from 'react';
 
-export interface FloatingButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+export type FloatingButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;

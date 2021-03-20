@@ -1,2 +1,1 @@
-export interface EditorProps {
-}
+export interface EditorProps {}

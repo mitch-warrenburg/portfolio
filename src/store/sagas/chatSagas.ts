@@ -52,13 +52,11 @@ export function* websocketErrorWatcher() {
 export function* websocketErrorHandler({ payload: error }: PayloadAction<Error>) {
   yield console.error(error?.message);
 
-
   if (error?.message === TOKEN_AUTH_ERROR_MSG) {
     yield socket.disconnect();
     yield put(setChatError(error.message));
     yield put(chatAuthFailure({}));
     yield put(adminAuthFailure(error.message));
-    // yield window.location.replace('/');
   }
 }
 
@@ -104,7 +102,7 @@ export function* userSessionsEventHandler({
 export function* userConnectedEventHandler({
   payload: { userId, username },
 }: PayloadAction<UserConnectedEvent>) {
-  const { users } = yield getChatState();
+  const { users } = yield chatState();
   const user = users[userId];
 
   if (user) {
@@ -121,6 +119,6 @@ export function* userConnectedEventHandler({
   }
 }
 
-export function getChatState() {
+export function chatState() {
   return select(({ chat }) => chat as ChatState);
 }

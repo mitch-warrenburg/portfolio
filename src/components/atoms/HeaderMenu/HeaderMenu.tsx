@@ -8,16 +8,15 @@ const HeaderMenu = styled.div<HeaderMenuProps>`
 
   a {
     padding: 20px 30px;
-    text-decoration: none;
     border-bottom: 2px solid transparent;
+    color: ${({ theme }) => theme.colors.font.inactive};
+    text-decoration: none;
     transition: 0.3s;
-    
-    color: ${({theme}) => theme.colors.font.inactive};
 
     &.is-active,
     &:hover {
-      color: ${({theme}) => theme.colors.font.primary};
-      border-bottom: 2px solid ${({theme}) => theme.colors.font.primary};
+      border-bottom: 2px solid ${({ theme }) => theme.colors.font.primary};
+      color: ${({ theme }) => theme.colors.font.primary};
     }
   }
 `;

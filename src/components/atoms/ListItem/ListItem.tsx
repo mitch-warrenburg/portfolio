@@ -3,17 +3,19 @@ import styled from 'styled-components';
 import { ListItemProps } from './types';
 
 const ListItem = styled.li<ListItemProps>`
-  pointer-events: initial;
-  list-style: none;
-  padding: 10px 18px;
   display: flex;
-  align-items: center;
-  font-size: 16px;
   width: 100%;
-  white-space: nowrap;
   max-height: 40px;
+  align-items: center;
   justify-content: space-between;
+  padding: 10px 18px;
+  background-color: ${({ theme, selected }) =>
+    selected ? theme.colors.background.primary : 'initial'};
   cursor: ${({ cursorPointer }) => (cursorPointer ? 'pointer' : 'initial')};
+  font-size: 16px;
+  list-style: none;
+  pointer-events: initial;
+  white-space: nowrap;
 
   &:hover,
   &:hover:not(:active) {
@@ -26,9 +28,6 @@ const ListItem = styled.li<ListItemProps>`
   &:focus {
     background-color: ${({ theme }) => theme.colors.background.primary};
   }
-
-  background-color: ${({ theme, selected }) =>
-    selected ? theme.colors.background.primary : 'initial'};
 
   & + li {
     border-top: 1px solid ${({ theme }) => theme.colors.border};

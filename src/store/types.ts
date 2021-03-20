@@ -54,6 +54,7 @@ export interface ChatMessage {
 
 export interface ChatUser {
   userId: string;
+  typing: boolean;
   username: string;
   connected: boolean;
   messages: Array<ChatMessage>;
@@ -75,14 +76,6 @@ export interface UserConnectedEvent {
 export interface UserDisconnectedEvent {
   userId: string;
 }
-
-export type ChatEventType =
-  | 'NEW_SESSION'
-  | 'USER_SESSIONS'
-  | 'PRIVATE_MESSAGE'
-  | 'USER_CONNECTED'
-  | 'USER_DISCONNECTED'
-  | 'connect_error';
 
 export interface SubmitChatFormPayload {
   company: string;
@@ -107,3 +100,19 @@ export interface AdminLoginResponse {
 export interface FetchSendToUserIdResponse {
   userId: string;
 }
+
+export interface TypingEvent {
+  to: string;
+  from: string;
+  typing: boolean;
+}
+
+export type ChatEventType =
+  | 'NEW_SESSION'
+  | 'USER_SESSIONS'
+  | 'PRIVATE_MESSAGE'
+  | 'USER_CONNECTED'
+  | 'USER_DISCONNECTED'
+  | 'TYPING_STATUS'
+  | 'connect_error'
+  | 'connect';

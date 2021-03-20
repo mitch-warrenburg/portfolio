@@ -4,18 +4,18 @@ import { FloatingButtonProps } from './types';
 
 const FloatingButton = styled.button<FloatingButtonProps>`
   position: fixed;
+  z-index: 3;
   top: 32px;
   right: 32px;
   width: 36px;
   height: 36px;
-  pointer-events: all;
-  background-color: ${({ theme }) => theme.colors.background.dropdown};
-  box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);
   padding: 8px;
-  border-radius: 50%;
-  z-index: 3;
-  outline: none;
   border: none;
+  background-color: ${({ theme }) => theme.colors.background.dropdown};
+  border-radius: 50%;
+  box-shadow: -1px 3px 8px -1px rgba(0, 0, 0, 0.2);
+  outline: none;
+  pointer-events: all;
 
   svg {
     width: 24px;

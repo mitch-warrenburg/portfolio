@@ -1,25 +1,25 @@
 .email-editor {
-  background: transparent;
   margin-bottom: 16px;
+  background: transparent;
 
   * {
     pointer-events: initial;
   }
 
   .rdw-option-wrapper {
-    background: transparent;
     border: 1px solid rgba(113, 119, 144, 0.25);
+    background: transparent;
   }
 
   .rdw-editor-toolbar {
-    background: #bbbbbb;
     border: 1px solid rgba(113, 119, 144, 0.25);
+    background: #bbbbbb;
   }
 
   .rdw-dropdown-wrapper {
-    color: black;
-    background: transparent;
     border: 1px solid rgba(113, 119, 144, 0.25);
+    background: transparent;
+    color: black;
 
     &:hover {
       background: transparent;
@@ -32,8 +32,8 @@
     color: white;
 
     &:hover {
-      box-shadow: none;
       background: rgba(36, 39, 59);
+      box-shadow: none;
     }
   }
 
@@ -54,27 +54,27 @@
   }
 
   .rdw-emoji-modal, .rdw-image-modal, .rdw-colorpicker-modal, .rdw-link-modal, .rdw-embedded-modal {
-    font-size: 12px;
-    font-family: "Poppins", sans-serif;
-    color: white;
     padding: 6px;
-    box-shadow: none;
     border: 1px solid rgba(113, 119, 144, 0.25);
     background: rgba(36, 39, 59);
+    box-shadow: none;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
   }
 
   .rdw-colorpicker-modal-style-label, .rdw-link-modal-label, .rdw-embedded-modal-header-option, .rdw-colorpicker-modal-style-label-active, .rdw-image-modal-header-label-highlighted, .rdw-image-modal-header-label, .rdw-image-modal-header-option, .rdw-embedded-modal-header-label {
-    font-size: 12px;
-    font-family: "Poppins", sans-serif;
     border-bottom: none;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
   }
 
   input {
-    font-size: 12px;
-    font-family: "Poppins", sans-serif;
-    color: rgb(176, 183, 210);
     border: 1px solid rgba(113, 119, 144, 0.25);
     background: rgba(113, 119, 144, 0.1);
+    color: rgb(176, 183, 210);
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
 
     &::placeholder {
       color: rgb(130, 136, 153);
@@ -82,20 +82,20 @@
   }
 
   button {
-    font-size: 12px;
-    font-family: "Poppins", sans-serif;
-    color: white;
-    background: transparent;
     border: 1px solid rgba(113, 119, 144, 0.25);
+    background: transparent;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
 
     &:hover {
-      box-shadow: none;
       border: 1px solid rgba(113, 119, 144, 1);
+      box-shadow: none;
     }
 
     &:disabled {
-      color: white;
       background: transparent;
+      color: white;
     }
   }
 
@@ -108,8 +108,8 @@
   }
 
   .rdw-colorpicker-modal-options {
-    margin: 0;
     justify-content: center;
+    margin: 0;
   }
 
   .rdw-image-modal-header {
@@ -117,25 +117,25 @@
   }
 
   .rdw-option-active {
-    background: rgba(113, 119, 144, 0.2);
     border: 1px solid rgba(113, 119, 144, 0.7);
+    background: rgba(113, 119, 144, 0.2);
     box-shadow: none;
   }
 
   .rdw-image-modal-upload-option {
-    font-size: 12px;
-    font-family: "Poppins", sans-serif;
-    color: white;
     background: transparent;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
   }
 
   &__textarea {
+    min-height: 200px;
     padding: 0 8px;
+    border: 1px solid rgba(113, 119, 144, 0.25);
+    background: rgba(113, 119, 144, 0.1);
+    border-radius: 4px;
     color: white;
     cursor: text;
-    background: rgba(113, 119, 144, 0.1);
-    min-height: 200px;
-    border: 1px solid rgba(113, 119, 144, 0.25);
-    border-radius: 4px;
   }
 }

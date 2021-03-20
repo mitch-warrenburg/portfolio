@@ -5,29 +5,29 @@ import CommandRenderer from './CommandRenderer';
 import { TerminalCommand, TerminalEmulatorProps } from './types';
 
 const Container = styled.div`
-  font-size: 1rem;
+  width: 100%;
   min-height: 200px;
   background-color: rgb(39, 39, 39, 0.7);
   border-radius: 4px;
-  width: 100%;
+  font-size: 1rem;
 `;
 
 const ControlBar = styled.div`
+  display: flex;
   width: 100%;
   height: 24px;
-  background-color: #bbbbbb;
-  border-radius: 4px 4px 0 0;
-  display: flex;
   align-items: center;
   justify-content: flex-start;
+  background-color: #bbbbbb;
+  border-radius: 4px 4px 0 0;
 `;
 
 const Button = styled.span`
-  margin: 0 0 0 6px;
-  height: 10px;
   width: 10px;
-  border-radius: 50%;
+  height: 10px;
   border: 1px solid black;
+  margin: 0 0 0 6px;
+  border-radius: 50%;
 `;
 
 const CloseButton = styled(Button)`
@@ -36,25 +36,25 @@ const CloseButton = styled(Button)`
 `;
 
 const MinButton = styled(Button)`
-  background-color: #ffc100;
   border-color: #9d802c;
+  background-color: #ffc100;
 `;
 
 const MaxButton = styled(Button)`
-  background-color: #00d742;
   border-color: #049931;
+  background-color: #00d742;
 `;
 
 const CommandLine = styled.div`
-  height: 100%;
-  color: white;
   display: flex;
+  width: 100%;
+  height: 100%;
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 100%;
   padding: 30px 4px 30px 8px;
   border-radius: 0 0 4px 4px;
+  color: white;
   font-family: monospace;
   word-break: break-all;
 `;

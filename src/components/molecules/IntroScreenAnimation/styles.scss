@@ -4,30 +4,30 @@ $intro-animation-frequency: normal;
 .intro-screen-animation {
 
   .animated-intro-section {
-    z-index: 3;
     position: fixed;
-    left: 0;
+    z-index: 3;
+    top: -10%;
     right: 0;
     bottom: 0;
-    margin: 0;
-    top: -10%;
+    left: 0;
     display: flex;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+    margin: 0;
     background: transparent;
     transform-style: preserve-3d;
 
     &__firstname-img,
     &__lastname-img {
-      opacity: 0;
       overflow: visible;
-      transform-style: preserve-3d;
+      min-height: 10vw;
       flex: 0 1;
       object-fit: cover;
-      min-height: 10vw;
+      opacity: 0;
+      transform-style: preserve-3d;
     }
 
     &__firstname-img {
@@ -39,39 +39,43 @@ $intro-animation-frequency: normal;
     }
 
     &__occupation-text {
-      opacity: 0;
+      margin: 0;
+      animation: scale-occupation-text $intro-animation-duration $intro-animation-frequency;
       color: white;
       font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
       font-size: 2.5vw;
       font-weight: bold;
       letter-spacing: 10px;
+      opacity: 0;
       text-align: center;
       text-transform: uppercase;
-      margin: 0;
-      animation: scale-occupation-text $intro-animation-duration $intro-animation-frequency;
       transform: scale(0.75);
 
       & span {
         display: inline-block;
-        white-space: nowrap;
-        text-wrap: none;
         animation: spin-occupation-chars $intro-animation-duration linear $intro-animation-frequency;
+        text-wrap: none;
+        white-space: nowrap;
       }
     }
   }
 
   @keyframes scale-firstname-text {
+
     0% {
       opacity: 0;
       transform: scale(0.85) translate3d(0, 2vw, 0);
     }
+
     20% {
       opacity: 1;
     }
+
     85% {
       opacity: 1;
       transform: scale(0.6) translate3d(0, 3.3vw, 0);
     }
+
     100% {
       opacity: 0;
       transform: scale(0.6) translate3d(0, 4vw, 0);
@@ -79,17 +83,21 @@ $intro-animation-frequency: normal;
   }
 
   @keyframes scale-lastname-text {
+
     0% {
       opacity: 0;
       transform: scale(0.85) translate3d(0, -2vw, 0);
     }
+
     20% {
       opacity: 1;
     }
+
     85% {
       opacity: 1;
       transform: scale(0.6) translate3d(0, -3.3vw, 0);
     }
+
     100% {
       opacity: 0;
       transform: scale(0.6) translate3d(0, -4vw, 0);
@@ -97,30 +105,36 @@ $intro-animation-frequency: normal;
   }
 
   @keyframes spin-occupation-chars {
+
     0%, 10% {
       opacity: 0;
       transform: rotateY(90deg);
     }
+
     30% {
       opacity: 1;
     }
+
     60%, 100% {
       transform: rotateY(0);
     }
   }
 
   @keyframes scale-occupation-text {
+
     0% {
       opacity: 1;
       transform: scale(1);
     }
+
     95% {
       opacity: 1;
       transform: scale(0.75);
     }
+
     100% {
-      transform: scale(0.75);
       opacity: 0;
+      transform: scale(0.75);
     }
   }
 }

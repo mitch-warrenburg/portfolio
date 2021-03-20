@@ -3,15 +3,15 @@ import { OverlayProps } from './types';
 import styled from 'styled-components';
 
 const Overlay = styled.div<OverlayProps>`
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  transition: 0.3s;
-  opacity: ${({ active }) => (active ? 1 : 0)};
-  visibility: ${({ active }) => (active ? 'visible' : 'hidden')};
   background: ${({ theme }) => theme.colors.background.overlay};
+  opacity: ${({ active }) => (active ? 1 : 0)};
+  transition: 0.3s;
+  visibility: ${({ active }) => (active ? 'visible' : 'hidden')};
 `;
 
 Overlay.defaultProps = {

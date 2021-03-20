@@ -8,19 +8,19 @@ import Icon from '../../atoms/Icon';
 import { IconName } from '@fortawesome/fontawesome-common-types';
 
 const Title = styled.div`
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
 `;
 
 const CloseButton = styled.button`
-  outline: none;
   border: none;
   background: transparent;
   color: ${({ theme }) => theme.colors.font.primary};
+  outline: none;
 `;
 
 const Dialog: FC<DialogProps> = ({

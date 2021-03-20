@@ -8,14 +8,15 @@ import {
   NewSessionEvent,
   AdminLoginResponse,
   UserDisconnectedEvent,
+  TypingEvent,
 } from '../types';
 
 const initialState: ChatState = {
   userId: undefined,
   sessionId: undefined,
+  token: undefined,
   email: undefined,
   phoneNumber: undefined,
-  token: undefined,
   currentChatUserId: undefined,
   error: undefined,
   isConnecting: false,
@@ -30,6 +31,13 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     websocketError: identity,
     userSessionsEvent: identity,
     userConnectedEvent: identity,
+    changeCurrentChatUserId: identity,
+    chatUserTypingEvent: (state, { payload }: PayloadAction<TypingEvent>) => {
+      const user = state.users[payload.from];
+      if (user) {
+        user.typing = payload.typing;
+      }
+    },
     userDisconnectedEvent: (state, { payload }: PayloadAction<UserDisconnectedEvent>) => {
       const user = state.users[payload.userId];
       if (user) {
@@ -42,9 +50,7 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
       state.isConnecting = false;
     },
     privateMessageEvent: (state, { payload }: PayloadAction<ChatMessage>) => {
-      state.users[payload.from === state.userId ? payload.to : payload.from]?.messages.push(
-        payload
-      );
+      state.users[payload.from]?.messages.push(payload);
     },
     sentMessageAck: (state, { payload }: PayloadAction<ChatMessage>) => {
       state.users[payload.to]?.messages.push(payload);
@@ -66,9 +72,6 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     },
     setChatError: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
-    },
-    addChatMessage: (state, { payload }: PayloadAction<ChatMessage>) => {
-      state.users[payload.to].messages.push(payload);
     },
     setUsers: (state, { payload }: PayloadAction<ChatUsers>) => {
       state.users = payload;
@@ -113,7 +116,6 @@ export const {
   setUsers,
   setChatError,
   websocketError,
-  addChatMessage,
   sentMessageAck,
   newSessionEvent,
   chatAuthFailure,
@@ -123,9 +125,11 @@ export const {
   userConnectedEvent,
   connectToChatServer,
   privateMessageEvent,
+  chatUserTypingEvent,
   setCurrentChatUserId,
   userDisconnectedEvent,
   reconnectToChatServer,
+  changeCurrentChatUserId,
   fetchSendToUserIdSuccess,
   fetchSendToUserIdFailure,
   disconnectFromChatServer,

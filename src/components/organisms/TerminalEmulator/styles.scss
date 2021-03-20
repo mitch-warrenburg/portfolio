@@ -1,10 +1,11 @@
 .terminal-prompt {
 
   &__input {
+
     &:after {
+      animation: blink 1s infinite;
       color: white;
       content: '|';
-      animation: blink 1s infinite;
     }
 
     &--no-cursor:after {
@@ -13,9 +14,11 @@
   }
 
   @keyframes blink {
+
     0%, 50% {
       opacity: 1;
     }
+
     51%, 100% {
       opacity: 0;
     }

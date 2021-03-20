@@ -1,25 +1,25 @@
 .search-bar {
-  height: 40px;
   display: flex;
   width: 100%;
   max-width: 400px;
+  height: 40px;
   padding-left: 16px;
   border-radius: 4px;
 
   input {
     width: 100%;
     height: 100%;
+    padding: 0 20px 0 40px;
     border: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56.966 56.966' fill='%23717790c7'%3e%3cpath d='M55.146 51.887L41.588 37.786A22.926 22.926 0 0046.984 23c0-12.682-10.318-23-23-23s-23 10.318-23 23 10.318 23 23 23c4.761 0 9.298-1.436 13.177-4.162l13.661 14.208c.571.593 1.339.92 2.162.92.779 0 1.518-.297 2.079-.837a3.004 3.004 0 00.083-4.242zM23.984 6c9.374 0 17 7.626 17 17s-7.626 17-17 17-17-7.626-17-17 7.626-17 17-17z'/%3e%3c/svg%3e");
+    background-position: 16px 48%;
+    background-repeat: no-repeat;
+    background-size: 14px;
     //background-color: var(--search-bg);
     border-radius: 4px;
+    box-shadow: 0 0 0 2px rgb(134 140 160 / 2%);
     font-size: 15px;
     font-weight: 500;
-    padding: 0 20px 0 40px;
-    box-shadow: 0 0 0 2px rgb(134 140 160 / 2%);
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56.966 56.966' fill='%23717790c7'%3e%3cpath d='M55.146 51.887L41.588 37.786A22.926 22.926 0 0046.984 23c0-12.682-10.318-23-23-23s-23 10.318-23 23 10.318 23 23 23c4.761 0 9.298-1.436 13.177-4.162l13.661 14.208c.571.593 1.339.92 2.162.92.779 0 1.518-.297 2.079-.837a3.004 3.004 0 00.083-4.242zM23.984 6c9.374 0 17 7.626 17 17s-7.626 17-17 17-17-7.626-17-17 7.626-17 17-17z'/%3e%3c/svg%3e");
-    background-size: 14px;
-    background-repeat: no-repeat;
-    background-position: 16px 48%;
     //color: var(--theme-font-color);
 
     &::placeholder {
@@ -32,34 +32,35 @@
 
 .dropdown {
   position: relative;
-  height: 53px;
-  width: 40px;
   top: -24px;
-  display: flex;
   left: -5px;
-  background: transparent;
+  display: flex;
+  width: 40px;
+  height: 53px;
   border: none;
+  background: transparent;
   cursor: pointer;
 
   ul {
     position: absolute;
+    top: 20px;
+    right: 0;
+    width: 120px;
     //background: var(--dropdown-bg);
     height: 110px;
-    width: 120px;
-    right: 0;
-    top: 20px;
     opacity: 0;
     transform: translatey(10px);
     transition: all 0.4s ease;
 
     li a {
-      text-decoration: none;
       //color: var(--theme-font-color);
       font-size: 12px;
+      text-decoration: none;
     }
   }
 
   .is-active {
+
     ul {
       opacity: 1;
       transform: translatey(25px);
@@ -90,44 +91,44 @@
     align-items: center;
 
     &:before {
-      content: "";
-      margin-right: 10px;
       width: 15px;
       height: 15px;
+      flex-shrink: 0;
+      margin-right: 10px;
       //border: 1px solid var(--theme-font-color);
       border-radius: 4px;
+      content: "";
       cursor: pointer;
-      flex-shrink: 0;
     }
   }
 
   .checkbox:checked + label:before {
-    background-color: #3a6df0;
     border-color: #3a6df0;
+    background-color: #3a6df0;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3e%3cpath d='M20 6L9 17l-5-5'/%3e%3c/svg%3e");
     background-position: 50%;
-    background-size: 12px;
     background-repeat: no-repeat;
+    background-size: 12px;
   }
 }
 
 .app-cards {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
   width: calc(100% + 20px);
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .app-card {
   display: flex;
-  flex-direction: column;
   width: calc(33.3% - 20px);
-  font-size: 16px;
-  //background-color: var(--content-bg);
-  border-radius: 14px;
+  flex-direction: column;
   //border: 1px solid var(--theme-bg-color);
   padding: 20px;
+  //background-color: var(--content-bg);
+  border-radius: 14px;
   cursor: pointer;
+  font-size: 16px;
   transition: 0.3s ease;
 
   &:hover {
@@ -137,9 +138,9 @@
 
   svg {
     width: 28px;
-    border-radius: 6px;
-    margin-right: 12px;
     flex-shrink: 0;
+    margin-right: 12px;
+    border-radius: 6px;
   }
 
   & + .app-card {
@@ -152,23 +153,24 @@
   }
 
   &__subtext {
+    //border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-top: 20px;
     font-size: 14px;
     font-weight: 400;
     line-height: 1.6em;
-    margin-top: 20px;
-    //border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
   }
 
   &-buttons {
     display: flex;
     align-items: center;
-    margin-left: auto;
     margin-top: 16px;
+    margin-left: auto;
   }
 
   @media screen and (max-width: 1110px) {
     width: calc(50% - 20px);
+
     &:last-child {
       margin-top: 20px;
       margin-left: 0px;
@@ -177,6 +179,7 @@
   @media screen and (max-width: 565px) {
     width: calc(100% - 20px);
     margin-top: 20px;
+
     & + .app-card {
       margin-left: 0;
     }

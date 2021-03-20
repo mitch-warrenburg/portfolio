@@ -1,4 +1,4 @@
-import { HTMLAttributes, MouseEventHandler, ReactNode } from "react";
+import { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 
 export interface Tab<TabId = string> {
   id: TabId;

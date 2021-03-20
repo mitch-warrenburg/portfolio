@@ -4,23 +4,22 @@ import styled from 'styled-components';
 
 const Modal = styled.div<ModalProps>`
   position: fixed;
-  padding: 30px 40px;
+  z-index: 10;
   top: 35%;
   left: calc(50% - 250px);
-  transform: (translate(-50%, -50%));
-  overflow-y: auto;
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s;
-  z-index: 10;
-  width: 500px;
-  border-radius: 6px;
   display: flex;
+  width: 500px;
   flex-direction: column;
-  white-space: normal;
+  padding: 30px 40px;
   background-color: ${({ theme }) => theme.colors.background.modal};
+  border-radius: 6px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
   opacity: ${({ active }) => (active ? 1 : 0)};
+  overflow-y: auto;
+  transform: (translate(-50%, -50%));
+  transition: all 0.3s;
   visibility: ${({ active }) => (active ? 'visible' : 'hidden')};
-  
+  white-space: normal;
 
   @media screen and (max-width: 570px) {
     width: 100%;

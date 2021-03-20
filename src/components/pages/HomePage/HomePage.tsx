@@ -29,13 +29,13 @@ import {
 } from './constants';
 
 const PanelContentContainer = styled.div`
-  align-items: center;
-  width: 100%;
   display: flex;
-  flex-direction: column;
-  padding: 20px 40px;
-  height: 100%;
   overflow: auto;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 40px;
   @media screen and (max-width: 510px) {
     padding: 20px;
   }

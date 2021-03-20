@@ -1,7 +1,8 @@
 import { HTMLAttributes } from 'react';
 
 export interface ChatMessageProps extends HTMLAttributes<HTMLDivElement> {
-  content: string;
+  content?: string;
+  typing?: boolean;
   isAdmin?: boolean;
-  isFromCurrentUser: boolean;
+  isCurrentUser?: boolean;
 }

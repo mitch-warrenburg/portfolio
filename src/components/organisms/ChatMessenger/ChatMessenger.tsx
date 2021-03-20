@@ -1,6 +1,7 @@
 import React, {
   FC,
   useRef,
+  useMemo,
   useState,
   useEffect,
   useCallback,
@@ -12,30 +13,30 @@ import Loader from '../../atoms/Loader';
 import Avatar from '../../atoms/Avatar';
 import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
+import { useTypingEvents } from '../../../hooks';
 import { sendMessage } from '../../../ws/socket';
 import ChatMessage from '../../atoms/ChatMessage';
 import styled, { useTheme } from 'styled-components';
-import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
 import { useSelector, useDispatch } from 'react-redux';
 import { State, ChatState } from '../../../store/types';
 import StatusIndicator from '../../atoms/StatusIndicator';
 import { CollapsibleElementProps, ChatMessengerProps } from './types';
+import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
 import { disconnectFromChatServer } from '../../../store/state/chatSlice';
-import './styles.scss';
 
 const HeaderContainer = styled.div<CollapsibleElementProps>`
-  display: flex;
-  align-items: center;
-  flex: 0 1 56px;
   position: relative;
-  height: 100%;
-  cursor: pointer;
   z-index: 2;
-  color: #fff;
-  text-align: left;
+  display: flex;
+  height: 100%;
+  flex: 0 1 56px;
+  align-items: center;
   padding: 0 10px;
-  transition: ease-in-out 200ms;
   background: ${({ theme }) => theme.colors.background.primary};
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: ease-in-out 200ms;
 
   &:hover {
     background: ${({ open, theme }) =>
@@ -46,10 +47,10 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-weight: normal;
-  margin: 0;
   padding: 0;
+  margin: 0;
   font-size: 14px;
+  font-weight: normal;
   line-height: 1.5;
 
   * {
@@ -59,49 +60,49 @@ const TitleContainer = styled.div`
 `;
 
 const SubTitle = styled.span<CollapsibleElementProps>`
+  display: ${({ open }) => (open ? 'inline-block' : 'none')};
   color: rgba(255, 255, 255, 0.5);
   font-size: 10px;
   letter-spacing: 1px;
-  display: ${({ open }) => (open ? 'inline-block' : 'none')};
 `;
 
 const MessageSection = styled.section`
-  flex: 1 1 auto;
-  color: rgba(255, 255, 255, 0.5);
   position: relative;
   width: 100%;
+  flex: 1 1 auto;
+  color: rgba(255, 255, 255, 0.5);
 `;
 
 const MessagesWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  height: 101%;
   width: 100%;
+  height: 101%;
 `;
 
 const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
-  flex: 0 1 40px;
-  width: 100%;
-  padding: 10px;
-  display: flex;
   position: relative;
+  display: flex;
+  width: 100%;
+  flex: 0 1 40px;
+  padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   background: ${({ theme }) => theme.colors.background.primary};
 
   textarea {
-    text-align: justify;
-    background: none;
+    width: calc(100% - 42px);
+    height: 100%;
+    min-height: 24px;
+    padding-right: 20px;
     border: none;
-    outline: none !important;
-    resize: none;
+    margin: 0;
+    background: none;
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.875rem;
-    min-height: 24px;
-    margin: 0;
-    height: 100%;
-    padding-right: 20px;
-    width: calc(100% - 42px);
+    outline: none !important;
+    resize: none;
+    text-align: justify;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.4);
@@ -113,15 +114,15 @@ const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
     z-index: 1;
     top: 10px;
     right: 10px;
-    border: none;
-    height: 36px;
     width: 36px;
-    outline: none;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 0.2s ease;
-    color: ${({ theme }) => theme.colors.theme.success};
+    height: 36px;
+    border: none;
     background: ${({ theme }) => theme.colors.background.dropdown};
+    border-radius: 50%;
+    color: ${({ theme }) => theme.colors.theme.success};
+    cursor: pointer;
+    outline: none;
+    transition: background 0.2s ease;
 
     svg {
       margin-right: 2px;
@@ -129,59 +130,59 @@ const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
 
     :hover:not(:disabled) {
       background: rgba(36, 39, 59, 0.8);
-      transition: ease-in-out 200ms;
       transform: scale(1.08, 1.08);
+      transition: ease-in-out 200ms;
 
       svg {
-        transition: ease-in-out 200ms;
         transform: scale(1.08, 1.08);
+        transition: ease-in-out 200ms;
       }
     }
 
     :disabled {
+      color: ${({ theme }) => theme.colors.font.primary};
       cursor: initial;
       opacity: 0.6;
-      color: ${({ theme }) => theme.colors.font.primary};
     }
   }
 `;
 
 const MessageScrollPane = styled.div`
-  max-height: none;
   position: relative;
-  height: 100%;
-  max-width: 100%;
-  outline: 0;
-  direction: ltr;
   overflow: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: none;
+  direction: ltr;
+  outline: 0;
 `;
 
 const MessageScrollContent = styled.div`
+  position: relative;
   top: 0;
   left: 0;
-  margin: 0;
-  position: relative;
   overflow: hidden;
   width: auto;
   height: auto;
-  padding: 0 10px 20px 10px;
+  padding: 0 10px 70px 10px;
+  margin: 0;
 `;
 
 const LoadingOverlay = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   position: absolute;
   top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: ${({ theme }) => theme.colors.background.overlay};
 
   span {
-    font-size: 14px;
     margin-top: 32px;
+    font-size: 14px;
   }
 `;
 
@@ -189,17 +190,23 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
   const theme = useTheme();
   const dispatch = useDispatch();
   const [draft, setDraft] = useState('');
+  const messageScrollPaneRef = useRef<HTMLDivElement>(null);
+  const { current: scrollPane } = messageScrollPaneRef;
   const isAdmin = useSelector<State, boolean>(({ user }) => user.isAdmin);
-  const { isConnecting, userId, users, currentChatUserId = '' } = useSelector<
+  const { users, isConnecting, userId = '', currentChatUserId = '' } = useSelector<
     State,
     ChatState
   >(({ chat }) => chat);
 
-  const messageScrollPaneRef = useRef<HTMLDivElement>(null);
-  const { current: scrollPane } = messageScrollPaneRef;
+  const { resetTypingEvents, keyDownHandler } = useTypingEvents(currentChatUserId, userId);
 
-  const currentChatUser = users[currentChatUserId] || {};
+  const currentChatUser = useMemo(() => users[currentChatUserId] || {}, [
+    users,
+    currentChatUserId,
+  ]);
+
   const {
+    typing,
     connected,
     messages = [],
     userId: chatUserId,
@@ -214,17 +221,17 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
   );
 
   const submitButtonHandler = useCallback(() => {
+    resetTypingEvents();
     sendMessage(draft);
     setDraft('');
-  }, [draft]);
+  }, [draft, resetTypingEvents]);
 
   const textAreaKeyDownHandler: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     ({ ctrlKey, metaKey, key }) => {
-      if ((ctrlKey || metaKey) && key === 'Enter') {
-        submitButtonHandler();
-      }
+      keyDownHandler();
+      (ctrlKey || metaKey) && key === 'Enter' && submitButtonHandler();
     },
-    [submitButtonHandler]
+    [submitButtonHandler, keyDownHandler]
   );
 
   const autoScrollMessages = useCallback(() => {
@@ -235,7 +242,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
 
   useEffect(() => {
     autoScrollMessages();
-  }, [messages.length, autoScrollMessages, isChatMinimized]);
+  }, [messages, autoScrollMessages, isChatMinimized]);
 
   useEffect(() => {
     return () => {
@@ -282,15 +289,14 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
           <Optional renderIf={!isConnecting}>
             <MessageScrollPane ref={messageScrollPaneRef}>
               <MessageScrollContent>
-                {messages
-                  .filter(({ from, to }) => userId === from || userId === to)
-                  .map(({ content, from, to }, index) => (
-                    <ChatMessage
-                      key={`${chatUserId}-${index}}`}
-                      content={content}
-                      isFromCurrentUser={from === userId}
-                    />
-                  ))}
+                {messages.map(({ content, from, to }, index) => (
+                  <ChatMessage
+                    key={`${chatUserId}-${index}}`}
+                    content={content}
+                    isCurrentUser={from === userId}
+                  />
+                ))}
+                <ChatMessage typing hidden={!typing} />
               </MessageScrollContent>
             </MessageScrollPane>
           </Optional>
@@ -309,7 +315,6 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
           />
           <button
             type="submit"
-            className="message-submit"
             onClick={submitButtonHandler}
             disabled={!draft || isConnecting}>
             <Icon icon="paper-plane" />

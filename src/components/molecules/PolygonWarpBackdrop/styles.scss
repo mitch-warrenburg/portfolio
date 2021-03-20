@@ -1,11 +1,11 @@
 .polygon-warp-particles {
-    left: 0;
-    right: 0;
     top: 0;
+    right: 0;
     bottom: 0;
-    margin: 0;
-    height: 100vh;
+    left: 0;
     width: 100vw;
-    pointer-events: all;
+    height: 100vh;
+    margin: 0;
     background: transparent;
+    pointer-events: all;
 }

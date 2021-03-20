@@ -25,6 +25,7 @@ export function* initializeApp() {
   if (chat.sessionId && chat.userId && socket.disconnected) {
     yield put(connectToChatServer({}));
   }
-
-  yield put(fetchSendToUserId({}));
+  if (!chat.currentChatUserId) {
+    yield put(fetchSendToUserId({}));
+  }
 }

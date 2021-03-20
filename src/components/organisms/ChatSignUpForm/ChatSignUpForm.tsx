@@ -20,48 +20,48 @@ import { connectToChatServer, disconnectFromChatServer } from '../../../store/st
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 30px;
-  width: 100%;
-  height: 100%;
   background: ${({ theme }) => theme.colors.background.primary};
 `;
 
 const Form = styled.form`
   display: flex;
   width: 100%;
-  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   margin-left: 16px;
 `;
 
 const PromptText = styled.div`
-  font-size: 14px;
   margin-left: 20px;
+  font-size: 14px;
 `;
 
 const CloseButton = styled.button`
-  margin: -10px -10px 0 0;
-  outline: none;
-  border: none;
-  background: transparent;
   padding: 0;
-  cursor: initial;
+  border: none;
+  margin: -10px -10px 0 0;
+  background: transparent;
   color: ${({ theme }) => theme.colors.font.primary};
+  cursor: initial;
+  outline: none;
 
   &:hover {
-    transition: ease-in-out 200ms;
     transform: scale(1.08, 1.08);
+    transition: ease-in-out 200ms;
   }
 `;
 
 const ErrorText = styled.p`
   margin-top: 16px;
-  text-align: center;
   color: ${({ theme }) => theme.colors.theme.error};
+  text-align: center;
 `;
 
 const ChatSignUpForm: FC = () => {

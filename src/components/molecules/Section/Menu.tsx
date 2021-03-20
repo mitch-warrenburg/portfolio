@@ -5,10 +5,10 @@ import Optional from '../../atoms/Optional';
 import SectionHeader from '../../atoms/SectionHeader';
 
 const SectionContainer = styled.section`
-  width: 100%;
-  margin-top: 30px;
   display: flex;
+  width: 100%;
   flex-direction: column;
+  margin-top: 30px;
 `;
 
 const Menu: FC<SectionProps> = ({ children, header, ...props }) => {

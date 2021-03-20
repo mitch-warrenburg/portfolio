@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import { PageTemplateProps } from './types';
 
 const Content = styled.div`
-  pointer-events: none;
   position: absolute;
-  background: transparent;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
+  overflow: hidden;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+  pointer-events: none;
 
   @media screen and (max-width: 480px) {
     padding: 0.8em;

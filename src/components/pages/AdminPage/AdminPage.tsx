@@ -11,32 +11,32 @@ import { State, ChatState } from '../../../store/types';
 import PageTemplate from '../../templates/PageTemplate';
 import StatusIndicator from '../../atoms/StatusIndicator';
 import ChatMessenger from '../../organisms/ChatMessenger';
-import { setCurrentChatUserId } from '../../../store/state/chatSlice';
 import { TOKEN_AUTH_ERROR_MSG } from '../../../globalConstants';
+import { setCurrentChatUserId } from '../../../store/state/chatSlice';
 
 const HeaderContent = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 `;
 
 const RowCell = styled.div`
   display: flex;
+  max-height: 100%;
   align-items: center;
   justify-content: space-between;
   color: white;
-  font-size: 14px;
   cursor: pointer;
-  max-height: 100%;
+  font-size: 14px;
 `;
 
 const ContentPanes = styled.div`
-  height: 100%;
-  width: 100%;
   display: flex;
-  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
   align-items: stretch;
+  justify-content: flex-start;
   pointer-events: initial;
 
   @media screen and (max-width: 606px) {
@@ -46,15 +46,15 @@ const ContentPanes = styled.div`
 
 const UserListPane = styled.div`
   position: relative;
-  padding: 16px;
   display: flex;
+  width: 100%;
+  min-width: 300px;
+  max-width: 360px;
+  height: 100%;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%;
-  height: 100%;
-  max-width: 360px;
-  min-width: 300px;
   justify-content: flex-start;
+  padding: 16px;
   border-right: 1px solid ${({ theme }) => theme.colors.divider};
 
   @media screen and (max-width: 606px) {
@@ -63,28 +63,28 @@ const UserListPane = styled.div`
 `;
 
 const ChatPane = styled.div`
-  padding: 16px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
   height: 100%;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  padding: 16px;
 `;
 
 const ChatContainer = styled.div`
   position: relative;
+  z-index: 2;
+  display: flex;
+  overflow: hidden;
   width: 100%;
   height: 100%;
-  z-index: 2;
-  overflow: hidden;
-  background: rgba(36, 39, 59, 0.6);
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: ease-in-out 300ms;
   border: 1px solid rgba(249, 250, 251, 0.3);
+  background: rgba(36, 39, 59, 0.6);
   border-radius: 20px;
+  transition: ease-in-out 300ms;
 `;
 
 const AdminPage: FC = () => {

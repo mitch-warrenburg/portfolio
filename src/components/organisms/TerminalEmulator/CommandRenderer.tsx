@@ -2,7 +2,7 @@ import React, { FC, useCallback, useState, useEffect, useMemo } from 'react';
 import Typist from 'react-typist';
 import { uniqueId } from 'lodash';
 import styled from 'styled-components';
-import Cursor from "../../atoms/Cursor";
+import Cursor from '../../atoms/Cursor';
 import Optional from '../../atoms/Optional';
 import { CommandRendererProps, CommandRendererState } from './types';
 import './styles.scss';
@@ -52,8 +52,7 @@ const CommandRenderer: FC<CommandRendererProps> = ({
       <Typist
         avgTypingDelay={keyFrequencyMs}
         onTypingDone={onTypingDone}
-        cursor={{ show: false }}
-      >
+        cursor={{ show: false }}>
         <Prompt>
           <Cursor>$&nbsp;</Cursor>
           <span id={promptInputId} className="terminal-prompt__input">

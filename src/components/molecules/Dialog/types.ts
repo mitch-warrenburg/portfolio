@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, MouseEventHandler } from "react";
+import { HTMLAttributes, ReactNode, MouseEventHandler } from 'react';
 
 export interface DialogProps extends HTMLAttributes<HTMLDivElement> {
   active?: boolean;

@@ -8,24 +8,24 @@ $duration: 2s;
 
 .hyperspeed-animation {
   position: fixed;
-  left: 0;
+  z-index: 4;
   right: 0;
   bottom: 0;
+  left: 0;
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
   margin: 0;
   background-color: transparent;
-  display: flex;
-  height: 100vh;
   line-height: 1.5;
-  overflow: hidden;
   perspective: 800px;
-  z-index: 4;
 
   &__particles {
-    animation: stretch-particles $duration cubic-bezier(.8,.1,.9,.25);
-    margin: auto;
-    will-change: transform;
     width: $spreadMax * 2;
     height: $spreadMax * 2;
+    margin: auto;
+    animation: stretch-particles $duration cubic-bezier(.8,.1,.9,.25);
+    will-change: transform;
   }
 
   &__particles, &__particle {
@@ -33,15 +33,15 @@ $duration: 2s;
   }
 
   &__particle {
-    animation: fade-in $duration linear;
-    background-image: radial-gradient(50% 75% at center, white, #88f, transparent);
-    border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
-    opacity: 0;
     width: 3px;
     height: $particleH;
+    animation: fade-in $duration linear;
+    background-image: radial-gradient(50% 75% at center, white, #88f, transparent);
+    border-radius: 50%;
+    opacity: 0;
     transform-origin: 50% 0;
 
     @for $i from 1 through $particles {
@@ -54,12 +54,15 @@ $duration: 2s;
   }
 
   @keyframes fade-in {
+
     from { opacity: 0 }
+
     25%, to { opacity: 1 }
   }
   @keyframes stretch-particles {
+
     from { transform: translateZ($startOffset - $length) }
+
     75%, to { transform: translateZ($length) }
   }
 }
-

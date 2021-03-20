@@ -7,29 +7,29 @@ import PageTemplate from '../../templates/PageTemplate';
 import AdminLoginForm from '../../organisms/AdminLoginForm';
 
 const Container = styled.div<PanelProps>`
-  top: 25%;
   position: fixed;
-  align-self: center;
-  justify-self: center;
+  top: 25%;
   display: flex;
-  flex-direction: column;
-  border-radius: 14px;
-  padding: 20px;
   min-width: 300px;
+  flex-direction: column;
+  align-self: center;
+  padding: 20px;
   background: ${({ theme }) => theme.colors.background.primary};
+  border-radius: 14px;
+  justify-self: center;
 `;
 
 const Header = styled.h2`
-  font-size: 20px;
-  text-align: center;
   width: 100%;
   margin-bottom: 50px;
+  font-size: 20px;
+  text-align: center;
 `;
 
 const HomeButtonWrapper = styled.div`
+  position: fixed;
   top: 32px;
   right: 32px;
-  position: fixed;
 `;
 
 const AdminLoginPage: FC = () => {

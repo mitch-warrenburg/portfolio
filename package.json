@@ -20,11 +20,6 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn tidy"
-    }
-  },
   "alias": {
     "components": "./src/components",
     "store": "./src/store",
@@ -51,6 +46,7 @@
     "localforage": "^1.9.0",
     "lodash": "^4.17.21",
     "parcel-bundler": "1.12.3",
+    "pretty-quick": "^3.1.0",
     "react": "0.13.x || 0.14.x || ^15.0.0-0 || 15.x.x || ^16.0.0-0 || ^16.x.x",
     "react-awesome-slider": "^4.1.0",
     "react-dom": "0.13.x || 0.14.x || ^15.0.0-0 || 15.x.x || ^16.0.0-0 || ^16.x.x",
@@ -65,6 +61,7 @@
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.3",
+    "remove": "^0.1.5",
     "socket.io-client": "^4.0.0",
     "styled-components": "^5.2.1",
     "tsparticles": "^1.19.4"
@@ -120,12 +117,12 @@
   "scripts": {
     "start": "yarn run clean && parcel src/index.html --port 3000",
     "build": "parcel build src/index.html --detailed-report --no-cache --out-dir build",
-    "clean": "rimraf .cache dist build",
-    "tidy": "run-s ts format lint && git add .",
+    "clean": "rimraf .cache dist build *.log",
+    "tidy": "run-s ts format && git add .",
     "ts": "tsc",
     "format": "run-p format:*",
     "format:code": "prettier --write 'src/**/*.{js,ts,jsx,tsx}'",
-    "format:scss": "stylelint **/*.{scss,tsx} --color --fix",
+    "format:scss": "stylelint --color --fix './src/**/*.{scss,ts,tsx}'",
     "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx}'"
   }
 }

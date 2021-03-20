@@ -4,24 +4,24 @@ import styled from 'styled-components';
 import { HomeButtonProps } from './types';
 
 const Button = styled.button<HomeButtonProps>`
-  border-radius: 50%;
-  pointer-events: all;
-  border: none;
-  outline: none;
-  cursor: pointer;
   display: flex;
-  align-items: center;
   width: 46px;
   height: 46px;
-  padding: 0;
+  align-items: center;
   justify-content: center;
-  transition: 250ms ease-in-out;
-  color: ${({ theme, color }) => color || theme.colors.font.inactive};
+  padding: 0;
+  border: none;
   background: ${({ theme, color }) => theme.colors.background.secondary};
+  border-radius: 50%;
+  color: ${({ theme, color }) => color || theme.colors.font.inactive};
+  cursor: pointer;
+  outline: none;
+  pointer-events: all;
+  transition: 250ms ease-in-out;
 
   &:hover {
-    transform: scale(1.1, 1.1);
     color: ${({ theme }) => theme.colors.font.primary};
+    transform: scale(1.1, 1.1);
   }
 `;
 

@@ -4,15 +4,15 @@ import styled from 'styled-components';
 
 const Header = styled.div<HeaderProps>`
   display: flex;
+  width: 100%;
+  height: 58px;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-  height: 58px;
-  width: 100%;
   padding: 0 30px;
-  white-space: nowrap;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
   pointer-events: initial;
-  border-bottom: 1px solid ${({theme}) => theme.colors.divider};
+  white-space: nowrap;
 
   @media screen and (max-width: 480px) {
     padding: 0 16px;

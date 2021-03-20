@@ -4,18 +4,18 @@ import styled from 'styled-components';
 
 const List = styled.ul<ListProps>`
   display: flex;
-  flex-direction: column;
+  overflow: auto;
   width: 100%;
   height: 100%;
+  max-height: none;
+  flex-direction: column;
   justify-content: flex-start;
   padding-left: 0;
+  border: 1px solid ${({ theme }) => theme.colors.border};
   margin: 0;
-  max-height: none;
-  overflow: auto;
+  background-color: ${({ theme }) => theme.colors.background.content};
   border-radius: 14px;
   pointer-events: initial;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background-color: ${({ theme }) => theme.colors.background.content};
 `;
 
 export default List;

@@ -11,36 +11,36 @@ import { setIsChatMinimized } from '../../../store/state/uiSlice';
 import './styles.scss';
 
 const Container = styled.div<CollapsibleElementProps>`
-  opacity: 1;
-  z-index: 1;
   position: fixed;
-  bottom: 0;
+  z-index: 1;
   right: 32px;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
   overflow: hidden;
-  transition: ease-in-out 300ms;
+  width: 100%;
   min-width: 240px;
-  max-height: ${({ open }) => (open ? 500 : 48)}px;
   max-width: ${({ open }) => (open ? 380 : 240)}px;
-  border-radius: ${({ open }) => (open ? 20 : 8)}px;
-  background: linear-gradient(130deg, rgba(59, 240, 131, 1) 20%, rgba(146, 151, 179, 1) 80%);
+  height: 100%;
+  max-height: ${({ open }) => (open ? 500 : 48)}px;
   animation: ${fadeIn} ease-in 300ms;
+  background: linear-gradient(130deg, rgba(59, 240, 131, 1) 20%, rgba(146, 151, 179, 1) 80%);
+  border-radius: ${({ open }) => (open ? 20 : 8)}px;
+  opacity: 1;
+  transition: ease-in-out 300ms;
 `;
 
 const Content = styled.div<CollapsibleElementProps>`
   position: relative;
+  z-index: 2;
+  display: flex;
+  overflow: hidden;
   width: 100%;
   height: 100%;
-  z-index: 2;
-  overflow: hidden;
-  background: rgba(36, 39, 59, 0.85);
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: ease-in-out 300ms;
   border: 1px solid rgba(249, 250, 251, 0.3);
+  background: rgba(36, 39, 59, 0.85);
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
+  transition: ease-in-out 300ms;
 `;
 
 const ChatMessengerWidget: FC = () => {
