@@ -61,7 +61,7 @@ const MessageContainer = styled.div<ChatMessageProps>`
   position: relative;
   padding: 6px 10px 7px;
   margin: 8px 0 8px 40px;
-  animation: ${bounce} 650ms linear both;
+  animation: ${bounce} 500ms linear both;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 10px 10px 10px 0;
   clear: both;
@@ -91,7 +91,6 @@ const ChatMessage: FC<ChatMessageProps> = ({ isAdmin, content, isCurrentUser, ..
       <Optional renderIf={!isCurrentUser}>
         <ChatAvatar image={isAdmin ? anonymousAvatar : adminAvatar} />
       </Optional>
-
       <span>{content}</span>
     </MessageContainer>
   );
