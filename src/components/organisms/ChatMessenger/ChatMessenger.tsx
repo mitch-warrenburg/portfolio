@@ -12,17 +12,16 @@ import Icon from '../../atoms/Icon';
 import Loader from '../../atoms/Loader';
 import Avatar from '../../atoms/Avatar';
 import FlexBox from '../../atoms/FlexBox';
+import { useSelector } from 'react-redux';
 import Optional from '../../atoms/Optional';
 import { useTypingEvents } from '../../../hooks';
-import { sendMessage } from '../../../ws/socket';
 import ChatMessage from '../../atoms/ChatMessage';
 import styled, { useTheme } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
 import { State, ChatState } from '../../../store/types';
+import socket, { sendMessage } from '../../../ws/socket';
 import StatusIndicator from '../../atoms/StatusIndicator';
 import { CollapsibleElementProps, ChatMessengerProps } from './types';
 import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
-import { disconnectFromChatServer } from '../../../store/state/chatSlice';
 
 const HeaderContainer = styled.div<CollapsibleElementProps>`
   position: relative;
@@ -188,7 +187,6 @@ const LoadingOverlay = styled.div`
 
 const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized }) => {
   const theme = useTheme();
-  const dispatch = useDispatch();
   const [draft, setDraft] = useState('');
   const messageScrollPaneRef = useRef<HTMLDivElement>(null);
   const { current: scrollPane } = messageScrollPaneRef;
@@ -204,6 +202,11 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
     users,
     currentChatUserId,
   ]);
+
+  const textareaPlaceholder = useMemo(
+    () => (isConnecting ? 'Not connected.  Please wait...' : 'Write a message...'),
+    [isConnecting]
+  );
 
   const {
     typing,
@@ -243,12 +246,6 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
   useEffect(() => {
     autoScrollMessages();
   }, [messages, autoScrollMessages, isChatMinimized]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(disconnectFromChatServer({}));
-    };
-  }, []);
 
   useEffect(() => {
     if (!isConnecting) {
@@ -292,11 +289,12 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
                 {messages.map(({ content, from, to }, index) => (
                   <ChatMessage
                     key={`${chatUserId}-${index}}`}
+                    isAdmin={isAdmin}
                     content={content}
                     isCurrentUser={from === userId}
                   />
                 ))}
-                <ChatMessage typing hidden={!typing} />
+                <ChatMessage typing isAdmin={isAdmin} hidden={!typing} />
               </MessageScrollContent>
             </MessageScrollPane>
           </Optional>
@@ -308,10 +306,10 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
             id="chat-textarea"
             autoFocus
             value={draft}
-            disabled={isConnecting}
             onChange={draftChangeHandler}
             onKeyDown={textAreaKeyDownHandler}
-            placeholder="Write a message..."
+            placeholder={textareaPlaceholder}
+            disabled={isConnecting}
           />
           <button
             type="submit"

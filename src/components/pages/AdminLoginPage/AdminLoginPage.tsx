@@ -1,7 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { PanelProps } from '../../atoms/Panel';
-import { HomeButton } from '../../atoms/HomeButton';
+import { RoundIconButton } from '../../atoms/RoundIconButton';
 import styled, { useTheme } from 'styled-components';
 import PageTemplate from '../../templates/PageTemplate';
 import AdminLoginForm from '../../organisms/AdminLoginForm';
@@ -40,7 +40,8 @@ const AdminLoginPage: FC = () => {
   return (
     <PageTemplate>
       <HomeButtonWrapper>
-        <HomeButton
+        <RoundIconButton
+          icon="home"
           onClick={homeButtonClickHandler}
           color={theme.colors.font.transparentButton}
         />

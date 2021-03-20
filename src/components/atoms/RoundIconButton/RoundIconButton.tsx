@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
 import Icon from '../Icon';
 import styled from 'styled-components';
-import { HomeButtonProps } from './types';
+import { RoundIconButtonProps } from './types';
 
-const Button = styled.button<HomeButtonProps>`
+const Button = styled.button<Partial<RoundIconButtonProps>>`
   display: flex;
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
   align-items: center;
   justify-content: center;
   padding: 0;
   border: none;
-  background: ${({ theme, color }) => theme.colors.background.secondary};
+  background: ${({ theme }) => theme.colors.background.secondary};
   border-radius: 50%;
   color: ${({ theme, color }) => color || theme.colors.font.inactive};
   cursor: pointer;
@@ -19,18 +19,26 @@ const Button = styled.button<HomeButtonProps>`
   pointer-events: all;
   transition: 250ms ease-in-out;
 
+  svg {
+    font-size: 22px;
+  }
+
   &:hover {
     color: ${({ theme }) => theme.colors.font.primary};
     transform: scale(1.1, 1.1);
   }
 `;
 
-const HomeButton: FC<HomeButtonProps> = props => {
+const RoundIconButton: FC<RoundIconButtonProps> = ({ icon, prefix, ...props }) => {
   return (
-    <Button type="button" {...props}>
-      <Icon icon="home" size="2x" />
+    <Button {...props} type="button">
+      <Icon icon={icon} prefix={prefix} />
     </Button>
   );
 };
 
-export default HomeButton;
+RoundIconButton.defaultProps = {
+  prefix: 'fas',
+};
+
+export default RoundIconButton;

@@ -15,7 +15,7 @@ import FormField from '../../molecules/FormField';
 import FormButton from '../../molecules/FormButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, UserState } from '../../../store/types';
-import { adminLogin } from '../../../store/state/userSlice';
+import { adminAuth } from '../../../store/state/userSlice';
 
 const Form = styled.form`
   display: flex;
@@ -67,7 +67,7 @@ const AdminLoginForm: FC = () => {
   );
 
   const formSubmissionHandler = useCallback(() => {
-    dispatch(adminLogin({ username, password }));
+    dispatch(adminAuth({ username, password }));
   }, [username, password]);
 
   const fieldKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(

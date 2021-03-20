@@ -2,7 +2,7 @@ import socket from '../../ws';
 import client from '../../http/client';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { adminAuthFailure } from '../state/userSlice';
-import { TOKEN_AUTH_ERROR_MSG } from '../../globalConstants';
+import { TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME } from '../../globalConstants';
 import { takeEvery, select, put, delay, call } from 'redux-saga/effects';
 import {
   addUser,
@@ -10,6 +10,7 @@ import {
   setChatError,
   chatAuthFailure,
   setUserConnected,
+  fetchSendToUserId,
   fetchSendToUserIdFailure,
   fetchSendToUserIdSuccess,
 } from '../state/chatSlice';
@@ -37,10 +38,6 @@ export function* disconnectFromChatServerWatcher() {
   yield takeEvery('chat/disconnectFromChatServer', disconnectFromChatServerHandler);
 }
 
-export function* reconnectToChatServerWatcher() {
-  yield takeEvery('chat/reconnectToChatServer', reconnectToChatServerHandler);
-}
-
 export function* fetchSendToUserIdWatcher() {
   yield takeEvery('chat/fetchSendToUserId', fetchSendToUserIdHandler);
 }
@@ -52,11 +49,12 @@ export function* websocketErrorWatcher() {
 export function* websocketErrorHandler({ payload: error }: PayloadAction<Error>) {
   yield console.error(error?.message);
 
-  if (error?.message === TOKEN_AUTH_ERROR_MSG) {
+  if ([TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME].includes(error?.message)) {
     yield socket.disconnect();
     yield put(setChatError(error.message));
     yield put(chatAuthFailure({}));
     yield put(adminAuthFailure(error.message));
+    yield put(fetchSendToUserId({}));
   }
 }
 
@@ -78,11 +76,6 @@ export function* disconnectFromChatServerHandler() {
 
 export function* connectToChatServerHandler() {
   yield delay(1500);
-  yield socket.connect();
-}
-
-export function* reconnectToChatServerHandler() {
-  yield socket.disconnect();
   yield socket.connect();
 }
 
@@ -119,6 +112,6 @@ export function* userConnectedEventHandler({
   }
 }
 
-export function chatState() {
+export const chatState = () => {
   return select(({ chat }) => chat as ChatState);
-}
+};

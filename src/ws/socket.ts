@@ -11,6 +11,7 @@ import {
   PRIVATE_MESSAGE,
   USER_DISCONNECTED,
   TOKEN_AUTH_ERROR_MSG,
+  INVALID_USERNAME,
 } from '../globalConstants';
 import {
   websocketError,
@@ -21,6 +22,7 @@ import {
   chatUserTypingEvent,
   privateMessageEvent,
   userDisconnectedEvent,
+  connectToChatServer,
 } from '../store/state/chatSlice';
 import {
   TypingEvent,
@@ -39,11 +41,9 @@ const socket = io(SOCKET_SERVER_URL, {
   transports: ['websocket'],
   auth: cb => {
     const {
-      user: { username },
-      chat: { userId, sessionId, token },
+      user: { username, token },
+      chat: { userId, sessionId },
     } = store.getState();
-
-    console.log('connecting...');
 
     cb({ userId, sessionId, username, token });
   },
@@ -86,12 +86,17 @@ socket.on<typeof TYPING_STATUS>(TYPING_STATUS, (event: TypingEvent) => {
 });
 
 socket.on('disconnect', () => {
-  const {
-    chat: { error },
-  } = store.getState();
-  if (error !== TOKEN_AUTH_ERROR_MSG) {
-    socket.connect();
-  }
+  setTimeout(() => {
+    const {
+      chat: { error = '', sessionId },
+    } = store.getState();
+    if (
+      !([TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME] as Array<String>).includes(error) &&
+      sessionId
+    ) {
+      dispatch(connectToChatServer({}));
+    }
+  }, 1000);
 });
 
 export const sendMessage = (content: string) => {

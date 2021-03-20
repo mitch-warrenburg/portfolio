@@ -1,26 +1,25 @@
-import { adminLoginWatcher } from './userSagas';
 import { rehydrateStateWatcher } from './globalSagas';
 import { all, call, spawn } from 'redux-saga/effects';
+import { adminAuthWatcher, adminLogoutWatcher } from './userSagas';
 import {
   websocketErrorWatcher,
   userSessionsEventWatcher,
   fetchSendToUserIdWatcher,
   userConnectedEventWatcher,
   connectToChatServerWatcher,
-  reconnectToChatServerWatcher,
   disconnectFromChatServerWatcher,
 } from './chatSagas';
 
 export default function* rootSaga() {
   const sagas = [
-    adminLoginWatcher,
+    adminAuthWatcher,
+    adminLogoutWatcher,
     websocketErrorWatcher,
     rehydrateStateWatcher,
     userSessionsEventWatcher,
     fetchSendToUserIdWatcher,
     userConnectedEventWatcher,
     connectToChatServerWatcher,
-    reconnectToChatServerWatcher,
     disconnectFromChatServerWatcher,
   ];
 

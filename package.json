@@ -22,7 +22,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run tidy"
+      "pre-commit": "yarn run tidy"
     }
   },
   "dependencies": {
@@ -118,6 +118,7 @@
   },
   "scripts": {
     "start": "yarn run clean && parcel src/index.html --port 3000",
+    "start:debug": "NODE_ENV=debug yarn start",
     "build": "parcel build src/index.html --detailed-report --no-cache --out-dir build",
     "clean": "rimraf .parcel-cache dist build *.log",
     "tidy": "run-s ts format && git add .",

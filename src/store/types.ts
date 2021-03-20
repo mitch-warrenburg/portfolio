@@ -19,7 +19,6 @@ export interface UiState {
 
 export interface ChatState {
   users: ChatUsers;
-  token?: string;
   currentChatUserId?: string;
   userId?: string;
   sessionId?: string;
@@ -31,6 +30,7 @@ export interface ChatState {
 }
 
 export interface UserState {
+  token?: string;
   email?: string;
   company?: string;
   username?: string;
@@ -38,8 +38,8 @@ export interface UserState {
   lastName?: string;
   phoneNumber?: string;
   error?: string;
-  isLoading: boolean;
   isAdmin: boolean;
+  isLoading: boolean;
 }
 
 export type ChatUsers = {
@@ -84,12 +84,12 @@ export interface SubmitChatFormPayload {
   lastName: string;
 }
 
-export interface AdminLoginPayload {
+export interface AdminAuthPayload {
   username: string;
   password: string;
 }
 
-export interface AdminLoginResponse {
+export interface AdminAuthResponse {
   token: string;
   userId: string;
   username: string;

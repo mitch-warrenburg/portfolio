@@ -1,14 +1,15 @@
-import { UserState, SubmitChatFormPayload } from '../types';
+import { UserState, SubmitChatFormPayload, AdminAuthResponse } from '../types';
 import { createSlice, SliceCaseReducers, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: UserState = {
   company: '',
   lastName: '',
   firstName: '',
+  token: undefined,
+  error: undefined,
   email: undefined,
   username: undefined,
   phoneNumber: undefined,
-  error: undefined,
   isAdmin: false,
   isLoading: false,
 };
@@ -36,30 +37,43 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
       state.isLoading = false;
       state.error = undefined;
     },
-    adminLogin: state => {
+    adminAuth: state => {
       state.isLoading = true;
     },
-    adminAuthSuccess: (state, { payload }: PayloadAction<string>) => {
+    adminAuthSuccess: (state, { payload }: PayloadAction<AdminAuthResponse>) => {
       state.isAdmin = true;
       state.isLoading = false;
       state.error = undefined;
-      state.username = payload;
+      state.token = payload.token;
+      state.username = payload.username;
     },
     adminAuthFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
       state.isAdmin = false;
       state.isLoading = false;
+      state.token = undefined;
     },
+    adminLogout: state => {
+      state.isLoading = true;
+    },
+    adminLogoutFailure: (state, { payload }: PayloadAction<string>) => {
+      state.error = payload;
+      state.isLoading = false;
+    },
+    resetUser: () => initialState,
   },
 });
 
 export const userReducer = userSlice.reducer;
 export const {
-  adminLogin,
+  resetUser,
+  adminAuth,
   submitEmail,
+  adminLogout,
   submitChatForm,
   adminAuthSuccess,
   adminAuthFailure,
+  adminLogoutFailure,
   submitEmailSuccess,
   clearUserLoadState,
   submitEmailFailure,

@@ -1,23 +1,59 @@
 import { client } from '../../http';
+import { setIsChatOpen } from '../state/uiSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { takeEvery, call, put, delay } from 'redux-saga/effects';
-import { AdminLoginPayload, AdminLoginResponse } from '../types';
-import { adminAuthFailure, adminAuthSuccess } from '../state/userSlice';
-import { addAdminAuthSuccessDetails, connectToChatServer } from '../state/chatSlice';
+import { takeEvery, call, put, delay, select } from 'redux-saga/effects';
+import { AdminAuthPayload, AdminAuthResponse, UserState } from '../types';
+import {
+  resetUser,
+  adminAuthFailure,
+  adminAuthSuccess,
+  adminLogoutFailure,
+} from '../state/userSlice';
+import {
+  resetChat,
+  connectToChatServer,
+  disconnectFromChatServer,
+  addAdminAuthSuccessDetails,
+} from '../state/chatSlice';
 
-export function* adminLoginWatcher() {
-  yield takeEvery('user/adminLogin', adminLoginHandler);
+export function* adminAuthWatcher() {
+  yield takeEvery('user/adminAuth', adminAuthHandler);
 }
 
-export function* adminLoginHandler({ payload: auth }: PayloadAction<AdminLoginPayload>) {
+export function* adminLogoutWatcher() {
+  yield takeEvery('user/adminLogout', adminLogoutHandler);
+}
+
+export function* adminLogoutHandler() {
+  try {
+    const { token } = yield chatState();
+
+    yield call(client.post, '/admin/logout', {
+      headers: { Authorization: `bearer ${token}` },
+    });
+
+    yield put(disconnectFromChatServer({}));
+    yield put(resetUser({}));
+    yield put(resetChat({}));
+    yield put(setIsChatOpen(false));
+    // yield window.location.replace('/');
+  } catch (e) {
+    yield put(adminLogoutFailure({}));
+  }
+}
+
+export function* adminAuthHandler({ payload: auth }: PayloadAction<AdminAuthPayload>) {
   try {
     yield delay(1000);
-    const response: AdminLoginResponse = yield call(client.post, '/admin/auth', { auth });
-    yield (client.instance.defaults.auth = auth);
+    const response: AdminAuthResponse = yield call(client.post, '/admin/auth', { auth });
     yield put(addAdminAuthSuccessDetails(response));
-    yield put(adminAuthSuccess(response.username));
+    yield put(adminAuthSuccess(response));
     yield put(connectToChatServer({}));
   } catch (e) {
     yield put(adminAuthFailure(e.message));
   }
 }
+
+export const chatState = () => {
+  return select(({ user }) => user as UserState);
+};
