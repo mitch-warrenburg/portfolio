@@ -1,4 +1,4 @@
-import React, { FC, useCallback, MouseEventHandler } from 'react';
+import React, { FC, useCallback, MouseEventHandler, useEffect } from 'react';
 import List from '../../atoms/List';
 import Panel from '../../atoms/Panel';
 import styled from 'styled-components';
@@ -12,6 +12,7 @@ import PageTemplate from '../../templates/PageTemplate';
 import StatusIndicator from '../../atoms/StatusIndicator';
 import ChatMessenger from '../../organisms/ChatMessenger';
 import { setCurrentChatUserId } from '../../../store/state/chatSlice';
+import { TOKEN_AUTH_ERROR_MSG } from '../../../globalConstants';
 
 const HeaderContent = styled.div`
   display: flex;
@@ -87,15 +88,29 @@ const ChatContainer = styled.div`
 `;
 
 const AdminPage: FC = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
-  const { users, currentChatUserId } = useSelector<State, ChatState>(({ chat }) => chat);
+  const dispatch = useDispatch();
+  const { users, error, currentChatUserId } = useSelector<State, ChatState>(
+    ({ chat }) => chat
+  );
   const userList = Object.values(users);
 
   const userRowClickHandler: MouseEventHandler<HTMLLIElement> = useCallback(({ target }) => {
     const { id } = target as HTMLLIElement;
     dispatch(setCurrentChatUserId(id));
   }, []);
+
+  useEffect(() => {
+    if (!currentChatUserId && userList.length) {
+      dispatch(setCurrentChatUserId(userList[0].userId));
+    }
+  }, [users, currentChatUserId]);
+
+  useEffect(() => {
+    if (error === TOKEN_AUTH_ERROR_MSG) {
+      history.push('/home');
+    }
+  }, [error]);
 
   const homeButtonClickHandler = useCallback(() => history.push('/home'), []);
 

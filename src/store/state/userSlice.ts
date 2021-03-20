@@ -39,15 +39,16 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
     adminLogin: state => {
       state.isLoading = true;
     },
-    adminLoginSuccess: (state, { payload }: PayloadAction<string>) => {
+    adminAuthSuccess: (state, { payload }: PayloadAction<string>) => {
       state.isAdmin = true;
       state.isLoading = false;
       state.error = undefined;
       state.username = payload;
     },
-    adminLoginFailure: (state, { payload }: PayloadAction<string>) => {
-      state.isLoading = false;
+    adminAuthFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
+      state.isAdmin = false;
+      state.isLoading = false;
     },
   },
 });
@@ -57,8 +58,8 @@ export const {
   adminLogin,
   submitEmail,
   submitChatForm,
-  adminLoginSuccess,
-  adminLoginFailure,
+  adminAuthSuccess,
+  adminAuthFailure,
   submitEmailSuccess,
   clearUserLoadState,
   submitEmailFailure,

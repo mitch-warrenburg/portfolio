@@ -15,7 +15,8 @@ const initialState: ChatState = {
   sessionId: undefined,
   email: undefined,
   phoneNumber: undefined,
-  currentChatUserId: 'mw4',
+  token: undefined,
+  currentChatUserId: undefined,
   error: undefined,
   isConnecting: false,
   isLoading: false,
@@ -26,6 +27,7 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
   name: 'chat',
   initialState: initialState,
   reducers: {
+    websocketError: identity,
     userSessionsEvent: identity,
     userConnectedEvent: identity,
     userDisconnectedEvent: (state, { payload }: PayloadAction<UserDisconnectedEvent>) => {
@@ -54,15 +56,18 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     disconnectFromChatServer: state => {
       state.isConnecting = false;
     },
+    reconnectToChatServer: state => {
+      state.isConnecting = true;
+    },
     clearChatConnectionState: state => {
       state.error = undefined;
       state.isLoading = false;
       state.isConnecting = false;
     },
-    setError: (state, { payload }: PayloadAction<string>) => {
+    setChatError: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
     },
-    addMessage: (state, { payload }: PayloadAction<ChatMessage>) => {
+    addChatMessage: (state, { payload }: PayloadAction<ChatMessage>) => {
       state.users[payload.to].messages.push(payload);
     },
     setUsers: (state, { payload }: PayloadAction<ChatUsers>) => {
@@ -77,7 +82,8 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     setCurrentChatUserId: (state, { payload }: PayloadAction<string>) => {
       state.currentChatUserId = payload;
     },
-    addAdminLoginSuccessDetails: (state, { payload }: PayloadAction<AdminLoginResponse>) => {
+    addAdminAuthSuccessDetails: (state, { payload }: PayloadAction<AdminLoginResponse>) => {
+      state.token = payload.token;
       state.userId = payload.userId;
       state.sessionId = payload.sessionId;
       state.currentChatUserId = undefined;
@@ -94,6 +100,10 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
       state.error = undefined;
       state.currentChatUserId = payload;
     },
+    chatAuthFailure: state => {
+      state.token = undefined;
+      state.isConnecting = false;
+    },
   },
 });
 
@@ -101,10 +111,12 @@ export const chatReducer = chatSlice.reducer;
 export const {
   addUser,
   setUsers,
-  setError,
-  addMessage,
+  setChatError,
+  websocketError,
+  addChatMessage,
   sentMessageAck,
   newSessionEvent,
+  chatAuthFailure,
   setUserConnected,
   fetchSendToUserId,
   userSessionsEvent,
@@ -113,9 +125,10 @@ export const {
   privateMessageEvent,
   setCurrentChatUserId,
   userDisconnectedEvent,
+  reconnectToChatServer,
   fetchSendToUserIdSuccess,
   fetchSendToUserIdFailure,
   disconnectFromChatServer,
   clearChatConnectionState,
-  addAdminLoginSuccessDetails,
+  addAdminAuthSuccessDetails,
 } = chatSlice.actions;

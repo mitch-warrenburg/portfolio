@@ -11,12 +11,12 @@ import styled from 'styled-components';
 import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
 import FormField from '../../molecules/FormField';
+import FormButton from '../../molecules/FormButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsChatOpen } from '../../../store/state/uiSlice';
 import { submitChatForm } from '../../../store/state/userSlice';
 import { State, ChatState, UserState } from '../../../store/types';
 import { connectToChatServer, disconnectFromChatServer } from '../../../store/state/chatSlice';
-import FormButton from '../../molecules/FormButton';
 
 const Container = styled.div`
   display: flex;

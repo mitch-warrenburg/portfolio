@@ -85,6 +85,7 @@ const AdminLoginForm: FC = () => {
     <FlexBox justify="flex-start" direction="column">
       <Form>
         <FormField
+          autoFocus
           type="text"
           name="username"
           label="Username"

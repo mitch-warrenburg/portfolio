@@ -1,10 +1,14 @@
 import socket from '../../ws';
 import client from '../../http/client';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { adminAuthFailure } from '../state/userSlice';
+import { TOKEN_AUTH_ERROR_MSG } from '../../globalConstants';
 import { takeEvery, select, put, delay, call } from 'redux-saga/effects';
 import {
   addUser,
   setUsers,
+  setChatError,
+  chatAuthFailure,
   setUserConnected,
   fetchSendToUserIdFailure,
   fetchSendToUserIdSuccess,
@@ -33,8 +37,29 @@ export function* disconnectFromChatServerWatcher() {
   yield takeEvery('chat/disconnectFromChatServer', disconnectFromChatServerHandler);
 }
 
+export function* reconnectToChatServerWatcher() {
+  yield takeEvery('chat/reconnectToChatServer', reconnectToChatServerHandler);
+}
+
 export function* fetchSendToUserIdWatcher() {
   yield takeEvery('chat/fetchSendToUserId', fetchSendToUserIdHandler);
+}
+
+export function* websocketErrorWatcher() {
+  yield takeEvery('chat/websocketError', websocketErrorHandler);
+}
+
+export function* websocketErrorHandler({ payload: error }: PayloadAction<Error>) {
+  yield console.error(error?.message);
+
+
+  if (error?.message === TOKEN_AUTH_ERROR_MSG) {
+    yield socket.disconnect();
+    yield put(setChatError(error.message));
+    yield put(chatAuthFailure({}));
+    yield put(adminAuthFailure(error.message));
+    // yield window.location.replace('/');
+  }
 }
 
 export function* fetchSendToUserIdHandler() {
@@ -55,6 +80,11 @@ export function* disconnectFromChatServerHandler() {
 
 export function* connectToChatServerHandler() {
   yield delay(1500);
+  yield socket.connect();
+}
+
+export function* reconnectToChatServerHandler() {
+  yield socket.disconnect();
   yield socket.connect();
 }
 

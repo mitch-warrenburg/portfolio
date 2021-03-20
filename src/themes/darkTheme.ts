@@ -28,7 +28,7 @@ const darkTheme: DefaultTheme = {
       containerDarkest: '',
       containerLight: '',
       containerMedium: '',
-      primary: 'rgba(16, 18, 27, 0.9)',
+      primary: 'rgba(16, 18, 27, 0.8)',
       secondary: 'rgba(36, 39, 59, 1)',
       modal: '#161925',
       dropdown: '#21242d',

@@ -8,9 +8,10 @@ import {
   USER_CONNECTED,
   PRIVATE_MESSAGE,
   USER_DISCONNECTED,
+  MESSAGE_ERROR,
 } from '../hooks/constants';
 import {
-  setError,
+  websocketError,
   sentMessageAck,
   newSessionEvent,
   userSessionsEvent,
@@ -25,9 +26,10 @@ import {
   UserConnectedEvent,
   UserDisconnectedEvent,
 } from '../store/types';
+import { TOKEN_AUTH_ERROR_MSG } from '../globalConstants';
 
-const SOCKET_SERVER_URL = 'ws://localhost:9000';
 const { dispatch } = store;
+const SOCKET_SERVER_URL = 'ws://localhost:9000';
 
 const socket = io(SOCKET_SERVER_URL, {
   autoConnect: false,
@@ -35,9 +37,12 @@ const socket = io(SOCKET_SERVER_URL, {
   auth: cb => {
     const {
       user: { username },
-      chat: { userId, sessionId },
+      chat: { userId, sessionId, token },
     } = store.getState();
-    cb({ userId, sessionId, username });
+
+    console.log('connecting...');
+
+    cb({ userId, sessionId, username, token });
   },
 });
 
@@ -45,9 +50,12 @@ if (IS_DEBUG) {
   socket.onAny((event, ...args) => console.log(event, args));
 }
 
+socket.on(MESSAGE_ERROR, (error: Error) => {
+  error && dispatch(websocketError(error));
+});
+
 socket.on(CONNECT_ERROR, (error: Error) => {
-  console.error(error);
-  dispatch(setError(error.message));
+  dispatch(websocketError(error));
 });
 
 socket.on<typeof NEW_SESSION>(NEW_SESSION, (event: NewSessionEvent) => {
@@ -71,7 +79,12 @@ socket.on<typeof USER_DISCONNECTED>(USER_DISCONNECTED, (event: UserDisconnectedE
 });
 
 socket.on('disconnect', () => {
-  socket.connect();
+  const {
+    chat: { error },
+  } = store.getState();
+  if (error !== TOKEN_AUTH_ERROR_MSG) {
+    socket.connect();
+  }
 });
 
 export const sendMessage = (content: string) => {

@@ -19,6 +19,7 @@ export interface UiState {
 
 export interface ChatState {
   users: ChatUsers;
+  token?: string;
   currentChatUserId?: string;
   userId?: string;
   sessionId?: string;
@@ -96,6 +97,7 @@ export interface AdminLoginPayload {
 }
 
 export interface AdminLoginResponse {
+  token: string;
   userId: string;
   username: string;
   password: string;
