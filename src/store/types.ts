@@ -34,8 +34,6 @@ export interface UserState {
   email?: string;
   company?: string;
   username?: string;
-  firstName?: string;
-  lastName?: string;
   phoneNumber?: string;
   error?: string;
   isAdmin: boolean;
@@ -80,8 +78,6 @@ export interface UserDisconnectedEvent {
 export interface SubmitChatFormPayload {
   company: string;
   username: string;
-  firstName: string;
-  lastName: string;
 }
 
 export interface AdminAuthPayload {
@@ -105,6 +101,14 @@ export interface TypingEvent {
   to: string;
   from: string;
   typing: boolean;
+}
+
+export interface SendEmailRequest {
+  name: string;
+  address: string;
+  company: string;
+  content: string;
+  phoneNumber?: string;
 }
 
 export type ChatEventType =

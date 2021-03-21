@@ -2,11 +2,13 @@ import { client } from '../../http';
 import { setIsChatOpen } from '../state/uiSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { takeEvery, call, put, delay, select } from 'redux-saga/effects';
-import { AdminAuthPayload, AdminAuthResponse, UserState } from '../types';
+import { AdminAuthPayload, AdminAuthResponse, UserState, SendEmailRequest } from '../types';
 import {
   resetUser,
   adminAuthFailure,
   adminAuthSuccess,
+  sendEmailSuccess,
+  sendEmailFailure,
   adminLogoutFailure,
 } from '../state/userSlice';
 import {
@@ -24,6 +26,29 @@ export function* adminLogoutWatcher() {
   yield takeEvery('user/adminLogout', adminLogoutHandler);
 }
 
+export function* sendEmailWatcher() {
+  yield takeEvery('user/sendEmail', sendEmailHandler);
+}
+
+export function* sendEmailHandler({ payload: email }: PayloadAction<SendEmailRequest>) {
+  try {
+    yield call(client.options, 'http://localhost:8080/api/v1/email/send', {
+      withCredentials: true,
+    });
+    yield call(
+      client.post,
+      'http://localhost:8080/api/v1/email/send',
+      {
+        withCredentials: true,
+      },
+      email
+    );
+    yield put(sendEmailSuccess(email));
+  } catch (e) {
+    yield put(sendEmailFailure(e.message));
+  }
+}
+
 export function* adminLogoutHandler() {
   try {
     const { token } = yield chatState();
@@ -36,7 +61,6 @@ export function* adminLogoutHandler() {
     yield put(resetUser({}));
     yield put(resetChat({}));
     yield put(setIsChatOpen(false));
-    // yield window.location.replace('/');
   } catch (e) {
     yield put(adminLogoutFailure({}));
   }

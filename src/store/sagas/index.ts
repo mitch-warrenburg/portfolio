@@ -1,6 +1,6 @@
 import { rehydrateStateWatcher } from './globalSagas';
 import { all, call, spawn } from 'redux-saga/effects';
-import { adminAuthWatcher, adminLogoutWatcher } from './userSagas';
+import { adminAuthWatcher, adminLogoutWatcher, sendEmailWatcher } from './userSagas';
 import {
   websocketErrorWatcher,
   userSessionsEventWatcher,
@@ -12,6 +12,7 @@ import {
 
 export default function* rootSaga() {
   const sagas = [
+    sendEmailWatcher,
     adminAuthWatcher,
     adminLogoutWatcher,
     websocketErrorWatcher,

@@ -1,10 +1,12 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { API_SERVER_URL } from '../store/config';
+import { HTTP_SERVER_URL } from '../store/config';
 import { AnyObject, HttpRequestFunction } from './types';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const client: AxiosInstance = axios.create({
   responseType: 'json',
-  baseURL: API_SERVER_URL,
+  baseURL: HTTP_SERVER_URL,
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
 });
 
 const withErrorHandling = async <R>(
@@ -30,6 +32,9 @@ export default {
   },
   post: async <R>(path: string, config?: AxiosRequestConfig, body?: AnyObject): Promise<R> => {
     return withErrorHandling(client.post, path, body, config);
+  },
+  options: async <R>(path: string, config?: AxiosRequestConfig): Promise<R> => {
+    return withErrorHandling(client.options, path, config);
   },
   instance: client,
 };

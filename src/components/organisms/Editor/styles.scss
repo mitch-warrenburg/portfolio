@@ -75,10 +75,6 @@
     color: rgb(176, 183, 210);
     font-family: "Poppins", sans-serif;
     font-size: 12px;
-
-    &::placeholder {
-      color: rgb(130, 136, 153);
-    }
   }
 
   button {
@@ -129,13 +125,36 @@
     font-size: 12px;
   }
 
+  .public-DraftEditorPlaceholder-inner {
+    color: rgba(113, 119, 144, 0.8);
+  }
+
+  &.hide-placeholder {
+
+    .public-DraftEditorPlaceholder-inner {
+      display: none;
+      color: transparent !important;
+    }
+  }
+
   &__textarea {
     min-height: 200px;
-    padding: 0 8px;
+    max-height: 400px;
+    padding: 8px;
     border: 1px solid rgba(113, 119, 144, 0.25);
     background: rgba(113, 119, 144, 0.1);
     border-radius: 4px;
-    color: white;
+    color: white !important;
     cursor: text;
+    scroll-behavior: smooth;
+  }
+
+  & ~ button {
+    align-self: flex-end;
+    margin-top: 50px;
+  }
+
+  & .DraftEditor-root {
+    margin-top: -16px;
   }
 }

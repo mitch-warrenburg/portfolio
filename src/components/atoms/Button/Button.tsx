@@ -6,6 +6,7 @@ const Button = styled.button<ButtonProps>`
   display: flex;
   overflow: hidden;
   min-width: 100px;
+  max-width: 140px;
   min-height: 30px;
   align-items: center;
   justify-content: center;

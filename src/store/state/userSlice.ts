@@ -1,10 +1,13 @@
-import { UserState, SubmitChatFormPayload, AdminAuthResponse } from '../types';
+import {
+  UserState,
+  SubmitChatFormPayload,
+  AdminAuthResponse,
+  SendEmailRequest,
+} from '../types';
 import { createSlice, SliceCaseReducers, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: UserState = {
   company: '',
-  lastName: '',
-  firstName: '',
   token: undefined,
   error: undefined,
   email: undefined,
@@ -21,16 +24,20 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
     submitChatForm: (state, { payload }: PayloadAction<SubmitChatFormPayload>) => {
       state.company = payload.company;
       state.username = payload.username;
-      state.lastName = payload.lastName;
-      state.firstName = payload.firstName;
     },
-    submitEmail: state => {
+    sendEmail: state => {
       state.isLoading = true;
     },
-    submitEmailSuccess: state => {
+    sendEmailSuccess: (state, { payload }: PayloadAction<SendEmailRequest>) => {
       state.isLoading = false;
+      state.error = undefined;
+      state.email = payload.address;
+      state.username = payload.name;
+      state.company = payload.company;
+      state.phoneNumber = payload.phoneNumber;
     },
-    submitEmailFailure: state => {
+    sendEmailFailure: (state, { payload }: PayloadAction<string>) => {
+      state.error = payload;
       state.isLoading = false;
     },
     clearUserLoadState: state => {
@@ -41,11 +48,13 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
       state.isLoading = true;
     },
     adminAuthSuccess: (state, { payload }: PayloadAction<AdminAuthResponse>) => {
-      state.isAdmin = true;
-      state.isLoading = false;
-      state.error = undefined;
-      state.token = payload.token;
-      state.username = payload.username;
+      const { token, username } = payload;
+      return {
+        ...initialState,
+        token,
+        username,
+        isAdmin: true,
+      };
     },
     adminAuthFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
@@ -68,13 +77,13 @@ export const userReducer = userSlice.reducer;
 export const {
   resetUser,
   adminAuth,
-  submitEmail,
+  sendEmail,
   adminLogout,
   submitChatForm,
   adminAuthSuccess,
   adminAuthFailure,
+  sendEmailSuccess,
+  sendEmailFailure,
   adminLogoutFailure,
-  submitEmailSuccess,
   clearUserLoadState,
-  submitEmailFailure,
 } = userSlice.actions;

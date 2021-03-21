@@ -36,6 +36,22 @@ const Form = styled.form`
   align-items: center;
   justify-content: flex-start;
   margin-left: 16px;
+
+  input {
+    min-width: 220px;
+    margin-bottom: 4px;
+  }
+`;
+
+const PromptContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+
+  svg {
+    font-size: 34px;
+  }
 `;
 
 const PromptText = styled.div`
@@ -69,17 +85,12 @@ const ChatSignUpForm: FC = () => {
   const user = useSelector<State, UserState>(({ user }) => user);
   const { isConnecting, error } = useSelector<State, ChatState>(({ chat }) => chat);
 
-  const [{ company, lastName, firstName }, setFormState] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
+  const [{ company, username }, setFormState] = useState({
     company: user.company,
+    username: user.username,
   });
 
-  const isFormValid = useMemo(() => !!(firstName && lastName && company), [
-    firstName,
-    lastName,
-    company,
-  ]);
+  const isFormValid = useMemo(() => !!(username && company), [username, company]);
 
   const fieldChangeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
     ({ target: field }) => {
@@ -96,14 +107,12 @@ const ChatSignUpForm: FC = () => {
       dispatch(
         submitChatForm({
           company,
-          lastName,
-          firstName,
-          username: `${firstName} ${lastName}`,
+          username,
         })
       );
       dispatch(connectToChatServer({}));
     }
-  }, [isFormValid, company, lastName, firstName]);
+  }, [isFormValid, company, username]);
 
   const fieldKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
     ({ key }) => isFormValid && key === 'Enter' && formSubmissionHandler(),
@@ -122,26 +131,17 @@ const ChatSignUpForm: FC = () => {
           <Icon icon="times-circle" size="lg" cursor="pointer" />
         </CloseButton>
       </FlexBox>
-      <FlexBox margin="30px 0">
-        <Icon icon="comments" size="3x" />
+      <PromptContainer>
+        <Icon icon="comments" size="2x" />
         <PromptText>Please tell me a bit about yourself to get started...</PromptText>
-      </FlexBox>
+      </PromptContainer>
       <FlexBox justify="flex-start" direction="column">
         <Form>
           <FormField
             type="text"
-            name="firstName"
-            label="First Name"
-            value={firstName}
-            disabled={isConnecting}
-            onChange={fieldChangeHandler}
-            onKeyDown={fieldKeyDownHandler}
-          />
-          <FormField
-            type="text"
-            name="lastName"
-            label="Last Name"
-            value={lastName}
+            label="Name"
+            name="username"
+            value={username}
             disabled={isConnecting}
             onChange={fieldChangeHandler}
             onKeyDown={fieldKeyDownHandler}
@@ -157,7 +157,7 @@ const ChatSignUpForm: FC = () => {
           />
         </Form>
       </FlexBox>
-      <FlexBox align="flex-end">
+      <FlexBox align="flex-end" margin="0 0 0 16px">
         <FormButton
           type="submit"
           transparent

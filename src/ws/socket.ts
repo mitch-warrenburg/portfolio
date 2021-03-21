@@ -1,6 +1,6 @@
 import store from '../store';
 import { io } from 'socket.io-client';
-import { IS_DEBUG } from '../store/config';
+import { IS_DEBUG, WS_SERVER_URL } from '../store/config';
 import {
   NEW_SESSION,
   MESSAGE_ERROR,
@@ -34,9 +34,8 @@ import {
 } from '../store/types';
 
 const { dispatch } = store;
-const SOCKET_SERVER_URL = 'ws://localhost:9000';
 
-const socket = io(SOCKET_SERVER_URL, {
+const socket = io(WS_SERVER_URL, {
   autoConnect: false,
   transports: ['websocket'],
   auth: cb => {
@@ -85,7 +84,7 @@ socket.on<typeof TYPING_STATUS>(TYPING_STATUS, (event: TypingEvent) => {
   dispatch(chatUserTypingEvent(event));
 });
 
-socket.on('disconnect', () => {
+socket.on('disconnect', async () => {
   setTimeout(() => {
     const {
       chat: { error = '', sessionId },
