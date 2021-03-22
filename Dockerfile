@@ -8,6 +8,6 @@ RUN yarn build
 
 FROM nginx:1.19.2-alpine
 COPY --from=build /app/build/ /usr/share/nginx/html
-COPY docker/nginx /etc/nginx/
+COPY nginx /etc/nginx/
 
 EXPOSE 80 443
