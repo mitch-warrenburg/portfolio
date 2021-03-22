@@ -8,18 +8,6 @@
   "engines": {
     "node": "14"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn run tidy"
@@ -89,7 +77,6 @@
     "@types/styled-components": "^5.1.8",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
-    "cssnano-preset-advanced": "^4.0.7",
     "csstype": "^3.0.7",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
@@ -99,7 +86,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "generact": "^0.4.0",
     "husky": "^4.3.8",
-    "parcel": "^2.0.0-beta.2",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^2.2.1",
     "rimraf": "^3.0.2",
     "sass": "^1.32.8",
@@ -117,14 +104,14 @@
     "yarn-run-all": "^3.1.1"
   },
   "scripts": {
-    "start": "yarn run clean && parcel src/index.html --port 3000",
+    "start": "yarn run clean && parcel src/index.html --port 1234",
     "start:debug": "NODE_ENV=debug yarn start",
-    "build": "parcel build src/index.html --detailed-report --no-cache --out-dir build",
-    "clean": "rimraf .parcel-cache dist build *.log",
+    "build": "yarn clean && parcel build --no-content-hash --detailed-report --no-cache --no-source-maps --out-dir build src/index.html && node rename.js",
+    "clean": "rimraf .cache dist build *.log",
     "tidy": "run-s ts format && git add .",
     "ts": "tsc",
     "format": "run-p format:*",
-    "format:code": "prettier --write 'src/**/*.{js,ts,jsx,tsx}'",
+    "format:code": "prettier --write 'src/**/*.{ts,jsx,tsx}'",
     "format:scss": "stylelint --color --fix './src/**/*.{scss,ts,tsx}'",
     "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx}'"
   }

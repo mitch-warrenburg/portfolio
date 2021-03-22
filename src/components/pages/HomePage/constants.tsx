@@ -107,6 +107,18 @@ export const contactMenuItems = (dispatch: Dispatch) => [
 
 export const adminMenuItems = (history: History<LocationState>) => [
   {
+    id: 'replay-intro',
+    content: (
+      <>
+        <Icon icon="play" />
+        <FlexBox justify="flex-start" margin="0 0 0 8px">
+          Replay Intro
+        </FlexBox>
+      </>
+    ),
+    onClick: () => history.push('/admin'),
+  },
+  {
     id: 'admin-console',
     content: (
       <>

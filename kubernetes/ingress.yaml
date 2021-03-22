@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: portfolio-client-ingress
+  namespace: portfolio
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: portfolio-client-ip
+  labels:
+    app: portfolio-client
+spec:
+  backend:
+    servicePort: 80
+    serviceName: portfolio-client-service
