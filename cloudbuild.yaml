@@ -35,7 +35,7 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _IMAGE: gcr.io/warrenburg-portfolio/portfolio-client
-  _K8S_PATH: kubernetes/app/
+  _K8S_PATH: kubernetes/
   _APP: portfolio-client
   _REGION: us-west2
   _NAMESPACE: portfolio
