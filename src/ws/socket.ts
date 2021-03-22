@@ -1,6 +1,6 @@
 import store from '../store';
 import { io } from 'socket.io-client';
-import { IS_DEBUG, WS_SERVER_URL } from '../store/config';
+import { IS_DEBUG } from '../store/config';
 import {
   NEW_SESSION,
   MESSAGE_ERROR,
@@ -35,9 +35,8 @@ import {
 
 const { dispatch } = store;
 
-const socket = io(WS_SERVER_URL, {
+const socket = io({
   autoConnect: false,
-  transports: ['websocket'],
   auth: cb => {
     const {
       user: { username, token },
@@ -85,6 +84,8 @@ socket.on<typeof TYPING_STATUS>(TYPING_STATUS, (event: TypingEvent) => {
 });
 
 socket.on('disconnect', async () => {
+  console.log('Disconnected from chat.');
+
   setTimeout(() => {
     const {
       chat: { error = '', sessionId },

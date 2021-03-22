@@ -6,7 +6,7 @@ metadata:
   labels:
     app: portfolio-client
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: portfolio-client
@@ -24,9 +24,10 @@ spec:
               port: 80
               path: /
           livenessProbe:
-            periodSeconds: 15
+            periodSeconds: 300
             httpGet:
               port: 80
               path: /
           ports:
             - containerPort: 80
+            - containerPort: 443

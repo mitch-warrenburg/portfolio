@@ -5,10 +5,14 @@ metadata:
   namespace: portfolio
   labels:
     app: portfolio-client
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/app-protocols: '{"http-port":"HTTP"}'
 spec:
   type: NodePort
   selector:
     app: portfolio-client
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 80

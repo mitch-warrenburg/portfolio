@@ -32,12 +32,12 @@ export function* sendEmailWatcher() {
 
 export function* sendEmailHandler({ payload: email }: PayloadAction<SendEmailRequest>) {
   try {
-    yield call(client.options, 'http://localhost:8080/api/v1/email/send', {
+    yield call(client.options, '/api/v1/email/send', {
       withCredentials: true,
     });
     yield call(
       client.post,
-      'http://localhost:8080/api/v1/email/send',
+      '/api/v1/email/send',
       {
         withCredentials: true,
       },
@@ -53,8 +53,8 @@ export function* adminLogoutHandler() {
   try {
     const { token } = yield chatState();
 
-    yield call(client.post, '/admin/logout', {
-      headers: { Authorization: `bearer ${token}` },
+    yield call(client.post, '/api/v1/admin/logout', {
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     yield put(disconnectFromChatServer({}));
@@ -69,7 +69,7 @@ export function* adminLogoutHandler() {
 export function* adminAuthHandler({ payload: auth }: PayloadAction<AdminAuthPayload>) {
   try {
     yield delay(1000);
-    const response: AdminAuthResponse = yield call(client.post, '/admin/auth', { auth });
+    const response: AdminAuthResponse = yield call(client.post, '/api/v1/admin/auth', { auth });
     yield put(addAdminAuthSuccessDetails(response));
     yield put(adminAuthSuccess(response));
     yield put(connectToChatServer({}));

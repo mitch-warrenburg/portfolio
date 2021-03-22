@@ -1,10 +1,8 @@
-import { HTTP_SERVER_URL } from '../store/config';
 import { AnyObject, HttpRequestFunction } from './types';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const client: AxiosInstance = axios.create({
   responseType: 'json',
-  baseURL: HTTP_SERVER_URL,
   xsrfCookieName: 'XSRF-TOKEN',
   xsrfHeaderName: 'X-XSRF-TOKEN',
 });

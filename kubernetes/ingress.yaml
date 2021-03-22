@@ -1,10 +1,14 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: portfolio-client-ingress
   namespace: portfolio
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: portfolio-client-ip
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.allow-http: "true"
+    networking.gke.io/managed-certificates: "portfolio-cert"
+    networking.gke.io/v1beta1.FrontendConfig: "portfolio-frontend"
+    kubernetes.io/ingress.global-static-ip-name: "portfolio-client-ip"
   labels:
     app: portfolio-client
 spec:

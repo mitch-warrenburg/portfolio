@@ -3,18 +3,18 @@
   "name": "Mitch Warrenburg Portfolio",
   "icons": [
     {
-      "src": "./assets/favicon.png",
+      "src": "./assets/favicon.jpg",
       "sizes": "32x32",
-      "type": "image/png"
+      "type": "image/jpeg"
     },
     {
-      "src": "./assets/logo.png",
-      "type": "image/png",
+      "src": "./assets/logo.jpg",
+      "type": "image/jpeg",
       "sizes": "192x192"
     },
     {
-      "src": "./assets/logo.png",
-      "type": "image/png",
+      "src": "./assets/logo.jpg",
+      "type": "image/jpeg",
       "sizes": "512x512"
     }
   ],

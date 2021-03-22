@@ -27,6 +27,7 @@ import {
   terminalCommands,
   contactMenuItems,
 } from './constants';
+import { logo } from '../../../globalConstants';
 
 const PanelContentContainer = styled.div`
   display: flex;
@@ -64,10 +65,7 @@ const HomePage: FC = () => {
         </FloatingButton>
         <Panel>
           <Header>
-            <RoundImage
-              alt="profile"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAsgdTSZ7dH8pad4__eB_eqc0NBI3Hc-Hx-Q&usqp=CAU"
-            />
+            <RoundImage alt="profile" src={logo} />
             <Tabs tabs={headerTabs} onClickTab={tabClickHandler} selectedId={selectedTabId} />
           </Header>
           <FlexBox align="stretch" justify="stretch">

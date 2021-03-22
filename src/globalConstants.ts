@@ -15,4 +15,5 @@ export const USER_DISCONNECTED: ChatEventType = 'USER_DISCONNECTED';
 
 export const anonymousAvatar =
   'https://toppng.com//public/uploads/preview/user-font-awesome-nuevo-usuario-icono-11563566658mjtfvilgcs.png';
-export const adminAvatar = require('./assets/admin-avatar.jpg');
+export const adminAvatar = require('./assets/avatar-admin.jpg');
+export const logo = require('./assets/logo.jpg');

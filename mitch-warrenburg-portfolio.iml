@@ -9,5 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.parcel-cache" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="firebase-app" level="application" />
+    <orderEntry type="library" name="firebase-analytics" level="application" />
   </component>
 </module>
