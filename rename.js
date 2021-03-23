@@ -5,6 +5,7 @@ const buildDir = './build';
 const htmlFileName = 'index.html';
 const jsRegex = /^src\..*\.js$/;
 const fileRegex = /^.*\..*\.(css|js|png|jpg)$/;
+const manifestFileName = 'manifest.webmanifest';
 
 const renameFile = fileName => {
   const newFileName = fileName.replace('.', '-');
@@ -36,6 +37,7 @@ const renameBuildOutput = async () => {
   await Promise.all([
     replaceFilesInFileText(filesToRename, jsFileName),
     replaceFilesInFileText(filesToRename, htmlFileName),
+    replaceFilesInFileText(filesToRename, manifestFileName),
   ]);
 
   await renameFiles(filesToRename);

@@ -36,6 +36,7 @@ import {
 const { dispatch } = store;
 
 const socket = io({
+  transports: ['websocket'],
   autoConnect: false,
   auth: cb => {
     const {
@@ -94,7 +95,7 @@ socket.on('disconnect', async () => {
       !([TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME] as Array<String>).includes(error) &&
       sessionId
     ) {
-      dispatch(connectToChatServer({}));
+      socket.connect();
     }
   }, 1000);
 });

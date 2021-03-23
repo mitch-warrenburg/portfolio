@@ -2,16 +2,9 @@ version: '3'
 services:
   portfolio:
     container_name: portfolio-client
-    env_file:
-      - .env
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        DOMAIN: ${DOMAIN}
-        SERVER_URL: ${SERVER_URL}
-        CHAT_WS_URL: ${CHAT_WS_URL}
-        CHAT_API_URL: ${CHAT_API_URL}
     ports:
       - 80:80
     volumes:

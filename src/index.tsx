@@ -11,7 +11,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { PersistGate } from 'redux-persist/integration/react';
-import registerServiceWorker from "./sw/registerServiceWorker";
+import registerServiceWorker from './sw/registerServiceWorker';
 import './_index.scss';
 
 library.add(fab, fas, far);

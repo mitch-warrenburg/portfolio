@@ -7,7 +7,6 @@ metadata:
     app: portfolio-client
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
-    cloud.google.com/app-protocols: '{"http-port":"HTTP"}'
 spec:
   type: NodePort
   selector:

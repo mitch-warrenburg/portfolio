@@ -2,7 +2,7 @@ steps:
   - name: gcr.io/cloud-builders/docker
     id: Build Image
     entrypoint: 'bash'
-    args: ['-c', 'docker build -t $_IMAGE:$COMMIT_SHA -t $_IMAGE:latest --build-arg DOMAIN=$_DOMAIN --build-arg SERVER_URL=$_SERVER_URL --build-arg CHAT_WS_URL=$_CHAT_WS_URL --build-arg CHAT_API_URL=$_CHAT_API_URL .']
+    args: ['-c', 'docker build -t $_IMAGE:$COMMIT_SHA -t $_IMAGE:latest .']
   - name: gcr.io/cloud-builders/docker
     id: Push Image
     args: [ push, '$_IMAGE:$COMMIT_SHA' ]
@@ -39,6 +39,3 @@ substitutions:
   _CLUSTER: portfolio
   _OUTPUT_BUCKET_PATH: warrenburg-portfolio_cloudbuild/deploy
   _DOMAIN: mitch.engineering
-  _SERVER_URL: http://10.33.2.206:8080
-  _CHAT_WS_URL: http://10.33.1.119:9000
-  _CHAT_API_URL: http://10.33.0.215:9001

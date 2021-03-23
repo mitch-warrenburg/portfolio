@@ -69,7 +69,9 @@ export function* adminLogoutHandler() {
 export function* adminAuthHandler({ payload: auth }: PayloadAction<AdminAuthPayload>) {
   try {
     yield delay(1000);
-    const response: AdminAuthResponse = yield call(client.post, '/api/v1/admin/auth', { auth });
+    const response: AdminAuthResponse = yield call(client.post, '/api/v1/admin/auth', {
+      auth,
+    });
     yield put(addAdminAuthSuccessDetails(response));
     yield put(adminAuthSuccess(response));
     yield put(connectToChatServer({}));
