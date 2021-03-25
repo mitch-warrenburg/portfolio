@@ -1,3 +1,1 @@
-import { InputHTMLAttributes } from 'react';
-
-export type InputProps = InputHTMLAttributes<HTMLInputElement>;
+export { default } from './Input';

@@ -16,7 +16,9 @@ import './_index.scss';
 
 library.add(fab, fas, far);
 
-registerServiceWorker().then(() => console.log('service worker registered.'));
+registerServiceWorker().then(
+  registration => registration && console.log('service worker registered.')
+);
 
 ReactDOM.render(
   <BrowserRouter>

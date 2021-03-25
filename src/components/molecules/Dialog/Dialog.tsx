@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import { DialogProps } from './types';
 import Modal from '../../atoms/Modal';
-import Overlay from '../../atoms/Overlay';
-import styled from 'styled-components';
-import Optional from '../../atoms/Optional';
 import Icon from '../../atoms/Icon';
-import { IconName } from '@fortawesome/fontawesome-common-types';
+import styled from 'styled-components';
+import Overlay from '../../atoms/Overlay';
+import Optional from '../../atoms/Optional';
 
 const Title = styled.div`
   display: flex;

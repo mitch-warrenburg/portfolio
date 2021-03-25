@@ -35,7 +35,7 @@ const HomeButtonWrapper = styled.div`
 const AdminLoginPage: FC = () => {
   const theme = useTheme();
   const history = useHistory();
-  const homeButtonClickHandler = useCallback(() => history.push('/home'), []);
+  const homeButtonClickHandler = useCallback(() => history.push('/app'), []);
 
   return (
     <PageTemplate>

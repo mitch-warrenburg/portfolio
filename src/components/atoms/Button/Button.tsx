@@ -16,14 +16,13 @@ const Button = styled.button<ButtonProps>`
   background: ${({ theme, transparent }) =>
     transparent ? 'transparent' : theme.colors.theme.primary};
   border-radius: 20px;
-  color: ${({ theme, transparent }) =>
-    transparent ? theme.colors.font.transparentButton : theme.colors.font.primary};
   cursor: pointer;
   font-size: 0.875rem;
   outline: none;
   pointer-events: initial;
   transition: 300ms;
   white-space: nowrap;
+  color: papayawhip;
 
   &:hover:not(:disabled),
   &:active,
@@ -34,8 +33,6 @@ const Button = styled.button<ButtonProps>`
 
   &:disabled {
     border-color: ${({ theme }) => theme.colors.font.inactive};
-    background: ${({ theme, transparent }) =>
-      transparent ? theme.colors.font.inactive : theme.colors.theme.primaryTransparent};
     color: ${({ theme }) => theme.colors.font.inactive};
     cursor: initial;
   }

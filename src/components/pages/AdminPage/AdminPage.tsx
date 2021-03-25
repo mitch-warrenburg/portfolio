@@ -37,11 +37,11 @@ const AdminPage: FC = () => {
 
   useEffect(() => {
     if (error === TOKEN_AUTH_ERROR_MSG) {
-      history.push('/home');
+      history.push('/app');
     }
   }, [error]);
 
-  const homeButtonClickHandler = useCallback(() => history.push('/home'), []);
+  const homeButtonClickHandler = useCallback(() => history.push('/app'), []);
   const logoutButtonClickHandler = useCallback(() => dispatch(adminLogout({})), []);
 
   return (

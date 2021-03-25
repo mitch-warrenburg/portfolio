@@ -53,7 +53,7 @@ const AdminLoginForm: FC = () => {
     password: '',
   });
 
-  const cancelButtonClickHandler = useCallback(() => history.push('/home'), []);
+  const cancelButtonClickHandler = useCallback(() => history.push('/app'), []);
   const isFormValid = useMemo(() => !!(username && password), [username, password]);
 
   const fieldChangeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(

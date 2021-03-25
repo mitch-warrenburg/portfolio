@@ -1,0 +1,15 @@
+version: '3'
+services:
+  portfolio:
+    container_name: portfolio-client
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - nginx:/etc/nginx/
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+
+volumes:
+  nginx:

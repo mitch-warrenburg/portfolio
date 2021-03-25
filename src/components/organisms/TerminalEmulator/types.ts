@@ -19,5 +19,11 @@ export interface CommandRendererProps {
 
 export interface TerminalEmulatorProps {
   keyFrequencyMs?: number;
-  commands: Array<TerminalCommand>;
+  replayFrequencyMs?: number;
+  commands: ReadonlyArray<TerminalCommand>;
+}
+
+export interface TerminalEmulatorState {
+  isTyping: boolean;
+  activeCommands: Array<TerminalCommand>;
 }

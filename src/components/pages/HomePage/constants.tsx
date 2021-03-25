@@ -1,38 +1,35 @@
 import React from 'react';
 import Icon from '../../atoms/Icon';
 import FlexBox from '../../atoms/FlexBox';
-import { Tab } from '../../molecules/Tabs';
 import { Dispatch } from '@reduxjs/toolkit';
-import { MenuItem } from '../../molecules/Menu';
 import { History, LocationState } from 'history';
-import { HeaderTabId, TechMenuItemId } from './types';
-import { setIsChatOpen } from '../../../store/state/uiSlice';
 import { TerminalCommand } from '../../organisms/TerminalEmulator';
+import { setHasRunIntro, setIsChatOpen } from '../../../store/state/uiSlice';
 
-export const headerTabs: Array<Tab<HeaderTabId>> = [
+export const headerTabs = [
   {
-    id: 'home',
-    content: 'Home',
+    id: '/app',
+    content: 'About Me',
   },
   {
-    id: 'skills',
+    id: '/app/skills',
     content: 'Skills',
   },
   {
-    id: 'notable-work',
+    id: '/app/notable-work',
     content: 'Notable Work',
   },
   {
-    id: 'experience',
+    id: '/app/experience',
     content: 'Experience',
   },
   {
-    id: 'contact',
+    id: '/app/contact',
     content: 'Contact',
   },
 ];
 
-export const techMenuItems: Array<MenuItem<TechMenuItemId>> = [
+export const techMenuItems = () => [
   {
     id: 'react',
     content: (
@@ -79,6 +76,35 @@ export const techMenuItems: Array<MenuItem<TechMenuItemId>> = [
   },
 ];
 
+export const aboutAppMenuItems = (history: History<LocationState>, dispatch: Dispatch) => [
+  {
+    id: 'replay-intro',
+    content: (
+      <>
+        <Icon icon="play" />
+        <FlexBox justify="flex-start" margin="0 0 0 8px">
+          Replay Intro
+        </FlexBox>
+      </>
+    ),
+    onClick: () => {
+      dispatch(setHasRunIntro(false));
+      history.push('/');
+    },
+  },
+  {
+    id: 'about-this-app',
+    content: (
+      <>
+        <Icon icon="microchip" />
+        <FlexBox justify="flex-start" margin="0 0 0 8px">
+          What's Under the Hood?
+        </FlexBox>
+      </>
+    ),
+  },
+];
+
 export const contactMenuItems = (dispatch: Dispatch) => [
   {
     id: 'email',
@@ -107,18 +133,6 @@ export const contactMenuItems = (dispatch: Dispatch) => [
 
 export const adminMenuItems = (history: History<LocationState>) => [
   {
-    id: 'replay-intro',
-    content: (
-      <>
-        <Icon icon="play" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
-          Replay Intro
-        </FlexBox>
-      </>
-    ),
-    onClick: () => history.push('/admin'),
-  },
-  {
     id: 'admin-console',
     content: (
       <>
@@ -132,7 +146,7 @@ export const adminMenuItems = (history: History<LocationState>) => [
   },
 ];
 
-export const terminalCommands: Array<TerminalCommand> = [
+export const terminalCommands: ReadonlyArray<TerminalCommand> = [
   {
     simulateCommandProcessMs: 1500,
     input: `curl 'https://mitch.engineer/api/v1/messages' -d 'message=im mitch.  i write code.'`,

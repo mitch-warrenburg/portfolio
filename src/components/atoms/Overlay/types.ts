@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 
-export interface OverlayProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface OverlayProps extends HTMLAttributes<HTMLDivElement> {
   active?: boolean;
 }

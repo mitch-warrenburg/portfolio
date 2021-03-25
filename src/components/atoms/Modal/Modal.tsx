@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Modal = styled.div<ModalProps>`
   position: fixed;
-  z-index: 10;
+  z-index: 4;
   top: 35%;
   left: calc(50% - 250px);
   display: flex;

@@ -270,7 +270,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
           </FlexBox>
           <FlexBox justify="flex-end">
             <StatusIndicator status={connected ? 'success' : 'error'}>
-              {connected ? 'Online' : 'offline'}
+              {connected ? 'Online' : 'Offline'}
             </StatusIndicator>
           </FlexBox>
         </HeaderContainer>

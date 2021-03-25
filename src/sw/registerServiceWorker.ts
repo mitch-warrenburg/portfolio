@@ -8,6 +8,7 @@ const registerServiceWorker = async () => {
     const wb = new Workbox(sw);
     return wb.register();
   }
+  return null;
 };
 
 export default registerServiceWorker;

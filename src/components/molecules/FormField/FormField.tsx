@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
-import { FormFieldProps } from './types';
+import Input from '../../atoms/Input';
 import styled from 'styled-components';
-import Input from '../../atoms/Input/Input';
+import { FormFieldProps } from './types';
 import Optional from '../../atoms/Optional';
 
 const Wrapper = styled.div`

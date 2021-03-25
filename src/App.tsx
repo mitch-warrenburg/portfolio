@@ -23,10 +23,10 @@ const App: FC = () => {
         <PolygonWarpBackdrop />
         <Switch>
           <Route exact path="/" component={IntroPage} />
-          <Route path="/home" component={HomePage} />
+          <Route path="/app" component={HomePage} />
           <Route exact admin path="/admin" component={AdminPage} />
           <Route path="/admin/login" component={AdminLoginPage} />
-          <Redirect to="/" />
+          {/*<Redirect to="/" />*/}
         </Switch>
       </div>
     </>

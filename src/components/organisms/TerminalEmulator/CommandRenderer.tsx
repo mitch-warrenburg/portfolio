@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState, useEffect, useMemo } from 'react';
+import React, { FC, useCallback, useState, useEffect, useMemo, memo, useRef } from 'react';
 import Typist from 'react-typist';
 import { uniqueId } from 'lodash';
 import styled from 'styled-components';

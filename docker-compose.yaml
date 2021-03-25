@@ -1,15 +1,11 @@
 version: '3'
 services:
-  portfolio:
-    container_name: portfolio-client
-    build:
-      context: .
-      dockerfile: Dockerfile
+  portfolio-dev:
+    image: nginx:1.19.2-alpine
+    container_name: nginx-dev
     ports:
-      - 80:80
+      - 3000:80
     volumes:
-      - nginx:/etc/nginx/
+      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./nginx/proxy.conf:/etc/nginx/proxy.conf
     command: [ nginx-debug, '-g', 'daemon off;' ]
-
-volumes:
-  nginx:

@@ -30,7 +30,7 @@ const IntroPage: FC = () => {
   }, [isAnimationComplete]);
 
   useEffect(() => {
-    hasRunIntro && history.push('/home');
+    hasRunIntro && history.push('/app');
   }, [hasRunIntro]);
 
   return (

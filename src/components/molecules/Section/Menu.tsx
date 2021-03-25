@@ -8,7 +8,7 @@ const SectionContainer = styled.section`
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 62px;
 `;
 
 const Menu: FC<SectionProps> = ({ children, header, ...props }) => {

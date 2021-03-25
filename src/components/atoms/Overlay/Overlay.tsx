@@ -3,6 +3,7 @@ import { OverlayProps } from './types';
 import styled from 'styled-components';
 
 const Overlay = styled.div<OverlayProps>`
+  z-index: 3;
   position: fixed;
   top: 0;
   left: 0;
