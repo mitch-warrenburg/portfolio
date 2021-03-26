@@ -58,9 +58,8 @@ const typingProperties = css`
 `;
 
 const MessageContainer = styled.div<ChatMessageProps>`
-  max-width: 100%;
-  overflow-wrap: break-word;
   position: relative;
+  max-width: 100%;
   padding: 6px 10px 6px 6px;
   margin: 8px 0 20px 40px;
   animation: ${bounce} 500ms linear both;
@@ -71,6 +70,7 @@ const MessageContainer = styled.div<ChatMessageProps>`
   float: left;
   font-size: 12px;
   line-height: 1.4;
+  overflow-wrap: break-word;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   transform: scale(0);
   transform-origin: 0 0;

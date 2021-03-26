@@ -8,9 +8,9 @@ const ContentContainer = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 `;
 
 const LoadingMessage = styled.p`

@@ -1,4 +1,12 @@
-import React, { FC, useCallback, useState, useRef, useEffect, useLayoutEffect, memo } from "react";
+import React, {
+  FC,
+  useCallback,
+  useState,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+  memo,
+} from 'react';
 import styled from 'styled-components';
 import Cursor from '../../atoms/Cursor';
 import CommandRenderer from './CommandRenderer';

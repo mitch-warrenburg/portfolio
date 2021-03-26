@@ -1,16 +1,13 @@
-import React, { FC, useMemo, useState, useCallback, MouseEventHandler } from 'react';
+import React, { FC, useMemo } from 'react';
 import Nav from '../../atoms/Nav';
-import styled from 'styled-components';
 import Panel from '../../atoms/Panel';
-import Header from '../../atoms/Header';
+import styled from 'styled-components';
 import Menu from '../../molecules/Menu';
-import Tabs from '../../molecules/Tabs';
 import FlexBox from '../../atoms/FlexBox';
-import { useLocation } from 'react-router';
 import Optional from '../../atoms/Optional';
 import Section from '../../molecules/Section';
-import RoundImage from '../../atoms/RoundImage';
 import { History, LocationState } from 'history';
+import AppHeader from '../../organisms/AppHeader';
 import EmailEditor from '../../organisms/EmailEditor';
 import { useSelector, useDispatch } from 'react-redux';
 import PageTemplate from '../../templates/PageTemplate';
@@ -19,13 +16,12 @@ import { useHistory, Switch, Route } from 'react-router-dom';
 import TerminalEmulator from '../../organisms/TerminalEmulator';
 import ChatMessengerWidget from '../../organisms/ChatMessenger/ChatMessengerWidget';
 import {
-  headerTabs,
   adminMenuItems,
   terminalCommands,
   contactMenuItems,
   aboutAppMenuItems,
 } from './constants';
-import { logo } from '../../../globalConstants';
+import { setHasRunIntro } from '../../../store/state/uiSlice';
 
 const PanelContentContainer = styled.div`
   display: flex;
@@ -35,33 +31,15 @@ const PanelContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px 40px;
-  @media screen and (max-width: 510px) {
-    padding: 20px;
+  @media screen and (max-width: 720px) {
+    padding: 10px;
   }
-`;
-
-const HomeLogoButton = styled.button`
-  background: transparent;
-  border: none;
-  padding: 0;
-  border-radius: 50%;
-  cursor: pointer;
 `;
 
 const HomePage: FC = () => {
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
   const history: History<LocationState> = useHistory();
-  const [selectedTabId, setSelectedTabId] = useState(pathname);
   const { hasRunIntro } = useSelector<RootState, UiState>(({ ui }) => ui);
-
-  const tabClickHandler: MouseEventHandler<HTMLLIElement> = useCallback(event => {
-    const { id } = event.target as HTMLLIElement;
-    history.push(id);
-    setSelectedTabId(id);
-  }, []);
-
-  const homeLogoClickHandler = useCallback(() => history.push('/app'), []);
 
   const adminItems = useMemo(() => adminMenuItems(history), []);
   const contactItems = useMemo(() => contactMenuItems(dispatch), []);
@@ -71,12 +49,7 @@ const HomePage: FC = () => {
     <Optional renderIf={hasRunIntro}>
       <PageTemplate>
         <Panel>
-          <Header>
-            <HomeLogoButton>
-              <RoundImage alt="profile" src={logo} onClick={homeLogoClickHandler} />
-            </HomeLogoButton>
-            <Tabs tabs={headerTabs} onClickTab={tabClickHandler} selectedId={selectedTabId} />
-          </Header>
+          <AppHeader />
           <FlexBox align="stretch" justify="stretch">
             <Nav>
               <Menu label="About this App" items={aboutAppItems} />

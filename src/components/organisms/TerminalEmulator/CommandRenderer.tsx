@@ -9,6 +9,7 @@ import './styles.scss';
 
 const Prompt = styled.p`
   color: ${({ theme }) => theme.colors.theme.success};
+  white-space: break-spaces;
 `;
 
 const CommandRenderer: FC<CommandRendererProps> = ({

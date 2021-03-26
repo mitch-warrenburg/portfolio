@@ -16,13 +16,13 @@ const Button = styled.button<ButtonProps>`
   background: ${({ theme, transparent }) =>
     transparent ? 'transparent' : theme.colors.theme.primary};
   border-radius: 20px;
+  color: papayawhip;
   cursor: pointer;
   font-size: 0.875rem;
   outline: none;
   pointer-events: initial;
   transition: 300ms;
   white-space: nowrap;
-  color: papayawhip;
 
   &:hover:not(:disabled),
   &:active,

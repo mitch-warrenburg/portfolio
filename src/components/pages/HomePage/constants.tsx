@@ -6,29 +6,6 @@ import { History, LocationState } from 'history';
 import { TerminalCommand } from '../../organisms/TerminalEmulator';
 import { setHasRunIntro, setIsChatOpen } from '../../../store/state/uiSlice';
 
-export const headerTabs = [
-  {
-    id: '/app',
-    content: 'About Me',
-  },
-  {
-    id: '/app/skills',
-    content: 'Skills',
-  },
-  {
-    id: '/app/notable-work',
-    content: 'Notable Work',
-  },
-  {
-    id: '/app/experience',
-    content: 'Experience',
-  },
-  {
-    id: '/app/contact',
-    content: 'Contact',
-  },
-];
-
 export const techMenuItems = () => [
   {
     id: 'react',

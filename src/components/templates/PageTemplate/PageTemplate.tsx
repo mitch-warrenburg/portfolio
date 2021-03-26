@@ -11,15 +11,16 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding: 0 16px;
   background: transparent;
   pointer-events: none;
 
-  @media screen and (max-width: 480px) {
-    padding: 0.8em;
-  }
-
   img {
     max-width: 100%;
+  }
+
+  @media screen and (max-width: 719px) {
+    padding: 0;
   }
 `;
 

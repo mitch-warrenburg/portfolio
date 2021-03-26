@@ -12,6 +12,12 @@ const Panel = styled.div<PanelProps>`
   margin-top: 32px;
   background: ${({ theme }) => theme.colors.background.primary};
   border-radius: 14px;
+
+  @media screen and (max-width: 719px) {
+    height: 100vh;
+    margin-top: 0;
+    border-radius: 0;
+  }
 `;
 
 export default Panel;
