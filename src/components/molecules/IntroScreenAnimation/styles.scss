@@ -23,8 +23,8 @@ $intro-animation-frequency: normal;
     &__firstname-img,
     &__lastname-img {
       overflow: visible;
-      min-height: 10vw;
       height: 10vw;
+      min-height: 10vw;
       flex: 0 1;
       object-fit: cover;
       opacity: 0;
@@ -32,13 +32,13 @@ $intro-animation-frequency: normal;
     }
 
     &__firstname-img {
-      opacity: 1;
       animation: scale-firstname-text $intro-animation-duration $intro-animation-frequency;
+      opacity: 1;
     }
 
     &__lastname-img {
-      opacity: 1;
       animation: scale-lastname-text $intro-animation-duration $intro-animation-frequency;
+      opacity: 1;
     }
 
     &__occupation-text {

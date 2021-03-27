@@ -1,9 +1,15 @@
 .email-editor {
+  box-sizing: border-box;
   margin-bottom: 16px;
   background: transparent;
 
   * {
+    box-sizing: border-box;
     pointer-events: initial;
+  }
+
+  .rdw-editor-main {
+    height: auto;
   }
 
   .rdw-option-wrapper {
@@ -139,7 +145,6 @@
 
   &__textarea {
     min-height: 200px;
-    max-height: 400px;
     padding: 8px;
     border: 1px solid rgba(113, 119, 144, 0.25);
     background: rgba(113, 119, 144, 0.1);
@@ -150,8 +155,9 @@
   }
 
   & ~ button {
-    align-self: flex-end;
-    margin-top: 50px;
+    position: absolute;
+    right: 0;
+    bottom: -30px;
   }
 
   & .DraftEditor-root {

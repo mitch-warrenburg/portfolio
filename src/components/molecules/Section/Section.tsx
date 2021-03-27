@@ -11,7 +11,7 @@ const SectionContainer = styled.section`
   margin-top: 62px;
 `;
 
-const Menu: FC<SectionProps> = ({ children, header, ...props }) => {
+const Section: FC<SectionProps> = ({ children, header, ...props }) => {
   return (
     <SectionContainer {...props}>
       <Optional renderIf={header}>
@@ -22,4 +22,4 @@ const Menu: FC<SectionProps> = ({ children, header, ...props }) => {
   );
 };
 
-export default Menu;
+export default Section;

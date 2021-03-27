@@ -1,11 +1,11 @@
 import React, {
   FC,
-  useCallback,
-  useState,
-  useRef,
-  useEffect,
-  useLayoutEffect,
   memo,
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
 } from 'react';
 import styled from 'styled-components';
 import Cursor from '../../atoms/Cursor';
@@ -17,7 +17,7 @@ const Container = styled.div`
   min-height: 200px;
   background-color: rgb(39, 39, 39, 0.7);
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 14px;
 `;
 
 const ControlBar = styled.div`

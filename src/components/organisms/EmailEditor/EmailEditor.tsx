@@ -11,12 +11,20 @@ import { Editor as DraftEditor } from 'react-draft-wysiwyg';
 import LoadingOverlay from '../../molecules/LoadingOverlay';
 import './styles.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import styled from 'styled-components';
 
 const uploadImageCallBack = async () => {};
 
 const editorStateToHtml = (editorState: EditorState): string => {
   return draftToHtml(convertToRaw(editorState.getCurrentContent()));
 };
+
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
 
 const EmailEditor: FC = () => {
   const dispatch = useDispatch();
@@ -65,7 +73,7 @@ const EmailEditor: FC = () => {
   return (
     <>
       <LoadingOverlay isLoading={user.isLoading} message="Sending..." />
-      <FlexBox direction="column" align="stretch" margin="16px 0 0 0">
+      <Container>
         <FlexBox justify="flex-start" wrap="wrap">
           <FormField
             type="text"
@@ -144,7 +152,7 @@ const EmailEditor: FC = () => {
           disabled={!isFormValid || user.isLoading}>
           Submit
         </Button>
-      </FlexBox>
+      </Container>
     </>
   );
 };

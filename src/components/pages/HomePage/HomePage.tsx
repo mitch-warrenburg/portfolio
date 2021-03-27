@@ -21,18 +21,20 @@ import {
   contactMenuItems,
   aboutAppMenuItems,
 } from './constants';
-import { setHasRunIntro } from '../../../store/state/uiSlice';
 
 const PanelContentContainer = styled.div`
   display: flex;
   overflow: auto;
   width: 100%;
-  height: 100%;
+  height: calc(90vh - 58px);
   flex-direction: column;
   align-items: center;
   padding: 20px 40px;
+  
+  
   @media screen and (max-width: 720px) {
-    padding: 10px;
+    padding: 20px 10px 160px 10px;
+    height: calc(100vh - 58px);
   }
 `;
 
