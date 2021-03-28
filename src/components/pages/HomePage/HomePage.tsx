@@ -36,7 +36,12 @@ const PanelContentContainer = styled.div`
   align-items: center;
   padding: 20px 40px;
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    height: calc(100vh - 58px);
+    padding: 20px 10px 0 10px;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
     height: calc(100vh - 58px);
     padding: 20px 10px 0 10px;
   }
@@ -44,16 +49,20 @@ const PanelContentContainer = styled.div`
 
 const MobileFooterContainer = styled.div`
   z-index: 4;
-  display: flex;
+  display: none;
   width: 100vw;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
   padding: 32px 32px 100px 32px;
-  background: ${({theme}) => theme.colors.background.modal};
+  background: ${({ theme }) => theme.colors.background.modal};
 
-  @media screen and (min-width: 721px) {
-    display: none;
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    display: flex;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
+    display: flex;
   }
 `;
 

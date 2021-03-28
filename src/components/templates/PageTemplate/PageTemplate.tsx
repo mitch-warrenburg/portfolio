@@ -19,7 +19,11 @@ const Content = styled.div`
     max-width: 100%;
   }
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    padding: 0;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
     padding: 0;
   }
 `;

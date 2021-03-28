@@ -10,7 +10,11 @@ const Nav = styled.div<NavProps>`
   padding: 26px;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    display: none;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
     display: none;
   }
 `;

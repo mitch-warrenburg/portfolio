@@ -37,18 +37,14 @@ const AppHeader: FC = () => {
   return (
     <Header>
       <RoundImageButton src={logo} alt="logo" onClick={homeLogoClickHandler} />
-      <Optional renderIf={breakpoint === 'large'}>
-        <Tabs tabs={locations} onClickTab={clickHandler} selectedId={pathname} />
-      </Optional>
-      <Optional renderIf={breakpoint === 'small'}>
-        <IconButton icon="bars" size="2x" color="white" onClick={openMenu} />
-        <MobileMenu
-          items={locations}
-          isOpen={isMenuOpen}
-          onClickClose={closeMenu}
-          onClickItem={clickHandler}
-        />
-      </Optional>
+      <Tabs tabs={locations} onClickTab={clickHandler} selectedId={pathname} />
+      <IconButton icon="bars" size="2x" color="white" onClick={openMenu} />
+      <MobileMenu
+        items={locations}
+        isOpen={isMenuOpen}
+        onClickClose={closeMenu}
+        onClickItem={clickHandler}
+      />
     </Header>
   );
 };

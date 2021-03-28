@@ -19,7 +19,16 @@
   border-radius: 4px;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 720px) and (orientation: portrait) {
+
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+    border-radius: 4px;
+  }
+}
+
+@media screen and (max-height: 600px) and (orientation: landscape) {
 
   ::-webkit-scrollbar {
     width: 0;

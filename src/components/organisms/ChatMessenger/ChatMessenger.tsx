@@ -37,7 +37,16 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   text-align: left;
   transition: ease-in-out 150ms;
 
-  @media screen and (min-width: 720px) {
+  @media screen and (min-width: 720px) and (orientation: portrait) {
+
+    &:hover {
+      background: ${({ open, theme }) =>
+        open ? theme.colors.background.overlay : theme.colors.background.input};
+    }
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
+
     &:hover {
       background: ${({ open, theme }) =>
         open ? theme.colors.background.overlay : theme.colors.background.input};
@@ -59,7 +68,11 @@ const TitleContainer = styled.div`
     white-space: nowrap;
   }
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    font-size: 12px;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
     font-size: 12px;
   }
 `;

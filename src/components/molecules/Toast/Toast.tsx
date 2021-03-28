@@ -41,7 +41,12 @@ const Container = styled.div<ToastProps>`
     color: ${({ themeColor }) => chroma(themeColor).alpha(0.95).css()};
   }
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    height: 36px;
+    font-size: 12px;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
     height: 36px;
     font-size: 12px;
   }

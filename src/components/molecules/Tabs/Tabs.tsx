@@ -7,6 +7,14 @@ import Optional from '../../atoms/Optional';
 const TabsContainer = styled.ul`
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    display: none;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
+    display: none;
+  }
 `;
 
 const Tabs: FC<TabsProps> = ({ tabs, onClickTab, selectedId, ...props }) => {

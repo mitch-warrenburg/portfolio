@@ -27,7 +27,17 @@ const Container = styled.div<CollapsibleElementProps>`
   pointer-events: all;
   transition: ease-in-out 300ms;
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    max-width: ${({ open }) => (open ? '100vw' : '240px')};
+    max-height: ${({ open, height }) => (open ? height : 32)}px;
+    border-radius: ${({ open }) => (open ? 0 : 8)};
+    transition: ease-in-out 50ms;
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -52,7 +62,12 @@ const Content = styled.div<CollapsibleElementProps>`
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
   transition: ease-in-out 300ms;
 
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 720px) and (orientation: portrait) {
+    border: ${({ open }) => (open ? 'none' : '1px solid rgba(249, 250, 251, 0.3)')};
+    border-radius: ${({ open }) => (open ? 0 : 8)};
+  }
+
+  @media screen and (max-height: 600px) and (orientation: landscape) {
     border: ${({ open }) => (open ? 'none' : '1px solid rgba(249, 250, 251, 0.3)')};
     border-radius: ${({ open }) => (open ? 0 : 8)};
   }
