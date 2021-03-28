@@ -36,8 +36,10 @@ export interface UserState {
   username?: string;
   phoneNumber?: string;
   error?: string;
+  emailCount: number;
   isAdmin: boolean;
   isLoading: boolean;
+  isEmailSuccess: boolean;
 }
 
 export type ChatUsers = {

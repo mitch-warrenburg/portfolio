@@ -11,7 +11,7 @@ const Nav = styled.div<NavProps>`
   padding: 26px;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
 
-  @media screen and (max-width: 719px) {
+  @media screen and (max-width: 720px) {
     display: none;
   }
 `;

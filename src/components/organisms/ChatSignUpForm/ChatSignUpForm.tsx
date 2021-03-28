@@ -86,8 +86,8 @@ const ChatSignUpForm: FC = () => {
   const { isConnecting, error } = useSelector<State, ChatState>(({ chat }) => chat);
 
   const [{ company, username }, setFormState] = useState({
-    company: user.company,
-    username: user.username,
+    company: user.company || '',
+    username: user.username || '',
   });
 
   const isFormValid = useMemo(() => !!(username && company), [username, company]);

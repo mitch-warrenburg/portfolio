@@ -12,9 +12,9 @@ import './styles.scss';
 
 const Container = styled.div<CollapsibleElementProps>`
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   right: 32px;
-  bottom: 0;
+  bottom: 1px;
   overflow: hidden;
   width: 100%;
   min-width: 240px;
@@ -25,12 +25,20 @@ const Container = styled.div<CollapsibleElementProps>`
   background: linear-gradient(130deg, rgba(59, 240, 131, 1) 20%, rgba(146, 151, 179, 1) 80%);
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
   opacity: 1;
+  pointer-events: all;
   transition: ease-in-out 300ms;
+
+  @media screen and (max-width: 720px) {
+    right: 0;
+    bottom: 0;
+    max-height: ${({ open }) => (open ? '100vh' : '32px')};
+    border-radius: ${({ open }) => (open ? 0 : 8)};
+  }
 `;
 
 const Content = styled.div<CollapsibleElementProps>`
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   overflow: hidden;
   width: 100%;
@@ -41,18 +49,22 @@ const Content = styled.div<CollapsibleElementProps>`
   background: rgba(36, 39, 59, 0.85);
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
   transition: ease-in-out 300ms;
+
+  @media screen and (max-width: 720px) {
+    border: ${({ open }) => (open ? 'none' : '1px solid rgba(249, 250, 251, 0.3)')};
+    border-radius: ${({ open }) => (open ? 0 : 8)};
+  }
 `;
 
 const ChatMessengerWidget: FC = () => {
   const dispatch = useDispatch();
-  const { userId, error } = useSelector<State, ChatState>(({ chat }) => chat);
+  const { userId, error, isConnecting } = useSelector<State, ChatState>(({ chat }) => chat);
   const { isChatOpen, isChatMinimized } = useSelector<State, UiState>(({ ui }) => ui);
 
-  const isChatFormShown = useMemo(() => (!userId || !!error) && !isChatMinimized, [
-    userId,
-    error,
-    isChatMinimized,
-  ]);
+  const isChatFormShown = useMemo(
+    () => (!userId || !!error) && !isChatMinimized && !isConnecting,
+    [userId, error, isConnecting, isChatMinimized]
+  );
 
   const headerContainerClickHandler = useCallback(() => {
     dispatch(setIsChatMinimized(!isChatMinimized));

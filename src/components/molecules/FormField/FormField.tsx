@@ -6,13 +6,13 @@ import Optional from '../../atoms/Optional';
 
 const Wrapper = styled.div`
   display: inline-flex;
-  min-width: 140px;
-  max-width: 200px;
+  min-width: 160px;
+  max-width: 230px;
   flex-flow: column nowrap;
   flex-grow: 1;
   align-items: flex-start;
   justify-content: flex-start;
-  margin: 0 16px 16px 0;
+  margin: 0 0 16px 0;
 
   input:disabled {
     color: ${({ theme }) => theme.colors.font.inactive};
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.label`
-  padding: 0 0 8px 0;
+  padding: 0 0 6px 0;
   color: white;
   font-size: 0.875rem;
 `;

@@ -98,7 +98,6 @@ const TerminalEmulator: FC<TerminalEmulatorProps> = memo(
     useLayoutEffect(() => {
       if (!isTyping && !animationTimerRef.current) {
         animationTimerRef.current = setTimeout(() => {
-          console.log('now');
           animationTimerRef.current = null;
           remainingCommandsRef.current = [...commands];
           setState({ activeCommands: [], isTyping: true });

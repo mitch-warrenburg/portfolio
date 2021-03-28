@@ -31,7 +31,7 @@ export function* sendEmailWatcher() {
 }
 
 export function* sendEmailHandler({ payload: email }: PayloadAction<SendEmailRequest>) {
-  yield delay(1000);
+  yield delay(1200);
   try {
     yield call(client.options, '/api/v1/email/send', {
       withCredentials: true,

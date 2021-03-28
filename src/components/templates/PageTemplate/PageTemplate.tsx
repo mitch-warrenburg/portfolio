@@ -19,7 +19,7 @@ const Content = styled.div`
     max-width: 100%;
   }
 
-  @media screen and (max-width: 719px) {
+  @media screen and (max-width: 720px) {
     padding: 0;
   }
 `;

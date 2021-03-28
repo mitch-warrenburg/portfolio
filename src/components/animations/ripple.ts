@@ -6,7 +6,7 @@ const ripple = (size = 1) => keyframes`
     left: ${Math.abs(size) * 16}px;
     width: 0;
     height: 0;
-    opacity: 1;
+    opacity: 0.8;
   }
 
   100% {

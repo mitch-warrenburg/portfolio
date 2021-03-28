@@ -14,11 +14,11 @@ import Avatar from '../../atoms/Avatar';
 import FlexBox from '../../atoms/FlexBox';
 import { useSelector } from 'react-redux';
 import Optional from '../../atoms/Optional';
+import { sendMessage } from '../../../ws/socket';
 import { useTypingEvents } from '../../../hooks';
 import ChatMessage from '../../atoms/ChatMessage';
 import styled, { useTheme } from 'styled-components';
 import { State, ChatState } from '../../../store/types';
-import socket, { sendMessage } from '../../../ws/socket';
 import StatusIndicator from '../../atoms/StatusIndicator';
 import { CollapsibleElementProps, ChatMessengerProps } from './types';
 import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
@@ -35,11 +35,14 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   color: #fff;
   cursor: pointer;
   text-align: left;
-  transition: ease-in-out 200ms;
+  transition: ease-in-out 150ms;
 
-  &:hover {
-    background: ${({ open, theme }) =>
-      open ? theme.colors.background.overlay : theme.colors.background.input};
+  @media screen and (min-width: 720px) {
+
+    &:hover {
+      background: ${({ open, theme }) =>
+        open ? theme.colors.background.overlay : theme.colors.background.input};
+    }
   }
 `;
 
@@ -55,6 +58,10 @@ const TitleContainer = styled.div`
   * {
     width: 100%;
     white-space: nowrap;
+  }
+
+  @media screen and (max-width: 720px) {
+    font-size: 12px;
   }
 `;
 
@@ -86,7 +93,6 @@ const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
   width: 100%;
   flex: 0 1 40px;
   padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
   background: ${({ theme }) => theme.colors.background.primary};
 
   textarea {
@@ -277,10 +283,10 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
       </Optional>
       <MessageSection>
         <MessagesWrapper>
-          <Optional renderIf={isConnecting}>
+          <Optional renderIf={isConnecting && !isChatMinimized}>
             <LoadingOverlay>
               <Loader color={theme.colors.theme.error} size={2} durationSeconds={1.75} />
-              <span>Reconnecting...</span>
+              <span>Connecting...</span>
             </LoadingOverlay>
           </Optional>
           <Optional renderIf={!isConnecting}>

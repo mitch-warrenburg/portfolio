@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { SectionHeaderProps } from './types';
 
 const SectionHeader = styled.h3<SectionHeaderProps>`
-  margin-bottom: 14px;
+  margin-bottom: 32px;
   color: ${({ theme }) => theme.colors.font.header};
 `;
 

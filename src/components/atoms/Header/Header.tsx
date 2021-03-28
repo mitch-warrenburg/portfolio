@@ -14,7 +14,7 @@ const Header = styled.div<HeaderProps>`
   pointer-events: initial;
   white-space: nowrap;
 
-  @media screen and (max-width: 719px) {
+  @media screen and (max-width: 720px) {
     padding: 0 16px;
   }
 `;

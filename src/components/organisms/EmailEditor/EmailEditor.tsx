@@ -1,17 +1,24 @@
-import React, { FC, useState, useCallback, ChangeEventHandler, useMemo } from 'react';
+import React, {
+  FC,
+  useRef,
+  useMemo,
+  useState,
+  useCallback,
+  ChangeEventHandler,
+  KeyboardEventHandler,
+} from 'react';
+import styled from 'styled-components';
 import Button from '../../atoms/Button';
 import draftToHtml from 'draftjs-to-html';
-import FlexBox from '../../atoms/FlexBox';
 import FormField from '../../molecules/FormField';
-import { convertToRaw, EditorState } from 'draft-js';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, UserState } from '../../../store/types';
 import { sendEmail } from '../../../store/state/userSlice';
-import { Editor as DraftEditor } from 'react-draft-wysiwyg';
 import LoadingOverlay from '../../molecules/LoadingOverlay';
+import { Editor as DraftEditor } from 'react-draft-wysiwyg';
+import { convertToRaw, EditorState, Editor as EditorType } from 'draft-js';
 import './styles.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import styled from 'styled-components';
 
 const uploadImageCallBack = async () => {};
 
@@ -22,14 +29,39 @@ const editorStateToHtml = (editorState: EditorState): string => {
 const Container = styled.div`
   position: relative;
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: stretch;
+  padding: 0;
+
+  & input {
+    width: 100%;
+    max-width: 100%;
+  }
+`;
+
+const FormContainer = styled.div`
+  display: grid;
+  padding: 0;
+  margin-bottom: 16px;
+  grid-gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+
+  & > div {
+    min-width: 190px;
+    width: 100%;
+    margin: 0;
+
+    & > input {
+      min-width: 190px;
+      width: 100%;
+    }
+  }
 `;
 
 const EmailEditor: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector<State, UserState>(({ user }) => user);
-  const [textAreaTouched, setTextAreaTouched] = useState(false);
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [{ email, company, username, phoneNumber }, setFormState] = useState({
     email: user.email || '',
@@ -37,6 +69,42 @@ const EmailEditor: FC = () => {
     username: user.username || '',
     phoneNumber: user.phoneNumber || '',
   });
+
+  const editorRef = useRef<EditorType>();
+  const emailFieldRef = useRef<HTMLInputElement>(null);
+  const companyFieldRef = useRef<HTMLInputElement>(null);
+  const phoneNumberFieldRef = useRef<HTMLInputElement>(null);
+
+  const focusEditor = useCallback(() => editorRef.current?.focus(), []);
+  const focusEmail = useCallback(() => emailFieldRef.current?.focus(), [emailFieldRef]);
+  const focusCompany = useCallback(() => companyFieldRef.current?.focus(), [companyFieldRef]);
+  const focusPhoneNumber = useCallback(() => phoneNumberFieldRef.current?.focus(), [
+    phoneNumberFieldRef,
+  ]);
+
+  const nameKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    ({ key }) => key === 'Enter' && focusCompany(),
+    [focusCompany]
+  );
+
+  const companyKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    ({ key }) => key === 'Enter' && focusEmail(),
+    [focusEmail]
+  );
+
+  const emailKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    ({ key }) => key === 'Enter' && focusPhoneNumber(),
+    [focusPhoneNumber]
+  );
+
+  const phoneNumberKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    ({ key }) => key === 'Enter' && focusEditor(),
+    [editorRef]
+  );
+
+  const setEditorRef = useCallback((ref: EditorType) => {
+    editorRef.current = ref;
+  }, []);
 
   const isFormValid = useMemo(() => !!(email && company && username), [
     email,
@@ -66,58 +134,65 @@ const EmailEditor: FC = () => {
     );
   }, [email, company, username, phoneNumber, editorState]);
 
-  const textAreaFocusHandler = useCallback(() => {
-    setTextAreaTouched(true);
-  }, []);
-
   return (
     <>
       <LoadingOverlay isLoading={user.isLoading} message="Sending..." />
       <Container>
-        <FlexBox justify="flex-start" wrap="wrap">
+        <FormContainer>
           <FormField
             type="text"
             label="Name"
             name="username"
             value={username}
             disabled={user.isLoading}
+            onBlur={focusCompany}
             onChange={fieldChangeHandler}
-          />
-          <FormField
-            type="email"
-            label="Email"
-            name="email"
-            value={email}
-            inputMode="email"
-            disabled={user.isLoading}
-            onChange={fieldChangeHandler}
+            onKeyDown={nameKeyDownHandler}
           />
           <FormField
             type="text"
-            label="Company"
             name="company"
+            label="Company"
             value={company}
+            onBlur={focusEmail}
             disabled={user.isLoading}
+            ref={companyFieldRef}
             onChange={fieldChangeHandler}
+            onKeyDown={companyKeyDownHandler}
+          />
+          <FormField
+            type="email"
+            name="email"
+            label="Email"
+            inputMode="email"
+            value={email}
+            disabled={user.isLoading}
+            ref={emailFieldRef}
+            onBlur={focusPhoneNumber}
+            onChange={fieldChangeHandler}
+            onKeyDown={emailKeyDownHandler}
           />
           <FormField
             type="text"
             inputMode="tel"
-            label="Phone Number"
             name="phoneNumber"
-            value={phoneNumber}
+            label="Phone Number"
             disabled={user.isLoading}
+            value={phoneNumber}
+            ref={phoneNumberFieldRef}
             onChange={fieldChangeHandler}
+            onBlur={focusEditor}
+            onKeyDown={phoneNumberKeyDownHandler}
           />
-        </FlexBox>
+        </FormContainer>
         <DraftEditor
           spellCheck
+          editorRef={setEditorRef}
           editorState={editorState}
-          onFocus={textAreaFocusHandler}
           onEditorStateChange={setEditorState}
           wrapperClassName="email-editor"
           editorClassName="email-editor__textarea"
-          placeholder={textAreaTouched ? '' : 'Write a message...'}
+          placeholder="Write a message..."
           toolbar={{
             image: {
               previewImage: true,

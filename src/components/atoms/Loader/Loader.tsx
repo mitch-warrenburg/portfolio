@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useLayoutEffect } from 'react';
+import Optional from '../Optional';
 import { LoaderProps } from './types';
-import styled, { css } from 'styled-components';
 import { ripple } from '../../animations';
+import styled, { css } from 'styled-components';
 
 const animation = ({ size = 1, durationSeconds = 1 }: LoaderProps) => css<LoaderProps>`
-  ${ripple(size)} ${durationSeconds}s cubic-bezier(0, 0.2, 0.8, 1) infinite
+  ${ripple(size)} ${durationSeconds}s cubic-bezier(0, 0.2, 0.8, 1);
 `;
 
 const transform = ({ size = 1 }: LoaderProps) => css<LoaderProps>`
@@ -23,26 +24,41 @@ const Container = styled.div<LoaderProps>`
     animation: ${animation};
     background: ${({ color }) => color || 'rgb(57,109,240, 0.3)'};
     border-radius: 50%;
-    opacity: 1;
+    opacity: 0;
     transform: ${transform};
 
     &:nth-child(2) {
-      animation-delay: -0.5s;
+      animation-delay: -500ms;
     }
   }
 `;
 
-const Loader: FC<LoaderProps> = props => {
+const Loader: FC<LoaderProps> = ({ durationSeconds = 1, ...props }) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useLayoutEffect(() => {
+    setIsAnimating(true);
+
+    const timer = setTimeout(() => {
+      setIsAnimating(false);
+    }, durationSeconds * 1000 + 300);
+
+    return () => clearTimeout(timer);
+  }, [isAnimating]);
+
   return (
-    <Container {...props}>
-      <div />
-      <div />
-    </Container>
+    <Optional renderIf={isAnimating}>
+      <Container {...props} durationSeconds={durationSeconds}>
+        <div />
+        <div />
+      </Container>
+    </Optional>
   );
 };
 
 Loader.defaultProps = {
   size: 1,
+  durationSeconds: 1,
 };
 
 export default Loader;

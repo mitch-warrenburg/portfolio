@@ -32,7 +32,7 @@ const darkTheme: DefaultTheme = {
       secondary: 'rgba(36, 39, 59, 1)',
       modal: '#161925',
       dropdown: '#21242d',
-      overlay: 'rgba(36, 39, 59, 0.8)',
+      overlay: 'rgba(36, 39, 59, 0.9)',
       menu: 'rgba(12, 15, 25, 0.30)',
       menuHover: '#0c0f19',
       content: 'rgba(146, 151, 179, 0.13)',

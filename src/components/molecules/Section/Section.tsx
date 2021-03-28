@@ -8,7 +8,8 @@ const SectionContainer = styled.section`
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-top: 62px;
+  padding: 0;
+  margin-top: 36px;
 `;
 
 const Section: FC<SectionProps> = ({ children, header, ...props }) => {

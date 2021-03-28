@@ -13,8 +13,10 @@ const initialState: UserState = {
   email: undefined,
   username: undefined,
   phoneNumber: undefined,
+  emailCount: 0,
   isAdmin: false,
   isLoading: false,
+  isEmailSuccess: false,
 };
 
 const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
@@ -29,12 +31,14 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
       state.isLoading = true;
     },
     sendEmailSuccess: (state, { payload }: PayloadAction<SendEmailRequest>) => {
-      state.isLoading = false;
       state.error = undefined;
+      state.isLoading = false;
+      state.isEmailSuccess = true;
       state.email = payload.address;
       state.username = payload.name;
       state.company = payload.company;
       state.phoneNumber = payload.phoneNumber;
+      state.emailCount++;
     },
     sendEmailFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;

@@ -33,8 +33,8 @@ const PanelContentContainer = styled.div`
   
   
   @media screen and (max-width: 720px) {
-    padding: 20px 10px 160px 10px;
     height: calc(100vh - 58px);
+    padding: 20px 10px 160px 10px;
   }
 `;
 
