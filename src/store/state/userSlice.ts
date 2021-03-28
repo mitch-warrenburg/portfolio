@@ -44,6 +44,9 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
       state.error = payload;
       state.isLoading = false;
     },
+    composeNewEmail: state => {
+      state.isEmailSuccess = false;
+    },
     clearUserLoadState: state => {
       state.isLoading = false;
       state.error = undefined;
@@ -83,6 +86,7 @@ export const {
   adminAuth,
   sendEmail,
   adminLogout,
+  composeNewEmail,
   submitChatForm,
   adminAuthSuccess,
   adminAuthFailure,

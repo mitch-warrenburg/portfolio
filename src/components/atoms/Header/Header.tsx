@@ -12,6 +12,8 @@ const Header = styled.div<HeaderProps>`
   padding: 0 30px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
   pointer-events: initial;
+  text-align: center;
+  vertical-align: center;
   white-space: nowrap;
 
   @media screen and (max-width: 720px) {

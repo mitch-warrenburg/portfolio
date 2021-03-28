@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Nav = styled.div<NavProps>`
   position: relative;
   overflow: auto;
-  height: calc(90vh - 56px);
+  height: calc(100vh - 122px);
   flex-basis: 240px;
   flex-shrink: 0;
   padding: 26px;

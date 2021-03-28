@@ -8,14 +8,14 @@ $fade-out-duration: 750ms;
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   margin: 0;
   background: black;
 
   &__stars {
     z-index: 3;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     padding: 0;
     background: transparent;
   }

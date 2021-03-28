@@ -1,19 +1,21 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useCallback } from 'react';
 import Nav from '../../atoms/Nav';
 import Panel from '../../atoms/Panel';
-import styled from 'styled-components';
 import Menu from '../../molecules/Menu';
 import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
 import Section from '../../molecules/Section';
 import { History, LocationState } from 'history';
 import AppHeader from '../../organisms/AppHeader';
+import styled, { useTheme } from 'styled-components';
 import EmailEditor from '../../organisms/EmailEditor';
 import { useSelector, useDispatch } from 'react-redux';
 import PageTemplate from '../../templates/PageTemplate';
+import Notification from '../../organisms/Notification';
 import { RootState, UiState } from '../../../store/types';
 import { useHistory, Switch, Route } from 'react-router-dom';
 import TerminalEmulator from '../../organisms/TerminalEmulator';
+import { setIsChatMinimized, setIsChatOpen } from '../../../store/state/uiSlice';
 import ChatMessengerWidget from '../../organisms/ChatMessenger/ChatMessengerWidget';
 import {
   adminMenuItems,
@@ -30,8 +32,7 @@ const PanelContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px 40px;
-  
-  
+
   @media screen and (max-width: 720px) {
     height: calc(100vh - 58px);
     padding: 20px 10px 160px 10px;
@@ -39,9 +40,15 @@ const PanelContentContainer = styled.div`
 `;
 
 const HomePage: FC = () => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const history: History<LocationState> = useHistory();
   const { hasRunIntro } = useSelector<RootState, UiState>(({ ui }) => ui);
+
+  const messengerButtonClickHandler = useCallback(() => {
+    dispatch(setIsChatOpen(true));
+    dispatch(setIsChatMinimized(false));
+  }, []);
 
   const adminItems = useMemo(() => adminMenuItems(history), []);
   const contactItems = useMemo(() => contactMenuItems(dispatch), []);
@@ -65,6 +72,21 @@ const HomePage: FC = () => {
                   <Section header="About Me">Stuff about me</Section>
                 </Route>
                 <Route path="/app/contact">
+                  <Section header="Chat">
+                    <Notification
+                      themeColor={theme.colors.theme.primary}
+                      button={{
+                        transparent: true,
+                        text: 'Open Messenger',
+                        onClick: messengerButtonClickHandler,
+                      }}
+                      icon={{
+                        size: 'lg',
+                        icon: 'comments',
+                      }}
+                      message="Chat Now!"
+                    />
+                  </Section>
                   <Section header="Contact Me">
                     <EmailEditor />
                   </Section>

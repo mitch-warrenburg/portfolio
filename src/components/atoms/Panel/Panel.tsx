@@ -7,14 +7,14 @@ const Panel = styled.div<PanelProps>`
   overflow: hidden;
   width: 100%;
   max-width: 1280px;
-  height: 90vh;
+  height: calc(100vh - 64px);
   flex-direction: column;
   margin-top: 32px;
   background: ${({ theme }) => theme.colors.background.primary};
   border-radius: 14px;
 
   @media screen and (max-width: 720px) {
-    height: 100vh;
+    height: 100%;
     margin-top: 0;
     border-radius: 0;
   }

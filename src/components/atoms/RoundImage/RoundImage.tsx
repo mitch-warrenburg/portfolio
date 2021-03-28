@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { RoundImageProps } from './types';
 
 const RoundImage = styled.img<RoundImageProps>`
-  width: 40px;
-  max-width: 100%;
-  height: 40px;
+  max-width: 36px;
+  height: 100%;
+  max-height: 36px;
   border: 2px solid ${({ theme }) => theme.colors.font.primary};
   border-radius: 50%;
   object-fit: cover;

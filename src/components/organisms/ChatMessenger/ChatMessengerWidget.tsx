@@ -26,11 +26,13 @@ const Container = styled.div<CollapsibleElementProps>`
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
   opacity: 1;
   pointer-events: all;
-  transition: ease-in-out 300ms;
+  transition: max-width ease-in-out 300ms, max-height ease-in-out 300ms;
 
   @media screen and (max-width: 720px) {
     right: 0;
     bottom: 0;
+    transition: none;
+    max-width: ${({ open }) => (open ? '100vw' : '240px')};
     max-height: ${({ open }) => (open ? '100vh' : '32px')};
     border-radius: ${({ open }) => (open ? 0 : 8)};
   }

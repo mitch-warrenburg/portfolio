@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 const Label = styled.label`
   padding: 0 0 6px 0;
   color: white;
-  font-size: 0.875rem;
+  font-size: 1rem;
 `;
 
 const FormField = forwardRef<HTMLInputElement, FormFieldProps>(({ label, ...props }, ref) => {

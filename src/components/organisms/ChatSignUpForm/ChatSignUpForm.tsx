@@ -47,7 +47,7 @@ const PromptContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 40px 0;
+  margin: 32px 0 40px 0;
 
   svg {
     font-size: 34px;
@@ -60,13 +60,13 @@ const PromptText = styled.div`
 `;
 
 const CloseButton = styled.button`
-  padding: 0;
   border: none;
   margin: -10px -10px 0 0;
   background: transparent;
   color: ${({ theme }) => theme.colors.font.primary};
   cursor: initial;
   outline: none;
+  padding: 4px;
 
   &:hover {
     transform: scale(1.08, 1.08);
@@ -128,7 +128,7 @@ const ChatSignUpForm: FC = () => {
     <Container>
       <FlexBox justify="flex-end">
         <CloseButton onClick={closeButtonClickHandler}>
-          <Icon icon="times-circle" size="lg" cursor="pointer" />
+          <Icon icon="times-circle" size="2x" cursor="pointer" />
         </CloseButton>
       </FlexBox>
       <PromptContainer>

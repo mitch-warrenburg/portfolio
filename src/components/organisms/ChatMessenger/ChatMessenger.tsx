@@ -38,7 +38,6 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   transition: ease-in-out 150ms;
 
   @media screen and (min-width: 720px) {
-
     &:hover {
       background: ${({ open, theme }) =>
         open ? theme.colors.background.overlay : theme.colors.background.input};
@@ -104,7 +103,7 @@ const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
     margin: 0;
     background: none;
     color: rgba(255, 255, 255, 0.7);
-    font-size: 0.875rem;
+    font-size: 1rem;
     outline: none !important;
     resize: none;
     text-align: justify;

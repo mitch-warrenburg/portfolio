@@ -9,7 +9,11 @@ const SectionContainer = styled.section`
   width: 100%;
   flex-direction: column;
   padding: 0;
-  margin-top: 36px;
+  margin-top: 50px;
+
+  &:last-child {
+    margin-bottom: 36px;
+  }
 `;
 
 const Section: FC<SectionProps> = ({ children, header, ...props }) => {

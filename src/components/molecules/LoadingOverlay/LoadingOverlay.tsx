@@ -14,8 +14,8 @@ const ContentContainer = styled.div`
 `;
 
 const LoadingMessage = styled.p`
-  color: white;
   margin-top: 42px;
+  color: white;
 `;
 
 const LoadingOverlay: FC<LoadingOverlayProps> = ({ message, isLoading, ...props }) => {

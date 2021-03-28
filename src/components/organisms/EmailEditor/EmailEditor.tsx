@@ -7,16 +7,18 @@ import React, {
   ChangeEventHandler,
   KeyboardEventHandler,
 } from 'react';
-import styled from 'styled-components';
 import Button from '../../atoms/Button';
 import draftToHtml from 'draftjs-to-html';
+import Notification from '../Notification';
+import Optional from '../../atoms/Optional';
 import FormField from '../../molecules/FormField';
+import styled, { useTheme } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, UserState } from '../../../store/types';
-import { sendEmail } from '../../../store/state/userSlice';
 import LoadingOverlay from '../../molecules/LoadingOverlay';
 import { Editor as DraftEditor } from 'react-draft-wysiwyg';
 import { convertToRaw, EditorState, Editor as EditorType } from 'draft-js';
+import { composeNewEmail, sendEmail } from '../../../store/state/userSlice';
 import './styles.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -48,18 +50,19 @@ const FormContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
 
   & > div {
-    min-width: 190px;
     width: 100%;
+    min-width: 190px;
     margin: 0;
 
     & > input {
-      min-width: 190px;
       width: 100%;
+      min-width: 190px;
     }
   }
 `;
 
 const EmailEditor: FC = () => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const user = useSelector<State, UserState>(({ user }) => user);
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
@@ -134,100 +137,123 @@ const EmailEditor: FC = () => {
     );
   }, [email, company, username, phoneNumber, editorState]);
 
+  const newEmailClickHandler = useCallback(() => {
+    dispatch(composeNewEmail({}));
+  }, []);
+
   return (
     <>
       <LoadingOverlay isLoading={user.isLoading} message="Sending..." />
-      <Container>
-        <FormContainer>
-          <FormField
-            type="text"
-            label="Name"
-            name="username"
-            value={username}
-            disabled={user.isLoading}
-            onBlur={focusCompany}
-            onChange={fieldChangeHandler}
-            onKeyDown={nameKeyDownHandler}
-          />
-          <FormField
-            type="text"
-            name="company"
-            label="Company"
-            value={company}
-            onBlur={focusEmail}
-            disabled={user.isLoading}
-            ref={companyFieldRef}
-            onChange={fieldChangeHandler}
-            onKeyDown={companyKeyDownHandler}
-          />
-          <FormField
-            type="email"
-            name="email"
-            label="Email"
-            inputMode="email"
-            value={email}
-            disabled={user.isLoading}
-            ref={emailFieldRef}
-            onBlur={focusPhoneNumber}
-            onChange={fieldChangeHandler}
-            onKeyDown={emailKeyDownHandler}
-          />
-          <FormField
-            type="text"
-            inputMode="tel"
-            name="phoneNumber"
-            label="Phone Number"
-            disabled={user.isLoading}
-            value={phoneNumber}
-            ref={phoneNumberFieldRef}
-            onChange={fieldChangeHandler}
-            onBlur={focusEditor}
-            onKeyDown={phoneNumberKeyDownHandler}
-          />
-        </FormContainer>
-        <DraftEditor
-          spellCheck
-          editorRef={setEditorRef}
-          editorState={editorState}
-          onEditorStateChange={setEditorState}
-          wrapperClassName="email-editor"
-          editorClassName="email-editor__textarea"
-          placeholder="Write a message..."
-          toolbar={{
-            image: {
-              previewImage: true,
-              uploadEnabled: true,
-              uploadCallback: uploadImageCallBack,
-              alt: { present: true, mandatory: false },
-              inputAccept: 'image/gif,image/jpeg,image/jpg,image/png,image/svg,application/*',
-            },
-            inline: {
-              inDropdown: false,
-              className: undefined,
-              component: undefined,
-              dropdownClassName: undefined,
-              options: ['bold', 'italic', 'underline', 'strikethrough'],
-            },
-            options: [
-              'image',
-              'inline',
-              'fontSize',
-              'fontFamily',
-              'list',
-              'textAlign',
-              'colorPicker',
-              'emoji',
-              'history',
-            ],
+      <Optional renderIf={user.isEmailSuccess}>
+        <Notification
+          themeColor={theme.colors.theme.success}
+          button={{
+            transparent: true,
+            text: 'Send Another',
+            onClick: newEmailClickHandler,
+            disabled: user.emailCount >= 3,
           }}
+          icon={{
+            size: 'lg',
+            icon: 'check-circle',
+          }}
+          message="Email Sent"
         />
-        <Button
-          transparent
-          onClick={submitButtonClickHandler}
-          disabled={!isFormValid || user.isLoading}>
-          Submit
-        </Button>
-      </Container>
+      </Optional>
+      <Optional renderIf={!user.isEmailSuccess}>
+        <Container>
+          <FormContainer>
+            <FormField
+              type="text"
+              label="Name"
+              name="username"
+              value={username}
+              disabled={user.isLoading}
+              onBlur={focusCompany}
+              onChange={fieldChangeHandler}
+              onKeyDown={nameKeyDownHandler}
+            />
+            <FormField
+              type="text"
+              name="company"
+              label="Company"
+              value={company}
+              onBlur={focusEmail}
+              disabled={user.isLoading}
+              ref={companyFieldRef}
+              onChange={fieldChangeHandler}
+              onKeyDown={companyKeyDownHandler}
+            />
+            <FormField
+              type="email"
+              name="email"
+              label="Email"
+              inputMode="email"
+              value={email}
+              disabled={user.isLoading}
+              ref={emailFieldRef}
+              onBlur={focusPhoneNumber}
+              onChange={fieldChangeHandler}
+              onKeyDown={emailKeyDownHandler}
+            />
+            <FormField
+              type="text"
+              inputMode="tel"
+              name="phoneNumber"
+              label="Phone Number"
+              disabled={user.isLoading}
+              value={phoneNumber}
+              ref={phoneNumberFieldRef}
+              onChange={fieldChangeHandler}
+              onBlur={focusEditor}
+              onKeyDown={phoneNumberKeyDownHandler}
+            />
+          </FormContainer>
+          <DraftEditor
+            spellCheck
+            editorRef={setEditorRef}
+            editorState={editorState}
+            onEditorStateChange={setEditorState}
+            wrapperClassName="email-editor"
+            editorClassName="email-editor__textarea"
+            placeholder="Write a message..."
+            toolbar={{
+              image: {
+                previewImage: true,
+                uploadEnabled: true,
+                uploadCallback: uploadImageCallBack,
+                alt: { present: true, mandatory: false },
+                inputAccept:
+                  'image/gif,image/jpeg,image/jpg,image/png,image/svg,application/*',
+              },
+              inline: {
+                inDropdown: false,
+                className: undefined,
+                component: undefined,
+                dropdownClassName: undefined,
+                options: ['bold', 'italic', 'underline', 'strikethrough'],
+              },
+              options: [
+                'image',
+                'inline',
+                'fontSize',
+                'fontFamily',
+                'list',
+                'textAlign',
+                'colorPicker',
+                'emoji',
+                'history',
+              ],
+            }}
+          />
+          <Button
+            transparent
+            onClick={submitButtonClickHandler}
+            disabled={!isFormValid || user.isLoading}>
+            Submit
+          </Button>
+        </Container>
+      </Optional>
     </>
   );
 };
