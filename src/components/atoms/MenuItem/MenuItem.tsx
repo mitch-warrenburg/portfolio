@@ -6,7 +6,7 @@ const MenuItem = styled.li<MenuItemProps>`
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 10px;
+  padding: 10px 10px 10px 0;
   border-radius: 6px;
   color: ${({ theme }) => theme.colors.font.primary};
   font-size: 14px;

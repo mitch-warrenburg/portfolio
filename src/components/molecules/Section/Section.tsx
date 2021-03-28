@@ -7,11 +7,13 @@ import SectionHeader from '../../atoms/SectionHeader';
 const SectionContainer = styled.section`
   display: flex;
   width: 100%;
+  height: 100%;
+  flex: 1 1 100%;
   flex-direction: column;
   padding: 0;
-  margin-top: 50px;
+  margin-top: 36px;
 
-  &:last-child {
+  :last-of-type {
     margin-bottom: 36px;
   }
 `;

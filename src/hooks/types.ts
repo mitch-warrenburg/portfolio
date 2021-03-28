@@ -4,3 +4,7 @@ export interface UseControlledProps<T = unknown> {
   name: string;
   state?: string;
 }
+
+export type Breakpoint = 'small' | 'large';
+
+export type UseBreakpoint = () => Breakpoint;

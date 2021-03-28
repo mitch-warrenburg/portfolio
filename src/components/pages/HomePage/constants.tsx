@@ -1,10 +1,7 @@
 import React from 'react';
 import Icon from '../../atoms/Icon';
 import FlexBox from '../../atoms/FlexBox';
-import { Dispatch } from '@reduxjs/toolkit';
-import { History, LocationState } from 'history';
 import { TerminalCommand } from '../../organisms/TerminalEmulator';
-import { setHasRunIntro, setIsChatOpen } from '../../../store/state/uiSlice';
 
 export const techMenuItems = () => [
   {
@@ -53,7 +50,10 @@ export const techMenuItems = () => [
   },
 ];
 
-export const aboutAppMenuItems = (history: History<LocationState>, dispatch: Dispatch) => [
+export const aboutAppMenuItems = (
+  onClickReplayIntro: () => any,
+  onClickAppInfo: () => any
+) => [
   {
     id: 'replay-intro',
     content: (
@@ -64,10 +64,7 @@ export const aboutAppMenuItems = (history: History<LocationState>, dispatch: Dis
         </FlexBox>
       </>
     ),
-    onClick: () => {
-      dispatch(setHasRunIntro(false));
-      history.push('/');
-    },
+    onClick: onClickReplayIntro,
   },
   {
     id: 'about-this-app',
@@ -79,10 +76,11 @@ export const aboutAppMenuItems = (history: History<LocationState>, dispatch: Dis
         </FlexBox>
       </>
     ),
+    onClick: onClickAppInfo,
   },
 ];
 
-export const contactMenuItems = (history: History<LocationState>, dispatch: Dispatch) => [
+export const contactMenuItems = (onClickEmail: () => any, onClickChat: () => any) => [
   {
     id: 'email',
     content: (
@@ -93,7 +91,7 @@ export const contactMenuItems = (history: History<LocationState>, dispatch: Disp
         </FlexBox>
       </>
     ),
-    onClick: () => history.push('/app/contact'),
+    onClick: onClickEmail,
   },
   {
     id: 'chat',
@@ -105,11 +103,11 @@ export const contactMenuItems = (history: History<LocationState>, dispatch: Disp
         </FlexBox>
       </>
     ),
-    onClick: () => dispatch(setIsChatOpen(true)),
+    onClick: onClickChat,
   },
 ];
 
-export const adminMenuItems = (history: History<LocationState>) => [
+export const adminMenuItems = (onClickAdminConsole: () => any) => [
   {
     id: 'admin-console',
     content: (
@@ -120,7 +118,7 @@ export const adminMenuItems = (history: History<LocationState>) => [
         </FlexBox>
       </>
     ),
-    onClick: () => history.push('/admin'),
+    onClick: onClickAdminConsole,
   },
 ];
 

@@ -25,7 +25,7 @@ const MenuList = styled.ul`
 `;
 
 const Label = styled.div`
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   color: ${({ theme }) => theme.colors.font.inactive};
 `;
 

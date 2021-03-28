@@ -10,8 +10,8 @@ const Content = styled.div`
   height: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 0 16px;
+  justify-content: center;
+  padding: 32px 16px;
   background: transparent;
   pointer-events: none;
 

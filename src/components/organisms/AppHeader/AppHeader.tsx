@@ -4,15 +4,13 @@ import { locations } from './constants';
 import Tabs from '../../molecules/Tabs';
 import { useLocation } from 'react-router';
 import Optional from '../../atoms/Optional';
-import { createBreakpoint } from 'react-use';
 import { useHistory } from 'react-router-dom';
+import { useBreakpoint } from '../../../hooks';
 import IconButton from '../../atoms/IconButton';
 import { logo } from '../../../globalConstants';
 import { History, LocationState } from 'history';
 import MobileMenu from '../../molecules/MobileMenu';
 import RoundImageButton from '../../atoms/RoundImageButton';
-
-const useBreakpoint = createBreakpoint({ large: 720, small: 719 });
 
 const AppHeader: FC = () => {
   const { pathname } = useLocation();

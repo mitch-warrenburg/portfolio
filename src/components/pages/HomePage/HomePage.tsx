@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useCallback } from 'react';
+import React, { FC, useMemo, useCallback, useRef } from 'react';
 import Nav from '../../atoms/Nav';
 import Panel from '../../atoms/Panel';
 import Menu from '../../molecules/Menu';
@@ -15,7 +15,11 @@ import PageTemplate from '../../templates/PageTemplate';
 import Notification from '../../organisms/Notification';
 import { useHistory, Switch, Route } from 'react-router-dom';
 import TerminalEmulator from '../../organisms/TerminalEmulator';
-import { setIsChatMinimized, setIsChatOpen } from '../../../store/state/uiSlice';
+import {
+  setIsChatOpen,
+  setHasRunIntro,
+  setIsChatMinimized,
+} from '../../../store/state/uiSlice';
 import {
   adminMenuItems,
   terminalCommands,
@@ -33,24 +37,77 @@ const PanelContentContainer = styled.div`
   padding: 20px 40px;
 
   @media screen and (max-width: 720px) {
-    padding: 20px 10px 100px 10px;
+    height: calc(100vh - 58px);
+    padding: 20px 10px 0 10px;
+  }
+`;
+
+const MobileFooterContainer = styled.div`
+  z-index: 4;
+  display: flex;
+  width: 100vw;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 32px 32px 100px 32px;
+  background: ${({theme}) => theme.colors.background.modal};
+
+  @media screen and (min-width: 721px) {
+    display: none;
+  }
+`;
+
+const MobileFooter = styled.div`
+  display: grid;
+  width: 100%;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  justify-items: center;
+
+  @media screen and (max-width: 480px) {
+    justify-items: start;
   }
 `;
 
 const HomePage: FC = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const panelContentRef = useRef<HTMLDivElement>(null);
   const history: History<LocationState> = useHistory();
   const hasRunIntro = useSelector<RootState, boolean>(({ ui }) => ui.hasRunIntro);
 
-  const messengerButtonClickHandler = useCallback(() => {
-    dispatch(setIsChatOpen(true));
-    dispatch(setIsChatMinimized(false));
+  const scrollToTop = useCallback(() => {
+    panelContentRef.current?.scrollTo(0, 0);
   }, []);
 
-  const adminItems = useMemo(() => adminMenuItems(history), []);
-  const contactItems = useMemo(() => contactMenuItems(history, dispatch), []);
-  const aboutAppItems = useMemo(() => aboutAppMenuItems(history, dispatch), []);
+  const openChat = useCallback(() => {
+    dispatch(setIsChatOpen(true));
+    dispatch(setIsChatMinimized(false));
+    scrollToTop();
+  }, []);
+
+  const navToContact = useCallback(() => {
+    history.push('/app/contact');
+    scrollToTop();
+  }, []);
+
+  const navToAdmin = useCallback(() => {
+    history.push('/admin');
+  }, []);
+
+  const navToAboutApp = useCallback(() => {
+    history.push('/app/about-app');
+    scrollToTop();
+  }, []);
+
+  const replayIntro = useCallback(() => {
+    dispatch(setHasRunIntro(false));
+    history.push('/');
+  }, []);
+
+  const adminItems = useMemo(() => adminMenuItems(navToAdmin), []);
+  const contactItems = useMemo(() => contactMenuItems(navToContact, openChat), []);
+  const aboutAppItems = useMemo(() => aboutAppMenuItems(replayIntro, navToAboutApp), []);
 
   return (
     <Optional renderIf={hasRunIntro}>
@@ -63,7 +120,7 @@ const HomePage: FC = () => {
               <Menu label="Get in Touch" items={contactItems} />
               <Menu label="Administration" items={adminItems} />
             </Nav>
-            <PanelContentContainer>
+            <PanelContentContainer ref={panelContentRef} className="wow">
               <TerminalEmulator commands={terminalCommands} />
               <Switch>
                 <Route exact path="/app">
@@ -75,8 +132,8 @@ const HomePage: FC = () => {
                       themeColor={theme.colors.theme.primary}
                       button={{
                         transparent: true,
+                        onClick: openChat,
                         text: 'Open Messenger',
-                        onClick: messengerButtonClickHandler,
                       }}
                       icon={{
                         size: 'lg',
@@ -98,7 +155,17 @@ const HomePage: FC = () => {
                 <Route path="/app/experience">
                   <Section header="Experience">Okay</Section>
                 </Route>
+                <Route path="/app/about-app">
+                  <Section header="What's under the Hood?">BADASS SHIT</Section>
+                </Route>
               </Switch>
+              <MobileFooterContainer>
+                <MobileFooter>
+                  <Menu label="About this App" items={aboutAppItems} />
+                  <Menu label="Get in Touch" items={contactItems} />
+                  <Menu label="Administration" items={adminItems} />
+                </MobileFooter>
+              </MobileFooterContainer>
             </PanelContentContainer>
           </FlexBox>
         </Panel>

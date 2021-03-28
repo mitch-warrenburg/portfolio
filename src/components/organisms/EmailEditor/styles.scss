@@ -1,15 +1,14 @@
 .email-editor {
-  box-sizing: border-box;
-  margin-bottom: 16px;
+  box-sizing: border-box !important;
   background: transparent;
 
   * {
-    box-sizing: border-box;
-    pointer-events: initial;
+    box-sizing: border-box !important;
   }
 
   .rdw-editor-main {
-    height: 100%;
+    height: auto;
+    min-height: 180px;
   }
 
   .rdw-option-wrapper {
@@ -56,7 +55,7 @@
   }
 
   .rdw-colorpicker-modal {
-    height: 210px;
+    //height: 210px;
   }
 
   .rdw-emoji-modal, .rdw-image-modal, .rdw-colorpicker-modal, .rdw-link-modal, .rdw-embedded-modal {
@@ -144,10 +143,6 @@
   }
 
   &__textarea {
-    height: 200px;
-    min-height: 200px;
-    max-height: 200px;
-    padding: 8px;
     border: 1px solid rgba(113, 119, 144, 0.25);
     background: rgba(113, 119, 144, 0.1);
     border-radius: 4px;
@@ -157,7 +152,6 @@
     scroll-behavior: smooth;
 
     .public-DraftEditor-content {
-      height: 200px;
 
       &:focus-within {
         height: 1rem;
@@ -166,13 +160,7 @@
   }
 
   & ~ button {
-    position: absolute;
-    right: 0;
-    bottom: -30px;
-  }
-
-  & .DraftEditor-root {
-    height: 100%;
-    margin-top: -16px;
+    align-self: flex-end;
+    margin-top: 16px;
   }
 }
