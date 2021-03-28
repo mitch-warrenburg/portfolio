@@ -10,11 +10,20 @@ export interface RootState {
 export type State = RootState & PersistPartial;
 export type PersistedRootReducer = Reducer<State, Action>;
 
+export type ActionResultType = 'success' | 'failure';
+
+export interface ActionResultNotification {
+  id: string;
+  text: string;
+  type: ActionResultType;
+}
+
 export interface UiState {
   hasRunIntro: boolean;
-  isIntroRunning: boolean;
   isChatOpen: boolean;
+  isIntroRunning: boolean;
   isChatMinimized: boolean;
+  notifications: Array<ActionResultNotification>;
 }
 
 export interface ChatState {
@@ -123,4 +132,5 @@ export type ChatEventType =
   | 'USER_DISCONNECTED'
   | 'TYPING_STATUS'
   | 'connect_error'
-  | 'connect';
+  | 'connect'
+  | 'disconnect';

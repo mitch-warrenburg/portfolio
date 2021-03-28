@@ -25,7 +25,7 @@ import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
 
 const HeaderContainer = styled.div<CollapsibleElementProps>`
   position: relative;
-  z-index: 2;
+  z-index: 6;
   display: flex;
   height: 100%;
   flex: 0 1 56px;

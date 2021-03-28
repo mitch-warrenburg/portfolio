@@ -10,6 +10,7 @@ import Icon from '../../atoms/Icon';
 import styled from 'styled-components';
 import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
+import IconButton from '../../atoms/IconButton';
 import FormField from '../../molecules/FormField';
 import FormButton from '../../molecules/FormButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,19 +60,14 @@ const PromptText = styled.div`
   font-size: 14px;
 `;
 
-const CloseButton = styled.button`
+const CloseButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
   padding: 4px;
-  border: none;
   margin: -10px -10px 0 0;
   background: transparent;
-  color: ${({ theme }) => theme.colors.font.primary};
-  cursor: initial;
-  outline: none;
-
-  &:hover {
-    transform: scale(1.08, 1.08);
-    transition: ease-in-out 200ms;
-  }
 `;
 
 const ErrorText = styled.p`
@@ -126,11 +122,14 @@ const ChatSignUpForm: FC = () => {
 
   return (
     <Container>
-      <FlexBox justify="flex-end">
-        <CloseButton onClick={closeButtonClickHandler}>
-          <Icon icon="times-circle" size="2x" cursor="pointer" />
-        </CloseButton>
-      </FlexBox>
+      <CloseButtonContainer>
+        <IconButton
+          icon="times-circle"
+          size="2x"
+          color="white"
+          onClick={closeButtonClickHandler}
+        />
+      </CloseButtonContainer>
       <PromptContainer>
         <Icon icon="comments" size="2x" />
         <PromptText>Please tell me a bit about yourself to get started...</PromptText>

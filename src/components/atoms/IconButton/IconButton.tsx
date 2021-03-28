@@ -9,6 +9,11 @@ const Button = styled.button`
   background: transparent;
   cursor: pointer;
   outline: none;
+
+  &:hover {
+    transform: scale(1.08, 1.08);
+    transition: ease-in-out 200ms;
+  }
 `;
 
 const IconButton: FC<IconButtonProps> = ({ onClick, ...props }) => {

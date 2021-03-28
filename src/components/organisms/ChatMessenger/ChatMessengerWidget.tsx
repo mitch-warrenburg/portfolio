@@ -12,7 +12,7 @@ import './styles.scss';
 
 const Container = styled.div<CollapsibleElementProps>`
   position: absolute;
-  z-index: 2;
+  z-index: 6;
   right: 32px;
   bottom: 1px;
   width: 100%;

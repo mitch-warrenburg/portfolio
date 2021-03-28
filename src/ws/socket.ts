@@ -2,16 +2,17 @@ import store from '../store';
 import { io } from 'socket.io-client';
 import { IS_DEBUG } from '../store/config';
 import {
+  CONNECT,
+  DISCONNECT,
   NEW_SESSION,
-  MESSAGE_ERROR,
   CONNECT_ERROR,
   USER_SESSIONS,
   TYPING_STATUS,
   USER_CONNECTED,
   PRIVATE_MESSAGE,
+  INVALID_USERNAME,
   USER_DISCONNECTED,
   TOKEN_AUTH_ERROR_MSG,
-  INVALID_USERNAME,
 } from '../globalConstants';
 import {
   websocketError,
@@ -22,7 +23,6 @@ import {
   chatUserTypingEvent,
   privateMessageEvent,
   userDisconnectedEvent,
-  connectToChatServer,
 } from '../store/state/chatSlice';
 import {
   TypingEvent,
@@ -52,8 +52,8 @@ if (IS_DEBUG) {
   socket.onAny((event, ...args) => console.log(event, args));
 }
 
-socket.on(MESSAGE_ERROR, (error: Error) => {
-  error && dispatch(websocketError(error));
+socket.on(CONNECT, () => {
+  console.log('Connected to Chat');
 });
 
 socket.on(CONNECT_ERROR, (error: Error) => {
@@ -84,8 +84,8 @@ socket.on<typeof TYPING_STATUS>(TYPING_STATUS, (event: TypingEvent) => {
   dispatch(chatUserTypingEvent(event));
 });
 
-socket.on('disconnect', async () => {
-  console.log('Disconnected from chat.');
+socket.on(DISCONNECT, async () => {
+  console.log('Disconnected from Chat');
 
   setTimeout(() => {
     const {

@@ -1,6 +1,7 @@
+import { uniqueId } from 'lodash';
 import { client } from '../../http';
-import { setIsChatOpen } from '../state/uiSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { addNotification, setIsChatOpen } from '../state/uiSlice';
 import { takeEvery, call, put, delay, select } from 'redux-saga/effects';
 import { AdminAuthPayload, AdminAuthResponse, UserState, SendEmailRequest } from '../types';
 import {
@@ -45,8 +46,12 @@ export function* sendEmailHandler({ payload: email }: PayloadAction<SendEmailReq
       email
     );
     yield put(sendEmailSuccess(email));
+    yield put(addNotification({ id: uniqueId(), text: 'Email Sent', type: 'success' }));
   } catch (e) {
     yield put(sendEmailFailure(e.message));
+    yield put(
+      addNotification({ id: uniqueId(), text: 'Failed to Send Email', type: 'failure' })
+    );
   }
 }
 
@@ -62,8 +67,10 @@ export function* adminLogoutHandler() {
     yield put(resetUser({}));
     yield put(resetChat({}));
     yield put(setIsChatOpen(false));
+    yield put(addNotification({ id: uniqueId(), text: 'Logged Out', type: 'success' }));
   } catch (e) {
     yield put(adminLogoutFailure({}));
+    yield put(addNotification({ id: uniqueId(), text: 'Logout Failed', type: 'failure' }));
   }
 }
 
@@ -76,8 +83,10 @@ export function* adminAuthHandler({ payload: auth }: PayloadAction<AdminAuthPayl
     yield put(addAdminAuthSuccessDetails(response));
     yield put(adminAuthSuccess(response));
     yield put(connectToChatServer({}));
+    yield put(addNotification({ id: uniqueId(), text: 'Logged In', type: 'success' }));
   } catch (e) {
     yield put(adminAuthFailure(e.message));
+    yield put(addNotification({ id: uniqueId(), text: 'Login Failed', type: 'failure' }));
   }
 }
 

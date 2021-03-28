@@ -10,6 +10,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import HomePage from './components/pages/HomePage/HomePage';
 import AdminLoginPage from './components/pages/AdminLoginPage';
 import SpaceBackdrop from './components/molecules/SpaceBackdrop';
+import ToastNotifications from './components/organisms/ToastNotifications';
 import PolygonWarpBackdrop from './components/molecules/PolygonWarpBackdrop';
 import ChatMessengerWidget from './components/organisms/ChatMessenger/ChatMessengerWidget';
 import './_index.scss';
@@ -21,6 +22,8 @@ const App: FC = () => {
     <>
       <SpaceBackdrop />
       <PolygonWarpBackdrop />
+      <ChatMessengerWidget />
+      <ToastNotifications />
       <Switch>
         <Route exact path="/" component={IntroPage} />
         <Route path="/app" component={HomePage} />
@@ -28,7 +31,6 @@ const App: FC = () => {
         <Route path="/admin/login" component={AdminLoginPage} />
         <Redirect to="/app" />
       </Switch>
-      <ChatMessengerWidget />
     </>
   );
 };

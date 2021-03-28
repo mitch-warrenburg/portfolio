@@ -5,6 +5,7 @@ import Menu from '../../molecules/Menu';
 import FlexBox from '../../atoms/FlexBox';
 import Optional from '../../atoms/Optional';
 import Section from '../../molecules/Section';
+import { RootState } from '../../../store/types';
 import { History, LocationState } from 'history';
 import AppHeader from '../../organisms/AppHeader';
 import styled, { useTheme } from 'styled-components';
@@ -12,7 +13,6 @@ import EmailEditor from '../../organisms/EmailEditor';
 import { useSelector, useDispatch } from 'react-redux';
 import PageTemplate from '../../templates/PageTemplate';
 import Notification from '../../organisms/Notification';
-import { RootState, UiState } from '../../../store/types';
 import { useHistory, Switch, Route } from 'react-router-dom';
 import TerminalEmulator from '../../organisms/TerminalEmulator';
 import { setIsChatMinimized, setIsChatOpen } from '../../../store/state/uiSlice';
@@ -41,7 +41,7 @@ const HomePage: FC = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const history: History<LocationState> = useHistory();
-  const { hasRunIntro } = useSelector<RootState, UiState>(({ ui }) => ui);
+  const hasRunIntro = useSelector<RootState, boolean>(({ ui }) => ui.hasRunIntro);
 
   const messengerButtonClickHandler = useCallback(() => {
     dispatch(setIsChatOpen(true));
@@ -49,7 +49,7 @@ const HomePage: FC = () => {
   }, []);
 
   const adminItems = useMemo(() => adminMenuItems(history), []);
-  const contactItems = useMemo(() => contactMenuItems(dispatch), []);
+  const contactItems = useMemo(() => contactMenuItems(history, dispatch), []);
   const aboutAppItems = useMemo(() => aboutAppMenuItems(history, dispatch), []);
 
   return (

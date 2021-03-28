@@ -4,7 +4,8 @@ export const TYPING_EVENT_DURATION_MS = 1800;
 export const INVALID_USERNAME = 'Invalid Username';
 export const TOKEN_AUTH_ERROR_MSG = 'Authentication Error';
 
-export const MESSAGE_ERROR: ChatEventType = 'connect';
+export const CONNECT: ChatEventType = 'connect';
+export const DISCONNECT: ChatEventType = 'disconnect';
 export const CONNECT_ERROR: ChatEventType = 'connect_error';
 export const NEW_SESSION: ChatEventType = 'NEW_SESSION';
 export const USER_SESSIONS: ChatEventType = 'USER_SESSIONS';

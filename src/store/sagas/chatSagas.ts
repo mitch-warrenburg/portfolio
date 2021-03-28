@@ -1,9 +1,11 @@
 import socket from '../../ws';
+import { uniqueId } from 'lodash';
 import client from '../../http/client';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { addNotification } from '../state/uiSlice';
 import { adminAuthFailure } from '../state/userSlice';
-import { TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME } from '../../globalConstants';
 import { takeEvery, select, put, delay, call } from 'redux-saga/effects';
+import { TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME } from '../../globalConstants';
 import {
   addUser,
   setUsers,
@@ -55,6 +57,9 @@ export function* websocketErrorHandler({ payload: error }: PayloadAction<Error>)
     yield put(chatAuthFailure({}));
     yield put(adminAuthFailure(error.message));
     yield put(fetchSendToUser({}));
+    yield put(
+      addNotification({ id: uniqueId(), text: 'Messenger Failed to Connect', type: 'failure' })
+    );
   }
 }
 
@@ -110,6 +115,7 @@ export function* userConnectedEventHandler({
       })
     );
   }
+  yield put(addNotification({ id: uniqueId(), text: 'Messenger Connected', type: 'success' }));
 }
 
 export const chatState = () => {

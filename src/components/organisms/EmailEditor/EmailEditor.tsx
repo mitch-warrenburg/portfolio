@@ -1,7 +1,6 @@
 import React, {
   FC,
   useRef,
-  useMemo,
   useState,
   useCallback,
   ChangeEventHandler,
@@ -11,7 +10,9 @@ import Button from '../../atoms/Button';
 import draftToHtml from 'draftjs-to-html';
 import Notification from '../Notification';
 import Optional from '../../atoms/Optional';
+import MaskedFormField from '../MaskedFormField';
 import FormField from '../../molecules/FormField';
+import { useEventCallback } from '../../../hooks';
 import styled, { useTheme } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, UserState } from '../../../store/types';
@@ -19,6 +20,7 @@ import LoadingOverlay from '../../molecules/LoadingOverlay';
 import { Editor as DraftEditor } from 'react-draft-wysiwyg';
 import { convertToRaw, EditorState, Editor as EditorType } from 'draft-js';
 import { composeNewEmail, sendEmail } from '../../../store/state/userSlice';
+import { emailValidator, notBlankValidator, phoneNumberValidator } from '../../../util';
 import './styles.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -45,8 +47,8 @@ const Container = styled.div`
 const FormContainer = styled.div`
   display: grid;
   padding: 0;
-  margin-bottom: 16px;
-  grid-gap: 16px;
+  margin-bottom: 28px;
+  grid-gap: 28px;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 
   & > div {
@@ -72,53 +74,49 @@ const EmailEditor: FC = () => {
     username: user.username || '',
     phoneNumber: user.phoneNumber || '',
   });
+  const [
+    { emailError, companyError, usernameError, phoneNumberError },
+    setErrorState,
+  ] = useState({
+    emailError: '',
+    companyError: '',
+    usernameError: '',
+    phoneNumberError: '',
+  });
 
   const editorRef = useRef<EditorType>();
   const emailFieldRef = useRef<HTMLInputElement>(null);
   const companyFieldRef = useRef<HTMLInputElement>(null);
   const phoneNumberFieldRef = useRef<HTMLInputElement>(null);
 
-  const focusEditor = useCallback(() => editorRef.current?.focus(), []);
-  const focusEmail = useCallback(() => emailFieldRef.current?.focus(), [emailFieldRef]);
-  const focusCompany = useCallback(() => companyFieldRef.current?.focus(), [companyFieldRef]);
-  const focusPhoneNumber = useCallback(() => phoneNumberFieldRef.current?.focus(), [
-    phoneNumberFieldRef,
-  ]);
-
   const nameKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
-    ({ key }) => key === 'Enter' && focusCompany(),
-    [focusCompany]
+    ({ key }) => key === 'Enter' && companyFieldRef.current?.focus(),
+    []
   );
 
   const companyKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
-    ({ key }) => key === 'Enter' && focusEmail(),
-    [focusEmail]
+    ({ key }) => key === 'Enter' && emailFieldRef.current?.focus(),
+    []
   );
 
   const emailKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
-    ({ key }) => key === 'Enter' && focusPhoneNumber(),
-    [focusPhoneNumber]
+    ({ key }) => key === 'Enter' && phoneNumberFieldRef.current?.focus(),
+    []
   );
 
   const phoneNumberKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
     event => {
       if (event.key === 'Enter') {
         event.preventDefault();
-        focusEditor();
+        editorRef.current?.focus();
       }
     },
-    [editorRef]
+    []
   );
 
   const setEditorRef = useCallback((ref: EditorType) => {
     editorRef.current = ref;
   }, []);
-
-  const isFormValid = useMemo(() => !!(email && company && username), [
-    email,
-    company,
-    username,
-  ]);
 
   const fieldChangeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
     ({ target: field }) => {
@@ -130,22 +128,33 @@ const EmailEditor: FC = () => {
     []
   );
 
-  const submitButtonClickHandler = useCallback(() => {
-    dispatch(
-      sendEmail({
-        company,
-        phoneNumber,
-        address: email,
-        name: username,
-        content: editorStateToHtml(editorState),
-      })
-    );
-  }, [email, company, username, phoneNumber, editorState]);
+  const submitButtonClickHandler = useEventCallback(() => {
+    const errorState = {
+      usernameError: notBlankValidator(username),
+      companyError: notBlankValidator(company),
+      emailError: emailValidator(email, true),
+      phoneNumberError: phoneNumberValidator(phoneNumber, false),
+    };
+
+    const isValid = !Object.values(errorState).some(error => !!error);
+
+    setErrorState(errorState);
+
+    isValid &&
+      dispatch(
+        sendEmail({
+          company,
+          phoneNumber,
+          address: email,
+          name: username,
+          content: editorStateToHtml(editorState),
+        })
+      );
+  });
 
   const newEmailClickHandler = useCallback(() => {
     dispatch(composeNewEmail({}));
-    focusEditor();
-  }, [focusEditor]);
+  }, []);
 
   return (
     <>
@@ -170,45 +179,50 @@ const EmailEditor: FC = () => {
         <Container>
           <FormContainer>
             <FormField
+              required
               type="text"
               label="Name"
               name="username"
               value={username}
+              error={usernameError}
               disabled={user.isLoading}
-              onBlur={focusCompany}
               onChange={fieldChangeHandler}
               onKeyDown={nameKeyDownHandler}
             />
             <FormField
+              required
               type="text"
               name="company"
               label="Company"
               value={company}
-              onBlur={focusEmail}
-              disabled={user.isLoading}
+              error={companyError}
               ref={companyFieldRef}
+              disabled={user.isLoading}
               onChange={fieldChangeHandler}
               onKeyDown={companyKeyDownHandler}
             />
             <FormField
+              required
               type="email"
               name="email"
               label="Email"
               inputMode="email"
               value={email}
-              disabled={user.isLoading}
               ref={emailFieldRef}
-              onBlur={focusPhoneNumber}
+              error={emailError}
+              disabled={user.isLoading}
               onChange={fieldChangeHandler}
               onKeyDown={emailKeyDownHandler}
             />
-            <FormField
+            <MaskedFormField
               type="text"
               inputMode="tel"
               name="phoneNumber"
               label="Phone Number"
-              disabled={user.isLoading}
+              mask="(000) 000-0000"
               value={phoneNumber}
+              error={phoneNumberError}
+              disabled={user.isLoading}
               ref={phoneNumberFieldRef}
               onChange={fieldChangeHandler}
               onKeyDown={phoneNumberKeyDownHandler}
@@ -251,10 +265,7 @@ const EmailEditor: FC = () => {
               ],
             }}
           />
-          <Button
-            transparent
-            onClick={submitButtonClickHandler}
-            disabled={!isFormValid || user.isLoading}>
+          <Button transparent onClick={submitButtonClickHandler} disabled={user.isLoading}>
             Submit
           </Button>
         </Container>

@@ -1,0 +1,32 @@
+$slide-out-duration: 300ms;
+
+.toast {
+  transform: translate(0);
+  transition: ease-in-out $slide-out-duration;
+
+  &-enter {
+    transform: translate(100%);
+  }
+
+  &-enter-active {
+    transform: translate(0);
+    transition: ease-in-out $slide-out-duration;
+  }
+
+  &-enter-done {
+    transform: translate(0);
+  }
+
+  &-exit {
+    transform: translate(0);
+  }
+
+  &-exit-active {
+    transform: translate(100%);
+    transition: ease-in-out $slide-out-duration;
+  }
+
+  &-exit-done {
+    transform: translate(100%);
+  }
+}

@@ -82,7 +82,7 @@ export const aboutAppMenuItems = (history: History<LocationState>, dispatch: Dis
   },
 ];
 
-export const contactMenuItems = (dispatch: Dispatch) => [
+export const contactMenuItems = (history: History<LocationState>, dispatch: Dispatch) => [
   {
     id: 'email',
     content: (
@@ -93,6 +93,7 @@ export const contactMenuItems = (dispatch: Dispatch) => [
         </FlexBox>
       </>
     ),
+    onClick: () => history.push('/app/contact'),
   },
   {
     id: 'chat',
