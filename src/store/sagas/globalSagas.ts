@@ -3,7 +3,7 @@ import { State } from '../types';
 import { clearUserLoadState } from '../state/userSlice';
 import { takeEvery, select, put } from 'redux-saga/effects';
 import {
-  fetchSendToUserId,
+  fetchSendToUser,
   connectToChatServer,
   clearChatConnectionState,
 } from '../state/chatSlice';
@@ -25,7 +25,7 @@ export function* initializeApp() {
   if (chat.sessionId && chat.userId && socket.disconnected) {
     yield put(connectToChatServer({}));
   }
-  if (!chat.currentChatUserId) {
-    yield put(fetchSendToUserId({}));
+  if (!chat.currentChatUserId || !chat.defaultChatUsername) {
+    yield put(fetchSendToUser({}));
   }
 }

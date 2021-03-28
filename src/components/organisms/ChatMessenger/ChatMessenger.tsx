@@ -38,6 +38,7 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   transition: ease-in-out 150ms;
 
   @media screen and (min-width: 720px) {
+
     &:hover {
       background: ${({ open, theme }) =>
         open ? theme.colors.background.overlay : theme.colors.background.input};
@@ -196,7 +197,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
   const messageScrollPaneRef = useRef<HTMLDivElement>(null);
   const { current: scrollPane } = messageScrollPaneRef;
   const isAdmin = useSelector<State, boolean>(({ user }) => user.isAdmin);
-  const { users, isConnecting, userId = '', currentChatUserId = '' } = useSelector<
+  const { users, isConnecting, userId = '', currentChatUserId = '', defaultChatUsername = '' } = useSelector<
     State,
     ChatState
   >(({ chat }) => chat);
@@ -218,7 +219,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
     connected,
     messages = [],
     userId: chatUserId,
-    username: chatUsername,
+    username: chatUsername = defaultChatUsername,
   } = currentChatUser;
 
   const draftChangeHandler: ChangeEventHandler<HTMLTextAreaElement> = useCallback(

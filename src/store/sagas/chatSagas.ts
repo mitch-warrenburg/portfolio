@@ -8,11 +8,11 @@ import {
   addUser,
   setUsers,
   setChatError,
+  fetchSendToUser,
   chatAuthFailure,
   setUserConnected,
-  fetchSendToUserId,
-  fetchSendToUserIdFailure,
-  fetchSendToUserIdSuccess,
+  fetchSendToUserFailure,
+  fetchSendToUserSuccess,
 } from '../state/chatSlice';
 import {
   ChatState,
@@ -38,8 +38,8 @@ export function* disconnectFromChatServerWatcher() {
   yield takeEvery('chat/disconnectFromChatServer', disconnectFromChatServerHandler);
 }
 
-export function* fetchSendToUserIdWatcher() {
-  yield takeEvery('chat/fetchSendToUserId', fetchSendToUserIdHandler);
+export function* fetchSendToUserWatcher() {
+  yield takeEvery('chat/fetchSendToUser', fetchSendToUserHandler);
 }
 
 export function* websocketErrorWatcher() {
@@ -54,19 +54,19 @@ export function* websocketErrorHandler({ payload: error }: PayloadAction<Error>)
     yield put(setChatError(error.message));
     yield put(chatAuthFailure({}));
     yield put(adminAuthFailure(error.message));
-    yield put(fetchSendToUserId({}));
+    yield put(fetchSendToUser({}));
   }
 }
 
-export function* fetchSendToUserIdHandler() {
+export function* fetchSendToUserHandler() {
   try {
     const response: FetchSendToUserIdResponse = yield call(
       client.get,
-      '/api/v1/chat/defaultSendToUserId'
+      '/api/v1/chat/defaultSendToUser'
     );
-    yield put(fetchSendToUserIdSuccess(response.userId));
+    yield put(fetchSendToUserSuccess(response));
   } catch (e) {
-    yield put(fetchSendToUserIdFailure(e.message));
+    yield put(fetchSendToUserFailure(e.message));
   }
 }
 

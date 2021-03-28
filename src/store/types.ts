@@ -20,6 +20,7 @@ export interface UiState {
 export interface ChatState {
   users: ChatUsers;
   currentChatUserId?: string;
+  defaultChatUsername?: string;
   userId?: string;
   sessionId?: string;
   email?: string;
@@ -97,6 +98,7 @@ export interface AdminAuthResponse {
 
 export interface FetchSendToUserIdResponse {
   userId: string;
+  username: string;
 }
 
 export interface TypingEvent {

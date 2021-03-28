@@ -3,8 +3,8 @@ import { all, call, spawn } from 'redux-saga/effects';
 import { adminAuthWatcher, adminLogoutWatcher, sendEmailWatcher } from './userSagas';
 import {
   websocketErrorWatcher,
+  fetchSendToUserWatcher,
   userSessionsEventWatcher,
-  fetchSendToUserIdWatcher,
   userConnectedEventWatcher,
   connectToChatServerWatcher,
   disconnectFromChatServerWatcher,
@@ -17,8 +17,8 @@ export default function* rootSaga() {
     adminLogoutWatcher,
     websocketErrorWatcher,
     rehydrateStateWatcher,
+    fetchSendToUserWatcher,
     userSessionsEventWatcher,
-    fetchSendToUserIdWatcher,
     userConnectedEventWatcher,
     connectToChatServerWatcher,
     disconnectFromChatServerWatcher,

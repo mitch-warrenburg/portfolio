@@ -31,10 +31,10 @@ const Container = styled.div<CollapsibleElementProps>`
   @media screen and (max-width: 720px) {
     right: 0;
     bottom: 0;
-    transition: none;
     max-width: ${({ open }) => (open ? '100vw' : '240px')};
     max-height: ${({ open }) => (open ? '100vh' : '32px')};
     border-radius: ${({ open }) => (open ? 0 : 8)};
+    transition: none;
   }
 `;
 

@@ -60,13 +60,13 @@ const PromptText = styled.div`
 `;
 
 const CloseButton = styled.button`
+  padding: 4px;
   border: none;
   margin: -10px -10px 0 0;
   background: transparent;
   color: ${({ theme }) => theme.colors.font.primary};
   cursor: initial;
   outline: none;
-  padding: 4px;
 
   &:hover {
     transform: scale(1.08, 1.08);

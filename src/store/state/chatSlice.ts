@@ -9,6 +9,7 @@ import {
   NewSessionEvent,
   AdminAuthResponse,
   UserDisconnectedEvent,
+  FetchSendToUserIdResponse,
 } from '../types';
 
 const initialState: ChatState = {
@@ -17,6 +18,7 @@ const initialState: ChatState = {
   email: undefined,
   phoneNumber: undefined,
   currentChatUserId: undefined,
+  defaultChatUsername: undefined,
   error: undefined,
   isConnecting: false,
   isLoading: false,
@@ -85,17 +87,18 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
       state.sessionId = payload.sessionId;
       state.currentChatUserId = undefined;
     },
-    fetchSendToUserId: state => {
+    fetchSendToUser: state => {
       state.isLoading = true;
     },
-    fetchSendToUserIdFailure: (state, { payload }: PayloadAction<string>) => {
+    fetchSendToUserFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
       state.isLoading = false;
     },
-    fetchSendToUserIdSuccess: (state, { payload }: PayloadAction<string>) => {
+    fetchSendToUserSuccess: (state, { payload }: PayloadAction<FetchSendToUserIdResponse>) => {
       state.isLoading = false;
       state.error = undefined;
-      state.currentChatUserId = payload;
+      state.currentChatUserId = payload.userId;
+      state.defaultChatUsername = payload.username;
     },
     chatAuthFailure: state => {
       state.isConnecting = false;
@@ -114,10 +117,10 @@ export const {
   setChatError,
   websocketError,
   sentMessageAck,
+  fetchSendToUser,
   newSessionEvent,
   chatAuthFailure,
   setUserConnected,
-  fetchSendToUserId,
   userSessionsEvent,
   userConnectedEvent,
   connectToChatServer,
@@ -125,8 +128,8 @@ export const {
   chatUserTypingEvent,
   setCurrentChatUserId,
   userDisconnectedEvent,
-  fetchSendToUserIdSuccess,
-  fetchSendToUserIdFailure,
+  fetchSendToUserSuccess,
+  fetchSendToUserFailure,
   disconnectFromChatServer,
   clearChatConnectionState,
   addAdminAuthSuccessDetails,
