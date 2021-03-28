@@ -34,14 +34,14 @@ const Container = styled.div<LoaderProps>`
 `;
 
 const Loader: FC<LoaderProps> = ({ durationSeconds = 1, ...props }) => {
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(true);
 
   useLayoutEffect(() => {
     setIsAnimating(true);
 
     const timer = setTimeout(() => {
       setIsAnimating(false);
-    }, durationSeconds * 1000 + 300);
+    }, durationSeconds * 1000 + 200);
 
     return () => clearTimeout(timer);
   }, [isAnimating]);

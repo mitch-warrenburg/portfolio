@@ -7,7 +7,7 @@ const Panel = styled.div<PanelProps>`
   overflow: hidden;
   width: 100%;
   max-width: 1280px;
-  height: calc(100vh - 64px);
+  height: calc(100% - 64px);
   flex-direction: column;
   margin-top: 32px;
   background: ${({ theme }) => theme.colors.background.primary};

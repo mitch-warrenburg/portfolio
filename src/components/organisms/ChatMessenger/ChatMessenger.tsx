@@ -84,7 +84,7 @@ const MessagesWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 101%;
+  height: 100%;
 `;
 
 const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
@@ -92,20 +92,19 @@ const MessageTextAreaContainer = styled.div<CollapsibleElementProps>`
   display: flex;
   width: 100%;
   flex: 0 1 40px;
-  padding: 10px;
   background: ${({ theme }) => theme.colors.background.primary};
 
   textarea {
     width: calc(100% - 42px);
     height: 100%;
     min-height: 24px;
-    padding-right: 20px;
+    padding: 10px 20px 10px 10px;
     border: none;
     margin: 0;
     background: none;
     color: rgba(255, 255, 255, 0.7);
     font-size: 1rem;
-    outline: none !important;
+    outline: none;
     resize: none;
     text-align: justify;
 
@@ -191,16 +190,24 @@ const LoadingOverlay = styled.div`
   }
 `;
 
-const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized }) => {
+const ChatMessenger: FC<ChatMessengerProps> = ({
+  onClickHeader,
+  onBlurTextArea,
+  isChatMinimized,
+  onFocusTextArea,
+}) => {
   const theme = useTheme();
   const [draft, setDraft] = useState('');
   const messageScrollPaneRef = useRef<HTMLDivElement>(null);
   const { current: scrollPane } = messageScrollPaneRef;
   const isAdmin = useSelector<State, boolean>(({ user }) => user.isAdmin);
-  const { users, isConnecting, userId = '', currentChatUserId = '', defaultChatUsername = '' } = useSelector<
-    State,
-    ChatState
-  >(({ chat }) => chat);
+  const {
+    users,
+    isConnecting,
+    userId = '',
+    currentChatUserId = '',
+    defaultChatUsername = '',
+  } = useSelector<State, ChatState>(({ chat }) => chat);
 
   const { resetTypingEvents, keyDownHandler } = useTypingEvents(currentChatUserId, userId);
 
@@ -253,12 +260,6 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
     autoScrollMessages();
   }, [messages, autoScrollMessages, isChatMinimized]);
 
-  useEffect(() => {
-    if (!isConnecting) {
-      document.getElementById('chat-textarea')?.focus();
-    }
-  }, [isConnecting]);
-
   return (
     <>
       <Optional renderIf={users}>
@@ -310,12 +311,13 @@ const ChatMessenger: FC<ChatMessengerProps> = ({ onClickHeader, isChatMinimized 
         <MessageTextAreaContainer>
           <textarea
             id="chat-textarea"
-            autoFocus
             value={draft}
-            onChange={draftChangeHandler}
-            onKeyDown={textAreaKeyDownHandler}
-            placeholder={textareaPlaceholder}
             disabled={isConnecting}
+            onBlur={onBlurTextArea}
+            onFocus={onFocusTextArea}
+            onChange={draftChangeHandler}
+            placeholder={textareaPlaceholder}
+            onKeyDown={textAreaKeyDownHandler}
           />
           <button
             type="submit"

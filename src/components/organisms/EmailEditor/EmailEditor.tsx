@@ -47,16 +47,16 @@ const FormContainer = styled.div`
   padding: 0;
   margin-bottom: 16px;
   grid-gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 
   & > div {
     width: 100%;
-    min-width: 190px;
+    min-width: 160px;
     margin: 0;
 
     & > input {
       width: 100%;
-      min-width: 190px;
+      min-width: 160px;
     }
   }
 `;
@@ -101,7 +101,12 @@ const EmailEditor: FC = () => {
   );
 
   const phoneNumberKeyDownHandler: KeyboardEventHandler<HTMLInputElement> = useCallback(
-    ({ key }) => key === 'Enter' && focusEditor(),
+    event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        focusEditor();
+      }
+    },
     [editorRef]
   );
 
@@ -139,7 +144,8 @@ const EmailEditor: FC = () => {
 
   const newEmailClickHandler = useCallback(() => {
     dispatch(composeNewEmail({}));
-  }, []);
+    focusEditor();
+  }, [focusEditor]);
 
   return (
     <>
@@ -205,7 +211,6 @@ const EmailEditor: FC = () => {
               value={phoneNumber}
               ref={phoneNumberFieldRef}
               onChange={fieldChangeHandler}
-              onBlur={focusEditor}
               onKeyDown={phoneNumberKeyDownHandler}
             />
           </FormContainer>

@@ -9,7 +9,7 @@
   }
 
   .rdw-editor-main {
-    height: auto;
+    height: 100%;
   }
 
   .rdw-option-wrapper {
@@ -144,14 +144,25 @@
   }
 
   &__textarea {
+    height: 200px;
     min-height: 200px;
+    max-height: 200px;
     padding: 8px;
     border: 1px solid rgba(113, 119, 144, 0.25);
     background: rgba(113, 119, 144, 0.1);
     border-radius: 4px;
     color: white !important;
     cursor: text;
+    pointer-events: all;
     scroll-behavior: smooth;
+
+    .public-DraftEditor-content {
+      height: 200px;
+
+      &:focus-within {
+        height: 1rem;
+      }
+    }
   }
 
   & ~ button {
@@ -161,6 +172,7 @@
   }
 
   & .DraftEditor-root {
+    height: 100%;
     margin-top: -16px;
   }
 }

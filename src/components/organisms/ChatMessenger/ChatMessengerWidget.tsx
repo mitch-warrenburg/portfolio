@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useCallback } from 'react';
+import React, { FC, useMemo, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { fadeIn } from '../../animations';
 import ChatMessenger from './ChatMessenger';
@@ -11,11 +11,10 @@ import { setIsChatMinimized } from '../../../store/state/uiSlice';
 import './styles.scss';
 
 const Container = styled.div<CollapsibleElementProps>`
-  position: fixed;
-  z-index: 3;
+  position: absolute;
+  z-index: 2;
   right: 32px;
   bottom: 1px;
-  overflow: hidden;
   width: 100%;
   min-width: 240px;
   max-width: ${({ open }) => (open ? 380 : 240)}px;
@@ -26,15 +25,16 @@ const Container = styled.div<CollapsibleElementProps>`
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
   opacity: 1;
   pointer-events: all;
-  transition: max-width ease-in-out 300ms, max-height ease-in-out 300ms;
+  transition: ease-in-out 300ms;
 
   @media screen and (max-width: 720px) {
+    position: absolute;
     right: 0;
     bottom: 0;
     max-width: ${({ open }) => (open ? '100vw' : '240px')};
-    max-height: ${({ open }) => (open ? '100vh' : '32px')};
+    max-height: ${({ open, height }) => (open ? height : 32)}px;
     border-radius: ${({ open }) => (open ? 0 : 8)};
-    transition: none;
+    transition: ease-in-out 50ms;
   }
 `;
 
@@ -60,6 +60,7 @@ const Content = styled.div<CollapsibleElementProps>`
 
 const ChatMessengerWidget: FC = () => {
   const dispatch = useDispatch();
+  const [height, setHeight] = useState(window.innerHeight);
   const { userId, error, isConnecting } = useSelector<State, ChatState>(({ chat }) => chat);
   const { isChatOpen, isChatMinimized } = useSelector<State, UiState>(({ ui }) => ui);
 
@@ -72,9 +73,13 @@ const ChatMessengerWidget: FC = () => {
     dispatch(setIsChatMinimized(!isChatMinimized));
   }, [isChatMinimized]);
 
+  const textAreaFocusHandler = () => {
+    setTimeout(() => setHeight(window.innerHeight), 100);
+  };
+
   return (
     <Optional renderIf={isChatOpen}>
-      <Container open={!isChatMinimized}>
+      <Container open={!isChatMinimized} height={height}>
         <Content open={!isChatMinimized}>
           <Optional renderIf={isChatFormShown}>
             <ChatSignUpForm />
@@ -83,6 +88,8 @@ const ChatMessengerWidget: FC = () => {
             <ChatMessenger
               isChatOpen={isChatOpen}
               isChatMinimized={isChatMinimized}
+              onBlurTextArea={textAreaFocusHandler}
+              onFocusTextArea={textAreaFocusHandler}
               onClickHeader={headerContainerClickHandler}
             />
           </Optional>

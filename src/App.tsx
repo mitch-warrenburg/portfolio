@@ -11,6 +11,7 @@ import HomePage from './components/pages/HomePage/HomePage';
 import AdminLoginPage from './components/pages/AdminLoginPage';
 import SpaceBackdrop from './components/molecules/SpaceBackdrop';
 import PolygonWarpBackdrop from './components/molecules/PolygonWarpBackdrop';
+import ChatMessengerWidget from './components/organisms/ChatMessenger/ChatMessengerWidget';
 import './_index.scss';
 
 library.add(fab, fas, far);
@@ -19,16 +20,15 @@ const App: FC = () => {
   return (
     <>
       <SpaceBackdrop />
-      <div className="app-root">
-        <PolygonWarpBackdrop />
-        <Switch>
-          <Route exact path="/" component={IntroPage} />
-          <Route path="/app" component={HomePage} />
-          <Route exact admin path="/admin" component={AdminPage} />
-          <Route path="/admin/login" component={AdminLoginPage} />
-          {/*<Redirect to="/" />*/}
-        </Switch>
-      </div>
+      <PolygonWarpBackdrop />
+      <Switch>
+        <Route exact path="/" component={IntroPage} />
+        <Route path="/app" component={HomePage} />
+        <Route exact admin path="/admin" component={AdminPage} />
+        <Route path="/admin/login" component={AdminLoginPage} />
+        <Redirect to="/app" />
+      </Switch>
+      <ChatMessengerWidget />
     </>
   );
 };

@@ -16,7 +16,6 @@ import { RootState, UiState } from '../../../store/types';
 import { useHistory, Switch, Route } from 'react-router-dom';
 import TerminalEmulator from '../../organisms/TerminalEmulator';
 import { setIsChatMinimized, setIsChatOpen } from '../../../store/state/uiSlice';
-import ChatMessengerWidget from '../../organisms/ChatMessenger/ChatMessengerWidget';
 import {
   adminMenuItems,
   terminalCommands,
@@ -28,14 +27,13 @@ const PanelContentContainer = styled.div`
   display: flex;
   overflow: auto;
   width: 100%;
-  height: calc(90vh - 58px);
+  height: calc(100vh - 122px);
   flex-direction: column;
   align-items: center;
   padding: 20px 40px;
 
   @media screen and (max-width: 720px) {
-    height: calc(100vh - 58px);
-    padding: 20px 10px 160px 10px;
+    padding: 20px 10px 100px 10px;
   }
 `;
 
@@ -104,7 +102,6 @@ const HomePage: FC = () => {
             </PanelContentContainer>
           </FlexBox>
         </Panel>
-        <ChatMessengerWidget />
       </PageTemplate>
     </Optional>
   );
