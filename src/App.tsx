@@ -8,13 +8,13 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import RootErrorBoundary from './components/atoms/RootErrorBoundary';
+import ApplicationShell from './components/organisms/ApplicationShell';
 import SuspensePlaceholder from './components/organisms/SuspensePlaceholder';
 import './_index.scss';
 
 const IntroPage = lazy(() => import('./components/pages/IntroPage'));
 const AdminLoginPage = lazy(() => import('./components/pages/AdminLoginPage'));
 const SpaceBackdrop = lazy(() => import('./components/molecules/SpaceBackdrop'));
-const ApplicationShell = lazy(() => import('./components/organisms/ApplicationShell'));
 const ToastNotifications = lazy(() => import('./components/organisms/ToastNotifications'));
 const PolygonWarpBackdrop = lazy(() => import('./components/molecules/PolygonWarpBackdrop'));
 const ChatMessengerWidget = lazy(() => import('./components/organisms/ChatMessengerWidget'));
@@ -44,11 +44,7 @@ const App: FC = () => {
             <IntroPage />
           </Suspense>
         </Route>
-        <Route path="/app">
-          <Suspense fallback={<SuspensePlaceholder />}>
-            <ApplicationShell />
-          </Suspense>
-        </Route>
+        <Route path="/app" component={ApplicationShell} />
         <AdminRoute exact admin path="/admin" component={AdminPage} />
         <Route path="/admin/login">
           <Suspense fallback={<SuspensePlaceholder />}>
