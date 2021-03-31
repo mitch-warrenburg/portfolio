@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes } from 'react';
 
-export interface PageTemplateProps {
-  children: ReactNode;
-}
+export type PageTemplateProps = HTMLAttributes<HTMLDivElement>;

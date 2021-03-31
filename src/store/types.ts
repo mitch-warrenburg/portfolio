@@ -50,6 +50,62 @@ export interface UserState {
   isAdmin: boolean;
   isLoading: boolean;
   isEmailSuccess: boolean;
+  userMetadata: UserMetadata;
+}
+
+export interface UserMetadata {
+  error?: string;
+  isMobile?: boolean;
+  fingerprint?: number;
+  os?: OsMetadata;
+  device?: DeviceMetadata;
+  locale?: LocaleMetadata;
+  screen?: ScreenMetadata;
+  browser?: BrowserMetadata;
+  storage?: StorageMetadata;
+}
+
+export interface DeviceMetadata {
+  cpu?: string;
+  type?: string;
+  device?: string;
+  vendor?: string;
+}
+
+export interface LocaleMetadata {
+  timeZone?: string;
+  language?: string;
+  systemLanguage?: string;
+}
+
+export interface StorageMetadata {
+  isCookie?: boolean;
+  isLocalStorage?: boolean;
+  isSessionStorage?: boolean;
+}
+
+export interface ScreenMetadata {
+  resolution?: string;
+  screenInfo?: string;
+  availableResolution?: string;
+}
+
+export interface IosMetadata {
+  isIpad?: boolean;
+  isIphone?: boolean;
+  isMobileIos?: boolean;
+}
+
+export interface BrowserMetadata {
+  name?: string;
+  version?: string;
+  fullVersion?: string;
+}
+
+export interface OsMetadata {
+  name?: string;
+  version?: string;
+  ios?: IosMetadata;
 }
 
 export type ChatUsers = {

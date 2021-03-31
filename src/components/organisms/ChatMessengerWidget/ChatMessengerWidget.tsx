@@ -1,20 +1,19 @@
 import React, { FC, useMemo, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { fadeIn } from '../../animations';
-import ChatMessenger from './ChatMessenger';
+import ChatMessenger from '../ChatMessenger';
 import Optional from '../../atoms/Optional';
 import ChatSignUpForm from '../ChatSignUpForm';
 import { CollapsibleElementProps } from './types';
 import { useSelector, useDispatch } from 'react-redux';
 import { State, UiState, ChatState } from '../../../store/types';
 import { setIsChatMinimized } from '../../../store/state/uiSlice';
-import './styles.scss';
 
 const Container = styled.div<CollapsibleElementProps>`
-  position: absolute;
+  position: fixed;
   z-index: 6;
   right: 32px;
-  bottom: 1px;
+  bottom: 0;
   width: 100%;
   min-width: 240px;
   max-width: ${({ open }) => (open ? 380 : 240)}px;
@@ -27,18 +26,7 @@ const Container = styled.div<CollapsibleElementProps>`
   pointer-events: all;
   transition: ease-in-out 300ms;
 
-  @media screen and (max-width: 720px) and (orientation: portrait) {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    max-width: ${({ open }) => (open ? '100vw' : '240px')};
-    max-height: ${({ open, height }) => (open ? height : 32)}px;
-    border-radius: ${({ open }) => (open ? 0 : 8)};
-    transition: ease-in-out 50ms;
-  }
-
-  @media screen and (max-height: 600px) and (orientation: landscape) {
-    position: absolute;
+  @media screen and (max-width: 720px), screen and (max-height: 600px) {
     right: 0;
     bottom: 0;
     max-width: ${({ open }) => (open ? '100vw' : '240px')};
@@ -62,12 +50,7 @@ const Content = styled.div<CollapsibleElementProps>`
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
   transition: ease-in-out 300ms;
 
-  @media screen and (max-width: 720px) and (orientation: portrait) {
-    border: ${({ open }) => (open ? 'none' : '1px solid rgba(249, 250, 251, 0.3)')};
-    border-radius: ${({ open }) => (open ? 0 : 8)};
-  }
-
-  @media screen and (max-height: 600px) and (orientation: landscape) {
+  @media screen and (max-width: 720px), screen and (max-height: 600px) {
     border: ${({ open }) => (open ? 'none' : '1px solid rgba(249, 250, 251, 0.3)')};
     border-radius: ${({ open }) => (open ? 0 : 8)};
   }

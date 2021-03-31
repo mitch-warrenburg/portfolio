@@ -1,10 +1,12 @@
+import { identity } from 'lodash';
+import { createSlice, SliceCaseReducers, PayloadAction } from '@reduxjs/toolkit';
 import {
   UserState,
-  SubmitChatFormPayload,
-  AdminAuthResponse,
+  UserMetadata,
   SendEmailRequest,
+  AdminAuthResponse,
+  SubmitChatFormPayload,
 } from '../types';
-import { createSlice, SliceCaseReducers, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: UserState = {
   company: '',
@@ -17,12 +19,14 @@ const initialState: UserState = {
   isAdmin: false,
   isLoading: false,
   isEmailSuccess: false,
+  userMetadata: {},
 };
 
 const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
   name: 'user',
   initialState: initialState,
   reducers: {
+    getUserMetadata: identity,
     submitChatForm: (state, { payload }: PayloadAction<SubmitChatFormPayload>) => {
       state.company = payload.company;
       state.username = payload.username;
@@ -76,6 +80,12 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
       state.error = payload;
       state.isLoading = false;
     },
+    getUserMetadataSuccess: (state, { payload }: PayloadAction<UserMetadata>) => {
+      state.userMetadata = { ...state.userMetadata, ...payload, error: undefined };
+    },
+    getUserMetadataError: (state, { payload }: PayloadAction<string>) => {
+      state.userMetadata = { ...state.userMetadata, error: payload };
+    },
     resetUser: () => initialState,
   },
 });
@@ -86,12 +96,15 @@ export const {
   adminAuth,
   sendEmail,
   adminLogout,
-  composeNewEmail,
   submitChatForm,
+  getUserMetadata,
+  composeNewEmail,
   adminAuthSuccess,
   adminAuthFailure,
   sendEmailSuccess,
   sendEmailFailure,
   adminLogoutFailure,
   clearUserLoadState,
+  getUserMetadataError,
+  getUserMetadataSuccess,
 } = userSlice.actions;

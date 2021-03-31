@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { DrawerProps } from './types';
 
 const Drawer = styled.div<DrawerProps>`
-  position: fixed;
+  position: absolute;
   z-index: 5;
   top: 0;
   bottom: 0;

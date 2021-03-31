@@ -16,22 +16,14 @@ const Header = styled.div<HeaderProps>`
   vertical-align: center;
   white-space: nowrap;
 
-  @media screen and (max-width: 720px) and (orientation: portrait) {
-    padding: 0 16px;
-  }
-
-  @media screen and (max-height: 600px) and (orientation: landscape) {
-    padding: 0 16px;
-  }
-
   > button:last-of-type {
     display: none;
+  }
 
-    @media screen and (max-width: 720px) and (orientation: portrait) {
-      display: flex;
-    }
+  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+    padding: 0 16px;
 
-    @media screen and (max-height: 600px) and (orientation: landscape) {
+    > button:last-of-type {
       display: flex;
     }
   }

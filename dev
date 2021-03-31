@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+docker-compose up -d --remove-orphans --build
+docker-compose -f ../portfolio-server/docker-compose.yaml up -d --remove-orphans
+docker-compose -f ../portfolio-chat-server/docker-compose.yaml up -d --remove-orphans
+yarn start
+

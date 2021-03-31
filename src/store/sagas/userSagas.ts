@@ -1,9 +1,17 @@
+import 'clientjs';
+import ClientJs from 'clientjs';
 import { uniqueId } from 'lodash';
 import { client } from '../../http';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { addNotification, setIsChatOpen } from '../state/uiSlice';
 import { takeEvery, call, put, delay, select } from 'redux-saga/effects';
-import { AdminAuthPayload, AdminAuthResponse, UserState, SendEmailRequest } from '../types';
+import {
+  UserState,
+  UserMetadata,
+  SendEmailRequest,
+  AdminAuthPayload,
+  AdminAuthResponse,
+} from '../types';
 import {
   resetUser,
   adminAuthFailure,
@@ -11,6 +19,8 @@ import {
   sendEmailSuccess,
   sendEmailFailure,
   adminLogoutFailure,
+  getUserMetadataError,
+  getUserMetadataSuccess,
 } from '../state/userSlice';
 import {
   resetChat,
@@ -18,6 +28,9 @@ import {
   disconnectFromChatServer,
   addAdminAuthSuccessDetails,
 } from '../state/chatSlice';
+
+// @ts-ignore
+const _meta = new ClientJS() as ClientJs;
 
 export function* adminAuthWatcher() {
   yield takeEvery('user/adminAuth', adminAuthHandler);
@@ -29,6 +42,59 @@ export function* adminLogoutWatcher() {
 
 export function* sendEmailWatcher() {
   yield takeEvery('user/sendEmail', sendEmailHandler);
+}
+
+export function* getUserMetadataWatcher() {
+  yield takeEvery('user/getUserMetadata', getUserMetadataHandler);
+}
+
+export function* getUserMetadataHandler() {
+  try {
+    const metadata: UserMetadata = {
+      isMobile: false,
+      fingerprint: _meta.getFingerprint(),
+      device: {
+        cpu: _meta.getCPU(),
+        device: _meta.getDevice(),
+        type: _meta.getDeviceType(),
+        vendor: _meta.getDeviceVendor(),
+      },
+      browser: {
+        name: _meta.getBrowser(),
+        fullVersion: _meta.getBrowserVersion(),
+        version: _meta.getBrowserMajorVersion(),
+      },
+      locale: {
+        timeZone: _meta.getTimeZone(),
+        language: _meta.getLanguage(),
+        systemLanguage: _meta.getSystemLanguage(),
+      },
+      os: {
+        name: _meta.getOS(),
+        version: _meta.getOSVersion(),
+        ios: {
+          isIpad: _meta.isIpad(),
+          isIphone: _meta.isIphone(),
+          isMobileIos: _meta.isMobileIOS(),
+        },
+      },
+      screen: {
+        screenInfo: _meta.getScreenPrint(),
+        resolution: _meta.getCurrentResolution(),
+        availableResolution: _meta.getAvailableResolution(),
+      },
+      storage: {
+        isCookie: _meta.isCookie(),
+        isLocalStorage: _meta.isLocalStorage(),
+        isSessionStorage: _meta.isSessionStorage(),
+      },
+    } as UserMetadata;
+
+    yield console.log(metadata);
+    yield put(getUserMetadataSuccess(metadata));
+  } catch (e) {
+    yield put(getUserMetadataError(e.message || 'Unknown Error'));
+  }
 }
 
 export function* sendEmailHandler({ payload: email }: PayloadAction<SendEmailRequest>) {

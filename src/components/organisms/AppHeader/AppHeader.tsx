@@ -3,18 +3,15 @@ import Header from '../../atoms/Header';
 import { locations } from './constants';
 import Tabs from '../../molecules/Tabs';
 import { useLocation } from 'react-router';
-import Optional from '../../atoms/Optional';
 import { useHistory } from 'react-router-dom';
-import { useBreakpoint } from '../../../hooks';
 import IconButton from '../../atoms/IconButton';
-import { logo } from '../../../globalConstants';
+import { LOGO } from '../../../globalConstants';
 import { History, LocationState } from 'history';
 import MobileMenu from '../../molecules/MobileMenu';
 import RoundImageButton from '../../atoms/RoundImageButton';
 
 const AppHeader: FC = () => {
   const { pathname } = useLocation();
-  const breakpoint = useBreakpoint();
   const history: History<LocationState> = useHistory();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,7 +33,7 @@ const AppHeader: FC = () => {
 
   return (
     <Header>
-      <RoundImageButton src={logo} alt="logo" onClick={homeLogoClickHandler} />
+      <RoundImageButton src={LOGO} alt="logo" onClick={homeLogoClickHandler} />
       <Tabs tabs={locations} onClickTab={clickHandler} selectedId={pathname} />
       <IconButton icon="bars" size="2x" color="white" onClick={openMenu} />
       <MobileMenu

@@ -1,6 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import { uniqueId } from 'lodash';
 import styled from 'styled-components';
 import Particles from 'react-tsparticles';
+import { useWindowSize } from 'react-use';
 import { polygonWarpBackdropParticlesOptions } from './constants';
 import './styles.scss';
 
@@ -15,10 +17,21 @@ const Container = styled.div`
   pointer-events: all;
 `;
 
+const generateId = () => uniqueId('polygon-warp-backdrop');
+
 const PolygonWarpBackdrop: FC = () => {
+  const [key, setKey] = useState(() => generateId());
+
+  const { height, width } = useWindowSize();
+
+  useEffect(() => {
+    setKey(generateId());
+  }, [height, width]);
+
   return (
     <Container>
       <Particles
+        key={key}
         id="polygon-warp"
         className="polygon-warp-particles"
         options={polygonWarpBackdropParticlesOptions}

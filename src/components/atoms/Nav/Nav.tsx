@@ -1,21 +1,18 @@
 import React from 'react';
-import { NavProps } from './types';
 import styled from 'styled-components';
 
-const Nav = styled.div<NavProps>`
-  position: relative;
-  overflow: auto;
-  flex-basis: 240px;
-  flex-shrink: 0;
+const Nav = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 240px;
   padding: 26px;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
 
-  @media screen and (max-width: 720px) and (orientation: portrait) {
+  @media screen and (max-width: 720px), screen and (max-height: 600px) {
     display: none;
-  }
-
-  @media screen and (max-height: 600px) and (orientation: landscape) {
-    display: none;
+    visibility: hidden;
   }
 `;
 

@@ -1,0 +1,84 @@
+.ck {
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: rgba(16, 18, 27, 1);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    width: 6px;
+    background: transparent;
+    border-radius: 4px;
+  }
+
+  &#{&}-toolbar {
+    border: 1px solid rgba(146, 151, 179, 0.13) !important;
+    background: rgba(16, 18, 27, 0.8) !important;
+    box-shadow: none !important;
+
+    & > &__items > :not(.ck-toolbar__line-break) {
+      margin: 0 !important;
+    }
+  }
+
+  &#{&}-dropdown {
+
+    &__panel {
+      background: rgba(36, 39, 59, 1) !important;
+    }
+  }
+
+  &#{&}-list {
+    background: rgba(36, 39, 59, 0.9) !important;
+    color: white !important;
+
+    &__item .ck-button {
+      color: white !important;
+    }
+  }
+
+  &#{&}-button {
+    color: #bbbbbb !important;
+
+    &:hover {
+      background: rgba(146, 151, 179, 0.13) !important;
+    }
+
+    &.ck-on {
+      background: rgba(146, 151, 179, 0.13) !important;
+    }
+  }
+
+  &#{&}-editor {
+    width: 100% !important;
+
+    &__main {
+      min-height: 240px !important;
+      max-height: 240px !important;
+      background: transparent !important;
+    }
+
+    &__editable {
+      min-height: 240px !important;
+      max-height: 240px !important;
+      border: 1px solid rgba(146, 151, 179, 0.13) !important;
+      background: rgba(36, 39, 59, 0.5) !important;
+      color: white !important;
+      font-size: 14px !important;
+      letter-spacing: 1px !important;
+      line-height: 1.2 !important;
+      transition: border-color 150ms ease-in-out;
+
+      &:not(.ck-editor__nested-editable).ck-focused {
+        border: 1px solid rgba(59, 240, 131, 0.4) !important;
+      }
+    }
+  }
+}

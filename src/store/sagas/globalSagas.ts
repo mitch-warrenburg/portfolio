@@ -1,18 +1,34 @@
 import socket from '../../ws';
 import { State } from '../types';
-import { clearUserLoadState } from '../state/userSlice';
-import { takeEvery, select, put } from 'redux-saga/effects';
+import { resetUi } from '../state/uiSlice';
+import { takeEvery, select, put, call } from 'redux-saga/effects';
+import { clearUserLoadState, getUserMetadata, resetUser } from '../state/userSlice';
 import {
+  resetChat,
   fetchSendToUser,
   connectToChatServer,
   clearChatConnectionState,
 } from '../state/chatSlice';
 
+import { persistor } from '../index';
+
 export function* rehydrateStateWatcher() {
-  yield takeEvery('persist/REHYDRATE', initializeApp);
+  yield takeEvery('persist/REHYDRATE', handleAppInitialization);
 }
 
-export function* initializeApp() {
+export function* clearStateWatcher() {
+  yield takeEvery('global/clearState', handleClearState);
+}
+
+export function* handleClearState() {
+  yield put(resetUi({}));
+  yield put(resetUser({}));
+  yield put(resetChat({}));
+  yield call(persistor.purge);
+  yield window.location.replace('/');
+}
+
+export function* handleAppInitialization() {
   const state: State = yield select();
   const { user, chat } = state;
 
@@ -28,4 +44,5 @@ export function* initializeApp() {
   if (!chat.currentChatUserId || !chat.defaultChatUsername) {
     yield put(fetchSendToUser({}));
   }
+  yield put(getUserMetadata({}));
 }

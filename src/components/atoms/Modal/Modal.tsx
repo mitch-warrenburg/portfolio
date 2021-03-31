@@ -21,7 +21,7 @@ const Modal = styled.div<ModalProps>`
   visibility: ${({ active }) => (active ? 'visible' : 'hidden')};
   white-space: normal;
 
-  @media screen and (max-width: 570px) {
+  @media screen and (max-width: 720px), screen and (max-height: 600px) {
     width: 100%;
   }
 `;

@@ -1,6 +1,13 @@
 @import "reset";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
+:root {
+  background: rgba(16, 18, 27, 0.8);
+  color: rgb(153, 155, 165);
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   background: transparent;
@@ -9,39 +16,24 @@
 
 ::-webkit-scrollbar-thumb {
   width: 6px;
-  background: rgba(16, 18, 27, 1);
+  background: rgb(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-track {
   width: 6px;
+  margin-bottom: 14px;
   background: transparent;
   border-radius: 4px;
 }
 
-@media screen and (max-width: 720px) and (orientation: portrait) {
+@media screen and (max-width: 720px), screen and (max-height: 600px) {
 
   ::-webkit-scrollbar {
     width: 0;
     background: transparent;
     border-radius: 4px;
   }
-}
-
-@media screen and (max-height: 600px) and (orientation: landscape) {
-
-  ::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
-    border-radius: 4px;
-  }
-}
-
-:root {
-  background: rgba(16, 18, 27, 0.8);
-  color: rgb(153, 155, 165);
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
 }
 
 html {
@@ -63,5 +55,4 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  background: transparent;
 }

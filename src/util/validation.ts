@@ -1,4 +1,3 @@
-import { chain } from 'lodash';
 import { Validator } from './types';
 import { emailRegex, phoneNumberRegex } from './constants';
 
@@ -26,13 +25,4 @@ export const phoneNumberValidator: Validator = (phone?: string, required = false
     return notBlankValidator(phone) || _phoneNumberValidator(phone);
   }
   return phone ? _phoneNumberValidator(phone) : '';
-};
-
-export const validateField = (value?: string, ...validators: Array<Validator>): string => {
-  return (
-    chain(validators)
-      .map(validator => validator(value))
-      .find(error => !!error)
-      .value() || ''
-  );
 };

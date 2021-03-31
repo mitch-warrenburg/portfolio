@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { MenuItemProps } from './types';
+import { MenuProps } from './types';
 import styled from 'styled-components';
 import Optional from '../../atoms/Optional';
 import MenuItem from '../../atoms/MenuItem';
@@ -15,9 +15,19 @@ const MenuList = styled.ul`
   display: flex;
   width: 100%;
   flex-direction: column;
+  padding: 0;
+  margin: 0;
   cursor: pointer;
+  list-style-position: inside;
+  list-style-type: none;
   pointer-events: initial;
   white-space: nowrap;
+
+  > li {
+    margin: 0;
+    list-style-position: inside;
+    list-style-type: none;
+  }
 
   :not(last-child) {
     margin-bottom: 20px;
@@ -29,7 +39,7 @@ const Label = styled.div`
   color: ${({ theme }) => theme.colors.font.inactive};
 `;
 
-const Menu: FC<MenuItemProps> = ({ items, label, onClickItem, ...props }) => {
+const Menu: FC<MenuProps> = ({ items, label, onClickItem, ...props }) => {
   return (
     <MenuContainer {...props}>
       <Optional renderIf={label}>

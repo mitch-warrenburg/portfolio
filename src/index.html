@@ -1,34 +1,57 @@
 <!DOCTYPE html>
+<!--suppress ALL -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="assets/favicon.jpg" />
-  <link rel="apple-touch-icon" href="assets/logo.jpg" />
+  <link rel="icon" href="assets/logo.png" />
+  <link rel="apple-touch-icon" href="assets/logo.png" />
   <link rel="manifest" href="manifest.webmanifest" />
+
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Mitch Warrenburg Portfolio" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Mitch Warrenburg Portfolio" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Mitch Warrenburg Portfolio" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+
   <title>Mitch Warrenburg</title>
 </head>
 <body>
 <div id="root"></div>
+<script>
+  if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i)) {
+    /* iOS Safari */
+    window.addEventListener("load", function() {
+      setTimeout(function() {
+        window.scrollTo(0, 1);
+      }, 1000);
+    });
+  }
+</script>
 <script src="index.tsx"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
-
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDVYbc2ezQY7jMn0SysmVx-x20wiUIcbcU",
-    authDomain: "lr-offer-dashboard.firebaseapp.com",
-    databaseURL: "https://lr-offer-dashboard.firebaseio.com",
-    projectId: "lr-offer-dashboard",
-    storageBucket: "lr-offer-dashboard.appspot.com",
-    messagingSenderId: "288423668683",
-    appId: "1:288423668683:web:37f7905ef8ada198f2a44e",
-    measurementId: "G-R407T6Y5W8"
-  };
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+  if (process.env.NODE_ENV === "production") {
+    const firebaseConfig = {
+      apiKey: "AIzaSyDVYbc2ezQY7jMn0SysmVx-x20wiUIcbcU",
+      authDomain: "lr-offer-dashboard.firebaseapp.com",
+      databaseURL: "https://lr-offer-dashboard.firebaseio.com",
+      projectId: "lr-offer-dashboard",
+      storageBucket: "lr-offer-dashboard.appspot.com",
+      messagingSenderId: "288423668683",
+      appId: "1:288423668683:web:37f7905ef8ada198f2a44e",
+      measurementId: "G-R407T6Y5W8"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  }
 </script>
 </body>
 </html>

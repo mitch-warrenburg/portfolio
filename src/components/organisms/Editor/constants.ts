@@ -1,0 +1,20 @@
+export const CKEditorConfig = {
+  toolbar: [
+    'heading',
+    '|',
+    'bold',
+    'italic',
+    'link',
+    'bulletedList',
+    'numberedList',
+    '|',
+    'outdent',
+    'indent',
+    '|',
+    'uploadImage',
+    'blockQuote',
+    'insertTable',
+    'undo',
+    'redo',
+  ],
+};

@@ -6,6 +6,16 @@ const MenuList = styled.ul`
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+  list-style-position: inside;
+  list-style-type: none;
+
+  > li {
+    margin: 0;
+    list-style-position: inside;
+    list-style-type: none;
+  }
 `;
 
 export default MenuList;

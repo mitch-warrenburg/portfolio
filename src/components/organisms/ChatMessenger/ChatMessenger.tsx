@@ -21,7 +21,7 @@ import styled, { useTheme } from 'styled-components';
 import { State, ChatState } from '../../../store/types';
 import StatusIndicator from '../../atoms/StatusIndicator';
 import { CollapsibleElementProps, ChatMessengerProps } from './types';
-import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
+import { ADMIN_AVATAR, ANONYMOUS_AVATAR } from '../../../globalConstants';
 
 const HeaderContainer = styled.div<CollapsibleElementProps>`
   position: relative;
@@ -37,15 +37,7 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   text-align: left;
   transition: ease-in-out 150ms;
 
-  @media screen and (min-width: 720px) and (orientation: portrait) {
-
-    &:hover {
-      background: ${({ open, theme }) =>
-        open ? theme.colors.background.overlay : theme.colors.background.input};
-    }
-  }
-
-  @media screen and (max-height: 600px) and (orientation: landscape) {
+  @media screen and (min-width: 721px), screen and (min-height: 601px) {
 
     &:hover {
       background: ${({ open, theme }) =>
@@ -68,11 +60,7 @@ const TitleContainer = styled.div`
     white-space: nowrap;
   }
 
-  @media screen and (max-width: 720px) and (orientation: portrait) {
-    font-size: 12px;
-  }
-
-  @media screen and (max-height: 600px) and (orientation: landscape) {
+  @media screen and (max-width: 720px), screen and (max-height: 600px) {
     font-size: 12px;
   }
 `;
@@ -278,7 +266,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({
         <HeaderContainer open={!isChatMinimized} onClick={onClickHeader}>
           <FlexBox justify="flex-start">
             <Optional renderIf={!isChatMinimized}>
-              <Avatar image={isAdmin ? anonymousAvatar : adminAvatar} />
+              <Avatar image={isAdmin ? ANONYMOUS_AVATAR : ADMIN_AVATAR} />
             </Optional>
             <TitleContainer>
               <h4>{chatUsername}</h4>

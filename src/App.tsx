@@ -1,37 +1,63 @@
-import React, { FC } from 'react';
-import Route from './components/molecules/Route';
-import { Redirect, Switch } from 'react-router-dom';
+import React, { FC, Suspense, lazy } from 'react';
+import { useDispatch } from 'react-redux';
 import AdminPage from './components/pages/AdminPage';
-import IntroPage from './components/pages/IntroPage';
+import AdminRoute from './components/molecules/Route';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import HomePage from './components/pages/HomePage/HomePage';
-import AdminLoginPage from './components/pages/AdminLoginPage';
-import SpaceBackdrop from './components/molecules/SpaceBackdrop';
-import ToastNotifications from './components/organisms/ToastNotifications';
-import PolygonWarpBackdrop from './components/molecules/PolygonWarpBackdrop';
-import ChatMessengerWidget from './components/organisms/ChatMessenger/ChatMessengerWidget';
+import RootErrorBoundary from './components/atoms/RootErrorBoundary';
+import SuspensePlaceholder from './components/organisms/SuspensePlaceholder';
 import './_index.scss';
+
+const IntroPage = lazy(() => import('./components/pages/IntroPage'));
+const AdminLoginPage = lazy(() => import('./components/pages/AdminLoginPage'));
+const SpaceBackdrop = lazy(() => import('./components/molecules/SpaceBackdrop'));
+const ApplicationShell = lazy(() => import('./components/organisms/ApplicationShell'));
+const ToastNotifications = lazy(() => import('./components/organisms/ToastNotifications'));
+const PolygonWarpBackdrop = lazy(() => import('./components/molecules/PolygonWarpBackdrop'));
+const ChatMessengerWidget = lazy(() => import('./components/organisms/ChatMessengerWidget'));
 
 library.add(fab, fas, far);
 
 const App: FC = () => {
+  const dispatch = useDispatch();
+
   return (
-    <>
-      <SpaceBackdrop />
-      <PolygonWarpBackdrop />
-      <ChatMessengerWidget />
-      <ToastNotifications />
+    <RootErrorBoundary dispatch={dispatch}>
+      <Suspense fallback={<SuspensePlaceholder />}>
+        <SpaceBackdrop />
+      </Suspense>
+      <Suspense fallback={<SuspensePlaceholder />}>
+        <PolygonWarpBackdrop />
+      </Suspense>
+      <Suspense fallback={<SuspensePlaceholder />}>
+        <ToastNotifications />
+      </Suspense>
+      <Suspense fallback={<SuspensePlaceholder />}>
+        <ChatMessengerWidget />
+      </Suspense>
       <Switch>
-        <Route exact path="/" component={IntroPage} />
-        <Route path="/app" component={HomePage} />
-        <Route exact admin path="/admin" component={AdminPage} />
-        <Route path="/admin/login" component={AdminLoginPage} />
+        <Route exact path="/">
+          <Suspense fallback={<SuspensePlaceholder />}>
+            <IntroPage />
+          </Suspense>
+        </Route>
+        <Route path="/app">
+          <Suspense fallback={<SuspensePlaceholder />}>
+            <ApplicationShell />
+          </Suspense>
+        </Route>
+        <AdminRoute exact admin path="/admin" component={AdminPage} />
+        <Route path="/admin/login">
+          <Suspense fallback={<SuspensePlaceholder />}>
+            <AdminLoginPage />
+          </Suspense>
+        </Route>
         <Redirect to="/app" />
       </Switch>
-    </>
+    </RootErrorBoundary>
   );
 };
 

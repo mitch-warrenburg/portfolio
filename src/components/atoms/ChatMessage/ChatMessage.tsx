@@ -4,7 +4,7 @@ import Optional from '../Optional';
 import { ChatMessageProps } from './types';
 import { bounce, ball } from '../../animations';
 import styled, { css } from 'styled-components';
-import { adminAvatar, anonymousAvatar } from '../../../globalConstants';
+import { ADMIN_AVATAR, ANONYMOUS_AVATAR } from '../../../globalConstants';
 
 const currentUserProperties = css`
   margin: 8px 0 8px 35px;
@@ -91,7 +91,7 @@ const ChatMessage: FC<ChatMessageProps> = ({ isAdmin, content, isCurrentUser, ..
   return (
     <MessageContainer {...props} isCurrentUser={isCurrentUser}>
       <Optional renderIf={!isCurrentUser}>
-        <ChatAvatar image={isAdmin ? anonymousAvatar : adminAvatar} />
+        <ChatAvatar image={isAdmin ? ANONYMOUS_AVATAR : ADMIN_AVATAR} />
       </Optional>
       <span>{content}</span>
     </MessageContainer>

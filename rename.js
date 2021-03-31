@@ -3,7 +3,7 @@ const path = require('path');
 
 const buildDir = './build';
 const htmlFileName = 'index.html';
-const jsRegex = /^src\..*\.js$/;
+const jsRegex = /^.*\..*\.(js)$/;
 const fileRegex = /^.*\..*\.(css|js|png|jpg)$/;
 const manifestFileName = 'manifest.webmanifest';
 
@@ -15,7 +15,7 @@ const renameFile = fileName => {
 };
 
 const replaceFileName = (fileName, fileText) => {
-  return fileText.replace(fileName, fileName.replace('.', '-'));
+  return fileText.replace(new RegExp(fileName, 'g'), fileName.replace('.', '-'));
 };
 
 const renameFiles = async fileNames => {
@@ -31,11 +31,13 @@ const replaceFilesInFileText = async (fileNames, targetFileName) => {
 };
 
 const filesToRename = fs.readdirSync(buildDir).filter(file => file.match(fileRegex));
-const jsFileName = filesToRename.find(file => file.match(jsRegex));
+const jsFilesToRename = filesToRename.filter(file => file.match(jsRegex));
 
 const renameBuildOutput = async () => {
+  await Promise.all(
+    jsFilesToRename.map(jsFile => replaceFilesInFileText(filesToRename, jsFile))
+  );
   await Promise.all([
-    replaceFilesInFileText(filesToRename, jsFileName),
     replaceFilesInFileText(filesToRename, htmlFileName),
     replaceFilesInFileText(filesToRename, manifestFileName),
   ]);

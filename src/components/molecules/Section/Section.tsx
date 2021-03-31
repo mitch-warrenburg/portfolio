@@ -6,16 +6,10 @@ import SectionHeader from '../../atoms/SectionHeader';
 
 const SectionContainer = styled.section`
   display: flex;
-  width: 100%;
-  height: 100%;
-  flex: 1 1 100%;
   flex-direction: column;
+  justify-content: flex-start;
   padding: 0;
-  margin-top: 36px;
-
-  :last-of-type {
-    margin-bottom: 36px;
-  }
+  margin-top: 56px;
 `;
 
 const Section: FC<SectionProps> = ({ children, header, ...props }) => {

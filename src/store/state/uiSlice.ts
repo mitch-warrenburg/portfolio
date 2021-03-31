@@ -29,11 +29,13 @@ const uiSlice = createSlice<UiState, SliceCaseReducers<UiState>>({
     removeNotification: (state, { payload }: PayloadAction<string>) => {
       state.notifications = state.notifications.filter(({ id }) => id !== payload);
     },
+    resetUi: () => initialState,
   },
 });
 
 export const uiReducer = uiSlice.reducer;
 export const {
+  resetUi,
   setIsChatOpen,
   setHasRunIntro,
   addNotification,

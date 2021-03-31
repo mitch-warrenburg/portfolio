@@ -6,8 +6,12 @@ export interface MenuItem<MenuItemId = string> {
   onClick?: MouseEventHandler<HTMLLIElement>;
 }
 
-export interface MenuItemProps<MenuItemId = string> extends HTMLAttributes<HTMLDivElement> {
-  label?: ReactNode;
+export interface Menu<MenuItemId = string> {
+  label: string;
   items: Array<MenuItem<MenuItemId>>;
   onClickItem?: MouseEventHandler<HTMLLIElement>;
 }
+
+export interface MenuProps<MenuItemId = string>
+  extends HTMLAttributes<HTMLDivElement>,
+    Menu<MenuItemId> {}

@@ -1,7 +1,7 @@
 const { injectManifest } = require('workbox-build');
 
 const MAX_FILE_SIZE_MB = 5;
-const CACHED_FILE_TYPES = 'ico,png,txt,css,eot,woff,woff2,svg,jpg,jpeg,webmanifest,map,html';
+const CACHED_FILE_TYPES = 'ico,png,txt,css,eot,woff,woff2,svg,jpg,jpeg,webmanifest,map,html,js';
 
 injectManifest({
   swSrc: `build/sw.js`,

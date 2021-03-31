@@ -9,3 +9,7 @@ export interface MaskPatterns {
   '0': RegExp;
   '*': RegExp;
 }
+
+export interface UploadCompleteResult {
+  default: string;
+}

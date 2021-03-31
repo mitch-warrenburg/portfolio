@@ -3,6 +3,7 @@ import { PanelProps } from './types';
 import styled from 'styled-components';
 
 const Panel = styled.div<PanelProps>`
+  position: relative;
   display: flex;
   overflow: hidden;
   width: 100%;
@@ -11,14 +12,7 @@ const Panel = styled.div<PanelProps>`
   background: ${({ theme }) => theme.colors.background.primary};
   border-radius: 14px;
 
-  @media screen and (max-width: 720px) and (orientation: portrait) {
-    max-width: 100vw;
-    height: 100%;
-    margin-top: 0;
-    border-radius: 0;
-  }
-
-  @media screen and (max-height: 600px) and (orientation: landscape) {
+  @media screen and (max-width: 720px), screen and (max-height: 600px) {
     max-width: 100vw;
     height: 100%;
     margin-top: 0;

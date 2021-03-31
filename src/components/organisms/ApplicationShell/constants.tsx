@@ -1,7 +1,10 @@
 import React from 'react';
 import Icon from '../../atoms/Icon';
 import FlexBox from '../../atoms/FlexBox';
-import { TerminalCommand } from '../../organisms/TerminalEmulator';
+import { TerminalCommand } from '../TerminalEmulator';
+
+export const APP_HEADER_HEIGHT = 58;
+export const APP_SHELL_MARGIN = 36;
 
 export const techMenuItems = () => [
   {
