@@ -1,6 +1,7 @@
 import React, { FC, useMemo, useRef, useCallback } from 'react';
 import NavBar from '../NavBar';
 import AppHeader from '../AppHeader';
+import Scheduler from '../Scheduler';
 import styled from 'styled-components';
 import MobileFooter from '../MobileFooter';
 import Optional from '../../atoms/Optional';
@@ -116,13 +117,21 @@ const ApplicationShell: FC = () => {
     scrollToTop();
   }, []);
 
+  const navToScheduler = useCallback(() => {
+    history.push('/app/schedule');
+    scrollToTop();
+  }, []);
+
   const replayIntro = useCallback(() => {
     dispatch(setHasRunIntro(false));
     history.push('/');
   }, []);
 
   const adminItems = useMemo(() => adminMenuItems(navToAdmin), []);
-  const contactItems = useMemo(() => contactMenuItems(navToContact, openChat), []);
+  const contactItems = useMemo(
+    () => contactMenuItems(navToContact, navToScheduler, openChat),
+    []
+  );
   const aboutAppItems = useMemo(() => aboutAppMenuItems(replayIntro, navToAboutApp), []);
   const menus = useMemo(
     () => [
@@ -156,7 +165,10 @@ const ApplicationShell: FC = () => {
                 <TerminalEmulator commands={terminalCommands} />
                 <Switch>
                   <Route path="/app/contact">
-                    <ContactPage openChatFn={openChat} />
+                    <ContactPage openChatFn={openChat} openSchedulerFn={navToScheduler} />
+                  </Route>
+                  <Route path="/app/schedule">
+                    <Scheduler />
                   </Route>
                   <Route exact path="/app">
                     <Section header="About Me">Stuff about me</Section>

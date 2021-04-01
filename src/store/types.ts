@@ -1,4 +1,5 @@
 import { Action, Reducer } from 'redux';
+import { EventInput } from '@fullcalendar/common';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 export interface RootState {
@@ -79,7 +80,7 @@ export interface LocaleMetadata {
 }
 
 export interface StorageMetadata {
-  isCookie?: boolean;
+  isCookies?: boolean;
   isLocalStorage?: boolean;
   isSessionStorage?: boolean;
 }
@@ -92,8 +93,8 @@ export interface ScreenMetadata {
 
 export interface IosMetadata {
   isIpad?: boolean;
+  isIos?: boolean;
   isIphone?: boolean;
-  isMobileIos?: boolean;
 }
 
 export interface BrowserMetadata {
@@ -190,3 +191,11 @@ export type ChatEventType =
   | 'connect_error'
   | 'connect'
   | 'disconnect';
+
+export interface EventUserInfo {
+  username: string;
+}
+
+export interface ScheduleEvent extends EventInput {
+  extendedProps: {};
+}

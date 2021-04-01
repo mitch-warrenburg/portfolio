@@ -38,7 +38,6 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   transition: ease-in-out 150ms;
 
   @media screen and (min-width: 721px), screen and (min-height: 601px) {
-
     &:hover {
       background: ${({ open, theme }) =>
         open ? theme.colors.background.overlay : theme.colors.background.input};

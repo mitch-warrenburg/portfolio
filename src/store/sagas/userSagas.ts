@@ -75,7 +75,7 @@ export function* getUserMetadataHandler() {
         ios: {
           isIpad: _meta.isIpad(),
           isIphone: _meta.isIphone(),
-          isMobileIos: _meta.isMobileIOS(),
+          isIos: _meta.isMobileIOS(),
         },
       },
       screen: {
@@ -84,7 +84,7 @@ export function* getUserMetadataHandler() {
         availableResolution: _meta.getAvailableResolution(),
       },
       storage: {
-        isCookie: _meta.isCookie(),
+        isCookies: _meta.isCookie(),
         isLocalStorage: _meta.isLocalStorage(),
         isSessionStorage: _meta.isSessionStorage(),
       },

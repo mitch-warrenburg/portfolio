@@ -1,6 +1,7 @@
 import React from 'react';
 import App from './App';
 import ReactDOM from 'react-dom';
+import { initSentry } from './util';
 import { darkTheme } from './themes';
 import { Provider } from 'react-redux';
 import store, { persistor } from './store';
@@ -16,6 +17,7 @@ import './_index.scss';
 
 library.add(fab, fas, far);
 
+initSentry();
 registerServiceWorker().then(
   registration => registration && console.log('service worker registered.')
 );

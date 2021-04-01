@@ -9,7 +9,7 @@ const Page = styled.div`
   margin-bottom: 36px;
 `;
 
-const ContactPage: FC<ContactPageProps> = ({ openChatFn, ...props }) => {
+const ContactPage: FC<ContactPageProps> = ({ openChatFn, openSchedulerFn, ...props }) => {
   const theme = useTheme();
 
   return (
@@ -27,6 +27,21 @@ const ContactPage: FC<ContactPageProps> = ({ openChatFn, ...props }) => {
             icon: 'comments',
           }}
           message="Chat Now!"
+        />
+      </Section>
+      <Section header="Schedule a Chat">
+        <Notification
+          themeColor={theme.colors.theme.pending}
+          button={{
+            transparent: true,
+            onClick: openSchedulerFn,
+            text: 'Check Availability',
+          }}
+          icon={{
+            size: 'lg',
+            icon: 'calendar-check',
+          }}
+          message="Schedule"
         />
       </Section>
       <EmailSection />
