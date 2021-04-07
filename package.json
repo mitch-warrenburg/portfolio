@@ -66,6 +66,7 @@
     "@types/ckeditor": "^4.9.10",
     "@types/classnames": "^2.2.11",
     "@types/clientjs": "^0.1.0",
+    "@types/grecaptcha": "^3.0.1",
     "@types/history": "^4.7.8",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.33",
@@ -115,7 +116,7 @@
   },
   "scripts": {
     "start": "yarn run clean && parcel --no-source-maps src/index.html --port 1234",
-    "start:debug": "NODE_ENV=debug yarn start",
+    "start:debug": "yarn start",
     "build": "yarn clean && run-s build:*",
     "build:react": "yarn clean && parcel build --no-content-hash --detailed-report --no-cache --no-source-maps --out-dir build src/index.html",
     "build:processFiles": "node rename.js && cp src/assets/robots.txt build && cp src/assets/*.html build",

@@ -1,7 +1,8 @@
 import socket from '../../ws';
 import { State } from '../types';
-import { resetUi } from '../state/uiSlice';
+import { persistor } from '../index';
 import { takeEvery, select, put, call } from 'redux-saga/effects';
+import { resetUi, setIsAuthFormModalOpen } from '../state/uiSlice';
 import { clearUserLoadState, getUserMetadata, resetUser } from '../state/userSlice';
 import {
   resetChat,
@@ -9,8 +10,6 @@ import {
   connectToChatServer,
   clearChatConnectionState,
 } from '../state/chatSlice';
-
-import { persistor } from '../index';
 
 export function* rehydrateStateWatcher() {
   yield takeEvery('persist/REHYDRATE', handleAppInitialization);
@@ -30,15 +29,18 @@ export function* handleClearState() {
 
 export function* handleAppInitialization() {
   const state: State = yield select();
-  const { user, chat } = state;
+  const { ui, user, chat } = state;
 
+  if (ui.isAuthFormModalOpen) {
+    yield put(setIsAuthFormModalOpen(false));
+  }
   if (user.isLoading || user.error) {
     yield put(clearUserLoadState(false));
   }
   if (chat.isConnecting || chat.error || chat.isLoading) {
     yield put(clearChatConnectionState({}));
   }
-  if (chat.sessionId && chat.userId && socket.disconnected) {
+  if (user.uid && socket.disconnected) {
     yield put(connectToChatServer({}));
   }
   if (!chat.currentChatUserId || !chat.defaultChatUsername) {

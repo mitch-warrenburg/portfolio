@@ -40,11 +40,10 @@ const socket = io({
   autoConnect: false,
   auth: cb => {
     const {
-      user: { username, token },
+      user: { username },
       chat: { userId, sessionId },
     } = store.getState();
-
-    cb({ userId, sessionId, username, token });
+    cb({ userId, sessionId, username });
   },
 });
 

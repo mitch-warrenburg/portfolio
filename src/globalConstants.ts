@@ -1,5 +1,6 @@
 import { ChatEventType } from './store/types';
 
+export const MAX_EMAIL_COUNT = 5;
 export const TYPING_EVENT_DURATION_MS = 1800;
 export const INVALID_USERNAME = 'Invalid Username';
 export const TOKEN_AUTH_ERROR_MSG = 'Authentication Error';

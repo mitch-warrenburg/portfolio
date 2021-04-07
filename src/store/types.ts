@@ -20,12 +20,18 @@ export interface ActionResultNotification {
 }
 
 export interface UiState {
+  recaptchaWidgetId?: number;
+  captchaButtonId?: string;
   hasRunIntro: boolean;
   isChatOpen: boolean;
   isIntroRunning: boolean;
   isChatMinimized: boolean;
+  isAuthFormModalOpen: boolean;
+  authFormStatus: AuthFormStatus;
   notifications: Array<ActionResultNotification>;
 }
+
+export type AuthFormStatus = 'phoneNumber' | 'confirmationCode' | 'userInfo';
 
 export interface ChatState {
   users: ChatUsers;
@@ -41,7 +47,7 @@ export interface ChatState {
 }
 
 export interface UserState {
-  token?: string;
+  uid?: string;
   email?: string;
   company?: string;
   username?: string;
@@ -52,6 +58,17 @@ export interface UserState {
   isLoading: boolean;
   isEmailSuccess: boolean;
   userMetadata: UserMetadata;
+  authFormDraft: AuthFormDraft;
+  pendingEmail?: SendEmailActionPayload;
+}
+
+export interface AuthFormDraft {
+  email?: string;
+  company: string;
+  username: string;
+  phoneNumber: string;
+  confirmationCode: string;
+  lastUpdatedFrom?: AuthFormFeature;
 }
 
 export interface UserMetadata {
@@ -107,6 +124,33 @@ export interface OsMetadata {
   name?: string;
   version?: string;
   ios?: IosMetadata;
+}
+
+export interface UserAuthResponse {
+  uid: string;
+  emailCount: number;
+  phoneNumber: string;
+  email?: string;
+  company?: string;
+  username?: string;
+  metadata?: UserMetadata;
+}
+
+export interface UserUpdateResponse {
+  uid: string;
+  emailCount: number;
+  phoneNumber: string;
+  email?: string;
+  company: string;
+  username: string;
+  metadata?: UserMetadata;
+}
+
+export interface UserUpdateRequest {
+  uid: string;
+  email?: string;
+  company: string;
+  username: string;
 }
 
 export type ChatUsers = {
@@ -174,11 +218,24 @@ export interface TypingEvent {
 }
 
 export interface SendEmailRequest {
-  name: string;
-  address: string;
-  company: string;
+  uid: string;
+  email: string;
   content: string;
-  phoneNumber?: string;
+}
+
+export interface SendEmailActionPayload {
+  formData: {
+    email: string;
+    username: string;
+    company: string;
+  };
+  uid?: string;
+  content: string;
+  isUserFullyAuthenticated: boolean;
+}
+
+export interface SendEmailResponse {
+  emailCount: number;
 }
 
 export type ChatEventType =
@@ -199,3 +256,5 @@ export interface EventUserInfo {
 export interface ScheduleEvent extends EventInput {
   extendedProps: {};
 }
+
+export type AuthFormFeature = 'email' | 'chat' | 'scheduling';

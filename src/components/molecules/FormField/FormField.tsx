@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   display: inline-flex;
   min-width: 160px;
   max-width: 230px;
+  max-height: 56px;
   flex-flow: column nowrap;
   flex-grow: 1;
   align-items: flex-start;

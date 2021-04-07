@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { uniqueId } from 'lodash';
 import { UploadCompleteResult } from './types';
 import { addNotification } from '../store/state/uiSlice';
-import { storage, STORAGE_STATE_EVENT } from './firebase';
+import { fb, STORAGE_STATE_EVENT } from './firebase';
 import UploadTaskSnapshot = firebase.storage.UploadTaskSnapshot;
 import FirebaseStorageError = firebase.storage.FirebaseStorageError;
 
@@ -46,7 +46,7 @@ export class FirebaseUploadAdapter {
   // noinspection JSUnusedGlobalSymbols
   async upload() {
     return new Promise(async (resolve, reject) => {
-      const storageRef = storage.ref();
+      const storageRef = fb.storage().ref();
       const file = await this.loader.file;
       const uploadTask = storageRef.child(file.name).put(file);
 

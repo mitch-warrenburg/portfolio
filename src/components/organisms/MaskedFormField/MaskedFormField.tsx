@@ -14,7 +14,7 @@ import { applyMask, hideValue, getPureValue, getNewCursorPosition } from '../../
 
 const MaskedFormField = forwardRef<HTMLInputElement, MaskedFormFieldProps>(
   (
-    { id, mask, style, value, onBlur, onMask, onFocus, onInput, disabled, ...props },
+    { id, name, mask, style, value, onBlur, onMask, onFocus, onInput, disabled, ...props },
     forwardedRef: Ref<HTMLInputElement>
   ) => {
     const innerRef = useRef<HTMLInputElement>(null);
@@ -51,6 +51,8 @@ const MaskedFormField = forwardRef<HTMLInputElement, MaskedFormFieldProps>(
       onInput && onInput(event);
       onMask &&
         onMask({
+          id,
+          name,
           value: maskedValue,
           pureValue: getPureValue(maskedValue),
         });
@@ -92,15 +94,18 @@ const MaskedFormField = forwardRef<HTMLInputElement, MaskedFormFieldProps>(
 
     return (
       <FormField
+        {...props}
+        type="text"
         id={id}
         ref={ref}
+        name={name}
         style={style}
+        onChange={() => {}}
         disabled={disabled}
         value={state.value}
         onBlur={blurHandler}
         onFocus={focusHandler}
         onInput={inputHandler}
-        {...props}
       />
     );
   }

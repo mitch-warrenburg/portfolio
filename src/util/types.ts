@@ -1,4 +1,4 @@
-export type Validator = (value?: string, required?: boolean) => string;
+export type Validator = (value?: string, required?: boolean) => boolean;
 
 export type MaskSymbol = 'A' | 'a' | 'x' | '0' | '*';
 

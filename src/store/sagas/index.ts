@@ -4,7 +4,11 @@ import {
   adminAuthWatcher,
   sendEmailWatcher,
   adminLogoutWatcher,
+  updateUserInfoWatcher,
   getUserMetadataWatcher,
+  authenticatePhoneNumberWatcher,
+  advanceToNextAuthFormStateWatcher,
+  authenticateConfirmationCodeWatcher,
 } from './userSagas';
 import {
   websocketErrorWatcher,
@@ -21,6 +25,7 @@ export default function* rootSaga() {
     adminAuthWatcher,
     clearStateWatcher,
     adminLogoutWatcher,
+    updateUserInfoWatcher,
     websocketErrorWatcher,
     rehydrateStateWatcher,
     getUserMetadataWatcher,
@@ -28,7 +33,10 @@ export default function* rootSaga() {
     userSessionsEventWatcher,
     userConnectedEventWatcher,
     connectToChatServerWatcher,
+    authenticatePhoneNumberWatcher,
     disconnectFromChatServerWatcher,
+    advanceToNextAuthFormStateWatcher,
+    authenticateConfirmationCodeWatcher,
   ];
 
   yield all(

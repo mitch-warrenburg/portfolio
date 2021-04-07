@@ -1,5 +1,6 @@
 import React, { FC, Suspense, lazy } from 'react';
 import { useDispatch } from 'react-redux';
+import IntroPage from './components/pages/IntroPage';
 import AdminPage from './components/pages/AdminPage';
 import AdminRoute from './components/molecules/Route';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -7,14 +8,13 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import SpaceBackdrop from './components/molecules/SpaceBackdrop';
 import RootErrorBoundary from './components/atoms/RootErrorBoundary';
 import ApplicationShell from './components/organisms/ApplicationShell';
 import SuspensePlaceholder from './components/organisms/SuspensePlaceholder';
 import './_index.scss';
 
-const IntroPage = lazy(() => import('./components/pages/IntroPage'));
 const AdminLoginPage = lazy(() => import('./components/pages/AdminLoginPage'));
-const SpaceBackdrop = lazy(() => import('./components/molecules/SpaceBackdrop'));
 const ToastNotifications = lazy(() => import('./components/organisms/ToastNotifications'));
 const PolygonWarpBackdrop = lazy(() => import('./components/molecules/PolygonWarpBackdrop'));
 const ChatMessengerWidget = lazy(() => import('./components/organisms/ChatMessengerWidget'));
@@ -26,9 +26,7 @@ const App: FC = () => {
 
   return (
     <RootErrorBoundary dispatch={dispatch}>
-      <Suspense fallback={<SuspensePlaceholder />}>
-        <SpaceBackdrop />
-      </Suspense>
+      <SpaceBackdrop />
       <Suspense fallback={<SuspensePlaceholder />}>
         <PolygonWarpBackdrop />
       </Suspense>
@@ -39,11 +37,7 @@ const App: FC = () => {
         <ChatMessengerWidget />
       </Suspense>
       <Switch>
-        <Route exact path="/">
-          <Suspense fallback={<SuspensePlaceholder />}>
-            <IntroPage />
-          </Suspense>
-        </Route>
+        <Route exact path="/" component={IntroPage} />
         <Route path="/app" component={ApplicationShell} />
         <AdminRoute exact admin path="/admin" component={AdminPage} />
         <Route path="/admin/login">
