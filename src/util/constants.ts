@@ -1,5 +1,6 @@
 export const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-export const phoneNumberRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+export const phoneNumberRegex = /^(\+1\s\([0-9]{3}\)\s[0-9]{3}-[0-9]{4})$/;
+export const confirmationCodeRegex = /^[0-9]{6}$/;
 
 export const firebaseConfig: Object = {
   measurementId: 'G-F3HBK11DNJ',

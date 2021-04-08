@@ -2,6 +2,8 @@ import { Ref } from 'react';
 import { FormFieldProps } from '../../molecules/FormField';
 
 export interface MaskEvent {
+  id?: string;
+  name?: string;
   value?: string;
   pureValue?: string;
 }

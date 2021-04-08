@@ -1,4 +1,5 @@
 import { Action, Reducer } from 'redux';
+import { EventInput } from '@fullcalendar/common';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 export interface RootState {
@@ -19,18 +20,23 @@ export interface ActionResultNotification {
 }
 
 export interface UiState {
+  recaptchaWidgetId?: number;
+  captchaButtonId?: string;
   hasRunIntro: boolean;
   isChatOpen: boolean;
   isIntroRunning: boolean;
   isChatMinimized: boolean;
+  isAuthFormModalOpen: boolean;
+  authFormStatus: AuthFormStatus;
   notifications: Array<ActionResultNotification>;
 }
 
+export type AuthFormStatus = 'phoneNumber' | 'confirmationCode' | 'userInfo';
+
 export interface ChatState {
   users: ChatUsers;
-  currentChatUserId?: string;
+  currentChatUid?: string;
   defaultChatUsername?: string;
-  userId?: string;
   sessionId?: string;
   email?: string;
   phoneNumber?: string;
@@ -40,7 +46,8 @@ export interface ChatState {
 }
 
 export interface UserState {
-  token?: string;
+  adminToken?: string;
+  uid?: string;
   email?: string;
   company?: string;
   username?: string;
@@ -51,6 +58,17 @@ export interface UserState {
   isLoading: boolean;
   isEmailSuccess: boolean;
   userMetadata: UserMetadata;
+  authFormDraft: AuthFormDraft;
+  pendingEmail?: SendEmailActionPayload;
+}
+
+export interface AuthFormDraft {
+  email?: string;
+  company: string;
+  username: string;
+  phoneNumber: string;
+  confirmationCode: string;
+  lastUpdatedFrom?: AuthFormFeature;
 }
 
 export interface UserMetadata {
@@ -79,7 +97,7 @@ export interface LocaleMetadata {
 }
 
 export interface StorageMetadata {
-  isCookie?: boolean;
+  isCookies?: boolean;
   isLocalStorage?: boolean;
   isSessionStorage?: boolean;
 }
@@ -92,8 +110,8 @@ export interface ScreenMetadata {
 
 export interface IosMetadata {
   isIpad?: boolean;
+  isIos?: boolean;
   isIphone?: boolean;
-  isMobileIos?: boolean;
 }
 
 export interface BrowserMetadata {
@@ -108,8 +126,42 @@ export interface OsMetadata {
   ios?: IosMetadata;
 }
 
+export interface UserAuthResponse {
+  uid: string;
+  emailCount: number;
+  phoneNumber: string;
+  email?: string;
+  company?: string;
+  username?: string;
+  metadata?: UserMetadata;
+}
+
+export interface AdminAuthResponse {
+  uid: string;
+  token: string;
+  username: string;
+  sessionId: string;
+}
+
+export interface UserUpdateResponse {
+  uid: string;
+  emailCount: number;
+  phoneNumber: string;
+  email?: string;
+  company: string;
+  username: string;
+  metadata?: UserMetadata;
+}
+
+export interface UserUpdateRequest {
+  uid: string;
+  email?: string;
+  company: string;
+  username: string;
+}
+
 export type ChatUsers = {
-  [userId: string]: ChatUser;
+  [uid: string]: ChatUser;
 };
 
 export interface ChatMessage {
@@ -119,7 +171,7 @@ export interface ChatMessage {
 }
 
 export interface ChatUser {
-  userId: string;
+  uid: string;
   typing: boolean;
   username: string;
   connected: boolean;
@@ -127,7 +179,7 @@ export interface ChatUser {
 }
 
 export interface NewSessionEvent {
-  userId: string;
+  uid: string;
   sessionId: string;
   username: string;
 }
@@ -135,12 +187,12 @@ export interface NewSessionEvent {
 export type UserSessionsEvent = Array<ChatUser>;
 
 export interface UserConnectedEvent {
-  userId: string;
+  uid: string;
   username: string;
 }
 
 export interface UserDisconnectedEvent {
-  userId: string;
+  uid: string;
 }
 
 export interface SubmitChatFormPayload {
@@ -153,16 +205,8 @@ export interface AdminAuthPayload {
   password: string;
 }
 
-export interface AdminAuthResponse {
-  token: string;
-  userId: string;
-  username: string;
-  password: string;
-  sessionId: string;
-}
-
-export interface FetchSendToUserIdResponse {
-  userId: string;
+export interface FetchSendToUidResponse {
+  uid: string;
   username: string;
 }
 
@@ -173,11 +217,24 @@ export interface TypingEvent {
 }
 
 export interface SendEmailRequest {
-  name: string;
-  address: string;
-  company: string;
+  uid: string;
+  email: string;
   content: string;
-  phoneNumber?: string;
+}
+
+export interface SendEmailActionPayload {
+  formData: {
+    email: string;
+    username: string;
+    company: string;
+  };
+  uid?: string;
+  content: string;
+  isUserFullyAuthenticated: boolean;
+}
+
+export interface SendEmailResponse {
+  emailCount: number;
 }
 
 export type ChatEventType =
@@ -190,3 +247,13 @@ export type ChatEventType =
   | 'connect_error'
   | 'connect'
   | 'disconnect';
+
+export interface EventUserInfo {
+  username: string;
+}
+
+export interface ScheduleEvent extends EventInput {
+  extendedProps: {};
+}
+
+export type AuthFormFeature = 'email' | 'chat' | 'scheduling';

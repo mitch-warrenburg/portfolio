@@ -32,7 +32,7 @@ const ToastNotifications: FC = memo(() => {
       content: text,
       icon: {
         size: 'lg' as SizeProp,
-        icon: (type === 'success' ? 'check-circle' : 'times-circle') as IconName,
+        icon: (type === 'success' ? 'check-circle' : 'exclamation-circle') as IconName,
       },
       themeColor: type === 'success' ? theme.colors.theme.success : theme.colors.theme.error,
     }));

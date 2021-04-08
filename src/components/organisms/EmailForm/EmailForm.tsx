@@ -9,22 +9,23 @@ import React, {
 import styled from 'styled-components';
 import { EmailFormProps } from './types';
 import { useSelector } from 'react-redux';
-import MaskedFormField from '../MaskedFormField';
 import { useEventCallback } from '../../../hooks';
 import FormField from '../../molecules/FormField';
 import { State, UserState } from '../../../store/types';
-import { notBlankValidator, emailValidator, phoneNumberValidator } from '../../../util';
+import { notBlankValidator, emailValidator } from '../../../util';
+import { requiredFieldErrorMsg, invalidEmailMsg } from './constants';
 
 const FormContainer = styled.form`
   display: grid;
   padding: 0;
   margin-bottom: 28px;
   gap: 28px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
 
   & > div {
     width: 100%;
-    min-width: 160px;
+    min-width: 130px;
+    max-width: unset;
     margin: 0;
 
     & > input {
@@ -39,21 +40,16 @@ const EmailForm: FC<EmailFormProps> = ({ validationTriggerRef, ...props }) => {
   const phoneNumberFieldRef = useRef<HTMLInputElement>(null);
   const user = useSelector<State, UserState>(({ user }) => user);
 
-  const [{ email, company, username, phoneNumber }, setFormState] = useState({
+  const [{ email, company, username }, setFormState] = useState({
     email: user.email || '',
     company: user.company || '',
     username: user.username || '',
-    phoneNumber: user.phoneNumber || '',
   });
 
-  const [
-    { emailError, companyError, usernameError, phoneNumberError },
-    setErrorState,
-  ] = useState({
+  const [{ emailError, companyError, usernameError }, setErrorState] = useState({
     emailError: '',
     companyError: '',
     usernameError: '',
-    phoneNumberError: '',
   });
 
   const fieldChangeHandler: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -83,15 +79,14 @@ const EmailForm: FC<EmailFormProps> = ({ validationTriggerRef, ...props }) => {
 
   validationTriggerRef.current = useEventCallback(() => {
     const errorState = {
-      usernameError: notBlankValidator(username),
-      companyError: notBlankValidator(company),
-      emailError: emailValidator(email, true),
-      phoneNumberError: phoneNumberValidator(phoneNumber, false),
+      emailError: emailValidator(email, true) ? '' : invalidEmailMsg,
+      companyError: notBlankValidator(company) ? '' : requiredFieldErrorMsg,
+      usernameError: notBlankValidator(username) ? '' : requiredFieldErrorMsg,
     };
     const isValid = !Object.values(errorState).some(error => !!error);
 
     setErrorState(errorState);
-    return isValid ? { username, company, email, phoneNumber } : null;
+    return isValid ? { username, company, email } : null;
   });
 
   return (
@@ -131,18 +126,6 @@ const EmailForm: FC<EmailFormProps> = ({ validationTriggerRef, ...props }) => {
         disabled={user.isLoading}
         onChange={fieldChangeHandler}
         onKeyDown={emailKeyDownHandler}
-      />
-      <MaskedFormField
-        type="text"
-        inputMode="tel"
-        name="phoneNumber"
-        label="Phone Number"
-        mask="(000) 000-0000"
-        value={phoneNumber}
-        error={phoneNumberError}
-        disabled={user.isLoading}
-        ref={phoneNumberFieldRef}
-        onChange={fieldChangeHandler}
       />
     </FormContainer>
   );

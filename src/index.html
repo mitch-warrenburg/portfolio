@@ -1,56 +1,25 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="assets/logo.png" />
   <link rel="apple-touch-icon" href="assets/logo.png" />
   <link rel="manifest" href="manifest.webmanifest" />
-
   <meta name="theme-color" content="#000000" />
   <meta name="description" content="Mitch Warrenburg Portfolio" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="application-name" content="Mitch Warrenburg Portfolio" />
   <meta name="viewport"
         content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
-
-  <!-- iOS Safari -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Mitch Warrenburg Portfolio" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-
   <title>Mitch Warrenburg</title>
+
 </head>
 <body>
 <div id="root"></div>
 <script src="index.tsx"></script>
-<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-performance.js"></script>
-<script>
-  if (process.env.NODE_ENV === "production") {
-    const firebaseConfig = {
-      apiKey: "AIzaSyDVYbc2ezQY7jMn0SysmVx-x20wiUIcbcU",
-      authDomain: "lr-offer-dashboard.firebaseapp.com",
-      databaseURL: "https://lr-offer-dashboard.firebaseio.com",
-      projectId: "lr-offer-dashboard",
-      storageBucket: "lr-offer-dashboard.appspot.com",
-      messagingSenderId: "288423668683",
-      appId: "1:288423668683:web:37f7905ef8ada198f2a44e",
-      measurementId: "G-R407T6Y5W8"
-    };
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-    let perf = firebase.performance();
-  }
-</script>
-
-<!-- first input delay performance metric -->
-<script>
-  // @formatter:off
-  !function(n,e){var t,o,i,c=[],f={passive:!0,capture:!0},r=new Date,a="pointerup",u="pointercancel";function p(n,c){t||(t=c,o=n,i=new Date,w(e),s())}function s(){o>=0&&o<i-r&&(c.forEach(function(n){n(o,t)}),c=[])}function l(t){if(t.cancelable){var o=(t.timeStamp>1e12?new Date:performance.now())-t.timeStamp;"pointerdown"==t.type?function(t,o){function i(){p(t,o),r()}function c(){r()}function r(){e(a,i,f),e(u,c,f)}n(a,i,f),n(u,c,f)}(o,t):p(o,t)}}function w(n){["click","mousedown","keydown","touchstart","pointerdown"].forEach(function(e){n(e,l,f)})}w(n),self.perfMetrics=self.perfMetrics||{},self.perfMetrics.onFirstInputDelay=function(n){c.push(n),s()}}(addEventListener,removeEventListener);
-  // @formatter:on
-</script>
 </body>
 </html>

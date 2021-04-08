@@ -7,6 +7,7 @@ import { chatReducer } from './state/chatSlice';
 import { userReducer } from './state/userSlice';
 import { IS_PROD, persistConfig } from './config';
 import { Persistor } from 'redux-persist/es/types';
+import { createReduxEnhancer } from '@sentry/react';
 import persistStore from 'redux-persist/es/persistStore';
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
@@ -24,6 +25,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   devTools: !IS_PROD,
   reducer: rootReducer,
+  enhancers: [createReduxEnhancer()],
   middleware: [
     sagaMiddleware,
     ...getDefaultMiddleware({ serializableCheck: false, immutableCheck: false }),

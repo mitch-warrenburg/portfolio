@@ -1,11 +1,8 @@
 import socket from '../../ws';
-import { uniqueId } from 'lodash';
 import client from '../../http/client';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { addNotification } from '../state/uiSlice';
-import { adminAuthFailure } from '../state/userSlice';
 import { takeEvery, select, put, delay, call } from 'redux-saga/effects';
-import { TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME } from '../../globalConstants';
+import { INVALID_USER_ERROR_MSG, AUTH_ERROR_MSG } from '../../globalConstants';
 import {
   addUser,
   setUsers,
@@ -21,7 +18,7 @@ import {
   ChatUsers,
   UserSessionsEvent,
   UserConnectedEvent,
-  FetchSendToUserIdResponse,
+  FetchSendToUidResponse,
 } from '../types';
 
 export function* userSessionsEventWatcher() {
@@ -49,25 +46,19 @@ export function* websocketErrorWatcher() {
 }
 
 export function* websocketErrorHandler({ payload: error }: PayloadAction<Error>) {
-  yield console.error(error?.message);
-
-  if ([TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME].includes(error?.message)) {
+  if ([INVALID_USER_ERROR_MSG, AUTH_ERROR_MSG].includes(error?.message)) {
     yield socket.disconnect();
     yield put(setChatError(error.message));
     yield put(chatAuthFailure({}));
-    yield put(adminAuthFailure(error.message));
     yield put(fetchSendToUser({}));
-    yield put(
-      addNotification({ id: uniqueId(), text: 'Messenger Failed to Connect', type: 'failure' })
-    );
   }
 }
 
 export function* fetchSendToUserHandler() {
   try {
-    const response: FetchSendToUserIdResponse = yield call(
+    const response: FetchSendToUidResponse = yield call(
       client.get,
-      '/api/v1/chat/defaultSendToUser'
+      '/api/v1/chat/default-user'
     );
     yield put(fetchSendToUserSuccess(response));
   } catch (e) {
@@ -80,7 +71,8 @@ export function* disconnectFromChatServerHandler() {
 }
 
 export function* connectToChatServerHandler() {
-  yield delay(1500);
+  yield socket.disconnect();
+  yield delay(250);
   yield socket.connect();
 }
 
@@ -90,7 +82,7 @@ export function* userSessionsEventHandler({
   const users: ChatUsers = yield userSessions.reduce(
     (prev, current) => ({
       ...prev,
-      [current.userId]: current,
+      [current.uid]: current,
     }),
     {}
   );
@@ -98,24 +90,23 @@ export function* userSessionsEventHandler({
 }
 
 export function* userConnectedEventHandler({
-  payload: { userId, username },
+  payload: { uid, username },
 }: PayloadAction<UserConnectedEvent>) {
   const { users } = yield chatState();
-  const user = users[userId];
+  const user = users[uid];
 
   if (user) {
-    yield put(setUserConnected(userId));
+    yield put(setUserConnected(uid));
   } else {
     yield put(
       addUser({
-        userId,
+        uid,
         username,
         messages: [],
         connected: true,
       })
     );
   }
-  yield put(addNotification({ id: uniqueId(), text: 'Messenger Connected', type: 'success' }));
 }
 
 export const chatState = () => {

@@ -4,7 +4,6 @@ export interface ValidEmailForm {
   email: string;
   company: string;
   username: string;
-  phoneNumber?: string;
 }
 
 export type ValidationTriggerCallback = () => ValidEmailForm | null;

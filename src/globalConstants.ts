@@ -1,8 +1,9 @@
 import { ChatEventType } from './store/types';
 
+export const MAX_EMAIL_COUNT = 5;
 export const TYPING_EVENT_DURATION_MS = 1800;
-export const INVALID_USERNAME = 'Invalid Username';
-export const TOKEN_AUTH_ERROR_MSG = 'Authentication Error';
+export const INVALID_USER_ERROR_MSG = 'invalid user';
+export const AUTH_ERROR_MSG = 'authentication failed';
 
 export const CONNECT: ChatEventType = 'connect';
 export const DISCONNECT: ChatEventType = 'disconnect';

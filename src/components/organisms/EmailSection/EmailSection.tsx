@@ -1,5 +1,6 @@
-import React, { FC, useRef, useCallback } from 'react';
+import React, { FC, useRef, useCallback, useMemo } from 'react';
 import Editor from '../Editor';
+import { uniqueId } from 'lodash';
 import EmailForm from '../EmailForm';
 import Button from '../../atoms/Button';
 import Notification from '../Notification';
@@ -8,10 +9,13 @@ import Section from '../../molecules/Section';
 import { useEventCallback } from '../../../hooks';
 import styled, { useTheme } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
+import useAuthState from '../../../hooks/useAuthState';
 import { State, UserState } from '../../../store/types';
+import { MAX_EMAIL_COUNT } from '../../../globalConstants';
 import LoadingOverlay from '../../molecules/LoadingOverlay';
+import { addNotification } from '../../../store/state/uiSlice';
 import { ValidationTriggerCallback } from '../EmailForm/types';
-import { sendEmail, composeNewEmail } from '../../../store/state/userSlice';
+import { composeNewEmail, sendEmail } from '../../../store/state/userSlice';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -23,24 +27,45 @@ const ButtonContainer = styled.div`
 const EmailSection: FC = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-
-  const user = useSelector<State, UserState>(({ user }) => user);
   const emailContentRef = useRef<string>('');
+  const { emailCount = 0, isEmailSuccess, isLoading, uid } = useSelector<State, UserState>(
+    ({ user }) => user
+  );
   const validationTriggerRef = useRef<ValidationTriggerCallback>(() => null);
+
+  const { isUserFullyAuthenticated, updateAuthStateStatus } = useAuthState();
 
   const newEmailClickHandler = useCallback(() => {
     dispatch(composeNewEmail({}));
   }, []);
 
-  const submitButtonClickHandler = useEventCallback(() => {
-    const result = validationTriggerRef.current();
+  const shouldRenderEditor = useMemo(() => emailCount < MAX_EMAIL_COUNT && !isEmailSuccess, [
+    emailCount,
+    isEmailSuccess,
+  ]);
 
-    if (result) {
+  const submitButtonClickHandler = useEventCallback(() => {
+    const formData = validationTriggerRef.current();
+
+    if (formData) {
+      if (!emailContentRef.current) {
+        dispatch(
+          addNotification({
+            id: uniqueId(),
+            text: 'Email content must not be blank.',
+            type: 'failure',
+          })
+        );
+        return;
+      }
+
+      !isUserFullyAuthenticated && updateAuthStateStatus();
+
       dispatch(
         sendEmail({
-          ...result,
-          address: result.email,
-          name: result.username,
+          formData,
+          uid: uid,
+          isUserFullyAuthenticated,
           content: emailContentRef.current,
         })
       );
@@ -49,8 +74,8 @@ const EmailSection: FC = () => {
 
   return (
     <Section header="Contact Me">
-      <LoadingOverlay isLoading={user.isLoading} message="Sending..." />
-      <Optional renderIf={user.isEmailSuccess}>
+      <LoadingOverlay isLoading={isLoading} message="Sending..." />
+      <Optional renderIf={!shouldRenderEditor}>
         <Notification
           message="Email Sent"
           themeColor={theme.colors.theme.success}
@@ -59,15 +84,15 @@ const EmailSection: FC = () => {
             transparent: true,
             text: 'Send Another',
             onClick: newEmailClickHandler,
-            disabled: user.emailCount >= 3,
+            disabled: emailCount >= MAX_EMAIL_COUNT,
           }}
         />
       </Optional>
-      <Optional renderIf={!user.isEmailSuccess}>
+      <Optional renderIf={shouldRenderEditor}>
         <EmailForm validationTriggerRef={validationTriggerRef} />
         <Editor contentRef={emailContentRef} />
         <ButtonContainer>
-          <Button transparent onClick={submitButtonClickHandler} disabled={user.isLoading}>
+          <Button transparent onClick={submitButtonClickHandler} disabled={isLoading}>
             Submit
           </Button>
         </ButtonContainer>

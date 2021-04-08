@@ -1,16 +1,19 @@
-import React, { FC, useMemo, useRef, useCallback } from 'react';
+import React, { FC, useMemo, useRef, useCallback, useEffect } from 'react';
 import NavBar from '../NavBar';
 import AppHeader from '../AppHeader';
+import Scheduler from '../Scheduler';
 import styled from 'styled-components';
 import MobileFooter from '../MobileFooter';
 import Optional from '../../atoms/Optional';
+import AuthFormModal from '../AuthFormModal';
 import Section from '../../molecules/Section';
-import { RootState } from '../../../store/types';
 import { History, LocationState } from 'history';
+import { useEventCallback } from '../../../hooks';
 import ContactPage from '../../pages/ContactPage';
 import TerminalEmulator from '../TerminalEmulator';
 import { useDispatch, useSelector } from 'react-redux';
 import PageTemplate from '../../templates/PageTemplate';
+import { RootState, UiState } from '../../../store/types';
 import { Switch, useHistory, Route } from 'react-router-dom';
 import {
   adminMenuItems,
@@ -90,17 +93,23 @@ const ApplicationShell: FC = () => {
   const dispatch = useDispatch();
   const panelContentRef = useRef<HTMLDivElement>(null);
   const history: History<LocationState> = useHistory();
-  const hasRunIntro = useSelector<RootState, boolean>(({ ui }) => ui.hasRunIntro);
+  const { hasRunIntro, isChatOpen, isChatMinimized } = useSelector<RootState, UiState>(
+    ({ ui }) => ui
+  );
 
   const scrollToTop = useCallback(() => {
     panelContentRef.current?.scrollTo(0, 0);
   }, []);
 
-  const openChat = useCallback(() => {
-    dispatch(setIsChatOpen(true));
-    dispatch(setIsChatMinimized(false));
+  const openChat = useEventCallback(() => {
+    if (isChatOpen) {
+      dispatch(setIsChatMinimized(!isChatMinimized));
+    } else {
+      dispatch(setIsChatOpen(true));
+      dispatch(setIsChatMinimized(false));
+    }
     scrollToTop();
-  }, []);
+  });
 
   const navToContact = useCallback(() => {
     history.push('/app/contact');
@@ -116,13 +125,21 @@ const ApplicationShell: FC = () => {
     scrollToTop();
   }, []);
 
+  const navToScheduler = useCallback(() => {
+    history.push('/app/schedule');
+    scrollToTop();
+  }, []);
+
   const replayIntro = useCallback(() => {
     dispatch(setHasRunIntro(false));
     history.push('/');
   }, []);
 
   const adminItems = useMemo(() => adminMenuItems(navToAdmin), []);
-  const contactItems = useMemo(() => contactMenuItems(navToContact, openChat), []);
+  const contactItems = useMemo(
+    () => contactMenuItems(navToContact, navToScheduler, openChat),
+    []
+  );
   const aboutAppItems = useMemo(() => aboutAppMenuItems(replayIntro, navToAboutApp), []);
   const menus = useMemo(
     () => [
@@ -142,9 +159,14 @@ const ApplicationShell: FC = () => {
     []
   );
 
+  useEffect(() => {
+    !hasRunIntro && history.push('/');
+  }, [hasRunIntro]);
+
   return (
     <Optional renderIf={hasRunIntro}>
       <Shell>
+        <AuthFormModal />
         <HeaderContainer className="app-shell__header">
           <AppHeader />
         </HeaderContainer>
@@ -156,7 +178,10 @@ const ApplicationShell: FC = () => {
                 <TerminalEmulator commands={terminalCommands} />
                 <Switch>
                   <Route path="/app/contact">
-                    <ContactPage openChatFn={openChat} />
+                    <ContactPage openChatFn={openChat} openSchedulerFn={navToScheduler} />
+                  </Route>
+                  <Route path="/app/schedule">
+                    <Scheduler />
                   </Route>
                   <Route exact path="/app">
                     <Section header="About Me">Stuff about me</Section>

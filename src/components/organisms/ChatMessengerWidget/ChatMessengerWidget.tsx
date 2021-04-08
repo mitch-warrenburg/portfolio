@@ -1,12 +1,15 @@
-import React, { FC, useMemo, useCallback, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
+import AuthForm from '../AuthForm';
 import styled from 'styled-components';
 import { fadeIn } from '../../animations';
-import ChatMessenger from '../ChatMessenger';
 import Optional from '../../atoms/Optional';
-import ChatSignUpForm from '../ChatSignUpForm';
+import ChatMessenger from '../ChatMessenger';
+import { useEventCallback } from '../../../hooks';
 import { CollapsibleElementProps } from './types';
+import { chatAuthFormMessages } from './constants';
+import useAuthState from '../../../hooks/useAuthState';
 import { useSelector, useDispatch } from 'react-redux';
-import { State, UiState, ChatState } from '../../../store/types';
+import { State, UiState } from '../../../store/types';
 import { setIsChatMinimized } from '../../../store/state/uiSlice';
 
 const Container = styled.div<CollapsibleElementProps>`
@@ -55,21 +58,27 @@ const Content = styled.div<CollapsibleElementProps>`
     border-radius: ${({ open }) => (open ? 0 : 8)};
   }
 `;
-
 const ChatMessengerWidget: FC = () => {
   const dispatch = useDispatch();
   const [height, setHeight] = useState(window.innerHeight);
-  const { userId, error, isConnecting } = useSelector<State, ChatState>(({ chat }) => chat);
   const { isChatOpen, isChatMinimized } = useSelector<State, UiState>(({ ui }) => ui);
 
-  const isChatFormShown = useMemo(
-    () => (!userId || !!error) && !isChatMinimized && !isConnecting,
-    [userId, error, isConnecting, isChatMinimized]
-  );
+  const { isUserFullyAuthenticated, updateAuthStateStatus } = useAuthState();
 
-  const headerContainerClickHandler = useCallback(() => {
+  const isChatFormShown = useMemo(() => !isUserFullyAuthenticated && !isChatMinimized, [
+    isUserFullyAuthenticated,
+    isChatMinimized,
+  ]);
+
+  const headerContainerClickHandler = useEventCallback(() => {
+    updateAuthStateStatus();
     dispatch(setIsChatMinimized(!isChatMinimized));
-  }, [isChatMinimized]);
+  });
+
+  const closeButtonClickHandler = useEventCallback(() => {
+    updateAuthStateStatus();
+    dispatch(setIsChatMinimized(true));
+  });
 
   const textAreaFocusHandler = () => {
     setTimeout(() => setHeight(window.innerHeight), 100);
@@ -80,7 +89,12 @@ const ChatMessengerWidget: FC = () => {
       <Container open={!isChatMinimized} height={height}>
         <Content open={!isChatMinimized}>
           <Optional renderIf={isChatFormShown}>
-            <ChatSignUpForm />
+            <AuthForm
+              feature="chat"
+              isVisible={isChatFormShown}
+              formMessages={chatAuthFormMessages}
+              onClickClose={closeButtonClickHandler}
+            />
           </Optional>
           <Optional renderIf={!isChatFormShown}>
             <ChatMessenger

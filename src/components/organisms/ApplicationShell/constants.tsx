@@ -83,7 +83,12 @@ export const aboutAppMenuItems = (
   },
 ];
 
-export const contactMenuItems = (onClickEmail: () => any, onClickChat: () => any) => [
+// TODO: refactor all of this stuff...
+export const contactMenuItems = (
+  onClickEmail: () => any,
+  onClickSchedule: () => any,
+  onClickChat: () => any
+) => [
   {
     id: 'email',
     content: (
@@ -107,6 +112,18 @@ export const contactMenuItems = (onClickEmail: () => any, onClickChat: () => any
       </>
     ),
     onClick: onClickChat,
+  },
+  {
+    id: 'schedule',
+    content: (
+      <>
+        <Icon icon="calendar-check" />
+        <FlexBox justify="flex-start" margin="0 0 0 8px">
+          Schedule
+        </FlexBox>
+      </>
+    ),
+    onClick: onClickSchedule,
   },
 ];
 

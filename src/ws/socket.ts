@@ -10,9 +10,9 @@ import {
   TYPING_STATUS,
   USER_CONNECTED,
   PRIVATE_MESSAGE,
-  INVALID_USERNAME,
+  AUTH_ERROR_MSG,
   USER_DISCONNECTED,
-  TOKEN_AUTH_ERROR_MSG,
+  INVALID_USER_ERROR_MSG,
 } from '../globalConstants';
 import {
   websocketError,
@@ -40,11 +40,10 @@ const socket = io({
   autoConnect: false,
   auth: cb => {
     const {
-      user: { username, token },
-      chat: { userId, sessionId },
+      chat: { sessionId },
+      user: { uid, username, adminToken },
     } = store.getState();
-
-    cb({ userId, sessionId, username, token });
+    cb({ uid, sessionId, username, adminToken });
   },
 });
 
@@ -86,28 +85,25 @@ socket.on<typeof TYPING_STATUS>(TYPING_STATUS, (event: TypingEvent) => {
 
 socket.on(DISCONNECT, async () => {
   console.log('Disconnected from Chat');
-
   setTimeout(() => {
     const {
       chat: { error = '', sessionId },
     } = store.getState();
-    if (
-      !([TOKEN_AUTH_ERROR_MSG, INVALID_USERNAME] as Array<String>).includes(error) &&
-      sessionId
-    ) {
+    if (![INVALID_USER_ERROR_MSG, AUTH_ERROR_MSG].includes(error) && sessionId) {
       socket.connect();
     }
-  }, 1000);
+  }, 500);
 });
 
 export const sendMessage = (content: string) => {
   const {
-    chat: { userId, currentChatUserId },
+    user: { uid },
+    chat: { currentChatUid },
   } = store.getState();
   const message = {
     content,
-    from: userId,
-    to: currentChatUserId,
+    from: uid,
+    to: currentChatUid,
   };
   socket.emit<typeof PRIVATE_MESSAGE>(PRIVATE_MESSAGE, message, (ackMessage: ChatMessage) => {
     dispatch(sentMessageAck(ackMessage));
