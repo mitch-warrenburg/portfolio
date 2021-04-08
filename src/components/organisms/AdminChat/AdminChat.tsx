@@ -6,7 +6,7 @@ import ChatMessenger from '../ChatMessenger';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, ChatState } from '../../../store/types';
 import StatusIndicator from '../../atoms/StatusIndicator';
-import { setCurrentChatUserId } from '../../../store/state/chatSlice';
+import { setCurrentChatUid, connectToChatServer } from '../../../store/state/chatSlice';
 
 const UserListPane = styled.div`
   position: relative;
@@ -77,31 +77,35 @@ const RowCell = styled.div`
 
 const AdminChat: FC = () => {
   const dispatch = useDispatch();
-  const { users, currentChatUserId } = useSelector<State, ChatState>(({ chat }) => chat);
+  const { users, currentChatUid } = useSelector<State, ChatState>(({ chat }) => chat);
   const userList = Object.values(users);
 
   const userRowClickHandler: MouseEventHandler<HTMLLIElement> = useCallback(({ target }) => {
     const { id } = target as HTMLLIElement;
-    dispatch(setCurrentChatUserId(id));
+    dispatch(setCurrentChatUid(id));
   }, []);
 
   useEffect(() => {
-    if (!currentChatUserId && userList.length) {
-      dispatch(setCurrentChatUserId(userList[0].userId));
+    if (!currentChatUid && userList.length) {
+      dispatch(setCurrentChatUid(userList[0].uid));
     }
-  }, [users, currentChatUserId]);
+  }, [users, currentChatUid]);
+
+  useEffect(() => {
+    dispatch(connectToChatServer({}));
+  }, []);
 
   return (
     <ContentPanes>
       <UserListPane>
         <List>
-          {userList.map(({ username, connected, userId }) => (
+          {userList.map(({ username, connected, uid }) => (
             <ListItem
               cursorPointer
-              id={userId}
-              key={userId}
+              id={uid}
+              key={uid}
               onClick={userRowClickHandler}
-              selected={userId === currentChatUserId}>
+              selected={uid === currentChatUid}>
               <RowCell>{username}</RowCell>
               <RowCell>
                 <StatusIndicator status={connected ? 'success' : 'error'}>

@@ -52,7 +52,7 @@ const EmailSection: FC = () => {
         dispatch(
           addNotification({
             id: uniqueId(),
-            text: 'Email must not be blank.',
+            text: 'Email content must not be blank.',
             type: 'failure',
           })
         );

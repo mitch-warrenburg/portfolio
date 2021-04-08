@@ -10,7 +10,7 @@ import { State, ChatState } from '../../../store/types';
 import PageTemplate from '../../templates/PageTemplate';
 import { adminLogout } from '../../../store/state/userSlice';
 import { RoundIconButton } from '../../atoms/RoundIconButton';
-import { TOKEN_AUTH_ERROR_MSG } from '../../../globalConstants';
+import { INVALID_USER_ERROR_MSG } from '../../../globalConstants';
 
 const HeaderContent = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const AdminPage: FC = () => {
   const { error } = useSelector<State, ChatState>(({ chat }) => chat);
 
   useEffect(() => {
-    if (error === TOKEN_AUTH_ERROR_MSG) {
+    if (error === INVALID_USER_ERROR_MSG) {
       history.push('/app');
     }
   }, [error]);

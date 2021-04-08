@@ -4,13 +4,13 @@ import {
   UserState,
   UserMetadata,
   AuthFormDraft,
+  AuthFormFeature,
   UserAuthResponse,
-  SendEmailResponse,
   AdminAuthResponse,
+  SendEmailResponse,
   UserUpdateResponse,
   SubmitChatFormPayload,
   SendEmailActionPayload,
-  AuthFormFeature,
 } from '../types';
 
 const initialState: UserState = {
@@ -18,6 +18,7 @@ const initialState: UserState = {
   email: undefined,
   company: undefined,
   username: undefined,
+  adminToken: undefined,
   phoneNumber: undefined,
   emailCount: 0,
   error: undefined,
@@ -93,11 +94,12 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
       state.isLoading = true;
     },
     adminAuthSuccess: (state, { payload }: PayloadAction<AdminAuthResponse>) => {
-      const { token, username } = payload;
+      const { uid, username, token } = payload;
       return {
         ...initialState,
-        token,
+        uid,
         username,
+        adminToken: token,
         isAdmin: true,
       };
     },

@@ -41,8 +41,8 @@ const Container = styled.div`
   background: rgba(16, 18, 27, 0.6);
   border-radius: 14px;
   @media screen and (max-width: 720px), screen and (max-height: 600px) {
-    border-radius: 0;
     border: none;
+    border-radius: 0;
   }
 `;
 

@@ -35,9 +35,8 @@ export type AuthFormStatus = 'phoneNumber' | 'confirmationCode' | 'userInfo';
 
 export interface ChatState {
   users: ChatUsers;
-  currentChatUserId?: string;
+  currentChatUid?: string;
   defaultChatUsername?: string;
-  userId?: string;
   sessionId?: string;
   email?: string;
   phoneNumber?: string;
@@ -47,6 +46,7 @@ export interface ChatState {
 }
 
 export interface UserState {
+  adminToken?: string;
   uid?: string;
   email?: string;
   company?: string;
@@ -136,6 +136,13 @@ export interface UserAuthResponse {
   metadata?: UserMetadata;
 }
 
+export interface AdminAuthResponse {
+  uid: string;
+  token: string;
+  username: string;
+  sessionId: string;
+}
+
 export interface UserUpdateResponse {
   uid: string;
   emailCount: number;
@@ -154,7 +161,7 @@ export interface UserUpdateRequest {
 }
 
 export type ChatUsers = {
-  [userId: string]: ChatUser;
+  [uid: string]: ChatUser;
 };
 
 export interface ChatMessage {
@@ -164,7 +171,7 @@ export interface ChatMessage {
 }
 
 export interface ChatUser {
-  userId: string;
+  uid: string;
   typing: boolean;
   username: string;
   connected: boolean;
@@ -172,7 +179,7 @@ export interface ChatUser {
 }
 
 export interface NewSessionEvent {
-  userId: string;
+  uid: string;
   sessionId: string;
   username: string;
 }
@@ -180,12 +187,12 @@ export interface NewSessionEvent {
 export type UserSessionsEvent = Array<ChatUser>;
 
 export interface UserConnectedEvent {
-  userId: string;
+  uid: string;
   username: string;
 }
 
 export interface UserDisconnectedEvent {
-  userId: string;
+  uid: string;
 }
 
 export interface SubmitChatFormPayload {
@@ -198,16 +205,8 @@ export interface AdminAuthPayload {
   password: string;
 }
 
-export interface AdminAuthResponse {
-  token: string;
-  userId: string;
-  username: string;
-  password: string;
-  sessionId: string;
-}
-
-export interface FetchSendToUserIdResponse {
-  userId: string;
+export interface FetchSendToUidResponse {
+  uid: string;
   username: string;
 }
 

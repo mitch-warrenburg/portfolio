@@ -32,8 +32,8 @@ const Content = styled.div`
   @media screen and (max-width: 720px), screen and (max-height: 600px) {
     width: 100%;
     height: 100%;
-    border-radius: 0;
     border: 0;
+    border-radius: 0;
   }
 `;
 

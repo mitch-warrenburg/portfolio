@@ -25,7 +25,8 @@ const Container = styled.div<ToastProps>`
   background: ${({ themeColor }) => chroma(themeColor).alpha(0.95).darken(0.5).css()};
   border-radius: 4px 0 0 4px;
   color: white;
-  text-align: center;
+  line-height: 1.3;
+  text-align: left;
   vertical-align: baseline;
 
   &:not(:last-child) {

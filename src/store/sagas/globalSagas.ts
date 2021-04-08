@@ -43,7 +43,7 @@ export function* handleAppInitialization() {
   if (user.uid && socket.disconnected) {
     yield put(connectToChatServer({}));
   }
-  if (!chat.currentChatUserId || !chat.defaultChatUsername) {
+  if (!chat.currentChatUid || !chat.defaultChatUsername) {
     yield put(fetchSendToUser({}));
   }
   yield put(getUserMetadata({}));

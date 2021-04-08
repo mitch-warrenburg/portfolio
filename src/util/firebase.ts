@@ -76,5 +76,11 @@ export const confirmSmsCode = async (confirmationCode = '') => {
   return await authenticator.confirmPhoneNumber(confirmationCode);
 };
 
+export const authAdminCustomToken = async (token: string): Promise<string | undefined> => {
+  await fb.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+  await fb.auth().signInWithCustomToken(token);
+  return fb.auth()?.currentUser?.getIdToken(true);
+};
+
 export const fb = firebase;
 export const STORAGE_STATE_EVENT = firebase.storage.TaskEvent.STATE_CHANGED;

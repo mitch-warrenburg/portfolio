@@ -12,14 +12,15 @@ import Icon from '../../atoms/Icon';
 import Loader from '../../atoms/Loader';
 import Avatar from '../../atoms/Avatar';
 import FlexBox from '../../atoms/FlexBox';
-import { useSelector } from 'react-redux';
 import Optional from '../../atoms/Optional';
 import { sendMessage } from '../../../ws/socket';
 import { useTypingEvents } from '../../../hooks';
 import ChatMessage from '../../atoms/ChatMessage';
 import styled, { useTheme } from 'styled-components';
-import { State, ChatState } from '../../../store/types';
+import { useSelector, useDispatch } from 'react-redux';
 import StatusIndicator from '../../atoms/StatusIndicator';
+import { fetchSendToUser } from '../../../store/state/chatSlice';
+import { State, ChatState, UserState } from '../../../store/types';
 import { CollapsibleElementProps, ChatMessengerProps } from './types';
 import { ADMIN_AVATAR, ANONYMOUS_AVATAR } from '../../../globalConstants';
 
@@ -38,7 +39,6 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   transition: ease-in-out 150ms;
 
   @media screen and (min-width: 721px), screen and (min-height: 601px) {
-
     &:hover {
       background: ${({ open, theme }) =>
         open ? theme.colors.background.overlay : theme.colors.background.input};
@@ -197,24 +197,17 @@ const ChatMessenger: FC<ChatMessengerProps> = ({
   onFocusTextArea,
 }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [draft, setDraft] = useState('');
   const messageScrollPaneRef = useRef<HTMLDivElement>(null);
   const { current: scrollPane } = messageScrollPaneRef;
-  const isAdmin = useSelector<State, boolean>(({ user }) => user.isAdmin);
-  const {
-    users,
-    isConnecting,
-    userId = '',
-    currentChatUserId = '',
-    defaultChatUsername = '',
-  } = useSelector<State, ChatState>(({ chat }) => chat);
-
-  const { resetTypingEvents, keyDownHandler } = useTypingEvents(currentChatUserId, userId);
-
-  const currentChatUser = useMemo(() => users[currentChatUserId] || {}, [
-    users,
-    currentChatUserId,
-  ]);
+  const { uid, isAdmin } = useSelector<State, UserState>(({ user }) => user);
+  const { users, isConnecting, currentChatUid = '', defaultChatUsername = '' } = useSelector<
+    State,
+    ChatState
+  >(({ chat }) => chat);
+  const { resetTypingEvents, keyDownHandler } = useTypingEvents(currentChatUid, uid);
+  const currentChatUser = useMemo(() => users[currentChatUid] || {}, [users, currentChatUid]);
 
   const textareaPlaceholder = useMemo(
     () => (isConnecting ? 'Not connected.  Please wait...' : 'Write a message...'),
@@ -225,7 +218,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({
     typing,
     connected,
     messages = [],
-    userId: chatUserId,
+    uid: chatUid,
     username: chatUsername = defaultChatUsername,
   } = currentChatUser;
 
@@ -259,6 +252,12 @@ const ChatMessenger: FC<ChatMessengerProps> = ({
   useEffect(() => {
     autoScrollMessages();
   }, [messages, autoScrollMessages, isChatMinimized]);
+
+  useEffect(() => {
+    if (!defaultChatUsername) {
+      dispatch(fetchSendToUser({}));
+    }
+  }, [defaultChatUsername]);
 
   return (
     <>
@@ -295,10 +294,10 @@ const ChatMessenger: FC<ChatMessengerProps> = ({
               <MessageScrollContent>
                 {messages.map(({ content, from, to }, index) => (
                   <ChatMessage
-                    key={`${chatUserId}-${index}}`}
+                    key={`${chatUid}-${index}}`}
                     isAdmin={isAdmin}
                     content={content}
-                    isCurrentUser={from === userId}
+                    isCurrentUser={from === uid}
                   />
                 ))}
                 <ChatMessage typing isAdmin={isAdmin} hidden={!typing} />

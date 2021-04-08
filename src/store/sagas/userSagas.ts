@@ -3,14 +3,20 @@ import ClientJs from 'clientjs';
 import { uniqueId } from 'lodash';
 import { client } from '../../http';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { authPhoneNumber, confirmSmsCode } from '../../util';
 import { takeEvery, call, put, delay, select } from 'redux-saga/effects';
+import { authPhoneNumber, confirmSmsCode, authAdminCustomToken } from '../../util';
 import {
   setIsChatOpen,
   addNotification,
   setAuthFormStatus,
   setIsAuthFormModalOpen,
 } from '../state/uiSlice';
+import {
+  resetChat,
+  setSessionId,
+  connectToChatServer,
+  disconnectFromChatServer,
+} from '../state/chatSlice';
 import {
   resetUser,
   sendEmail,
@@ -39,20 +45,14 @@ import {
   UserState,
   UserMetadata,
   AuthFormDraft,
-  SendEmailRequest,
   AdminAuthPayload,
+  SendEmailRequest,
   UserAuthResponse,
-  AdminAuthResponse,
   UserUpdateRequest,
+  AdminAuthResponse,
   UserUpdateResponse,
   SendEmailActionPayload,
 } from '../types';
-import {
-  resetChat,
-  connectToChatServer,
-  disconnectFromChatServer,
-  addAdminAuthSuccessDetails,
-} from '../state/chatSlice';
 
 // @ts-ignore because this library is broken
 // noinspection TypeScriptUMDGlobal
@@ -115,7 +115,7 @@ export function* updateUserInfoHandler({ payload }: PayloadAction<AuthFormDraft>
   } = yield userState();
 
   try {
-    const response: UserUpdateResponse = yield call(client.put, '/api/v1/user', payload);
+    const response: UserUpdateResponse = yield call(client.put, '/api/v1/users', payload);
     yield put(setIsAuthFormModalOpen(false));
 
     if (pendingEmail) {
@@ -226,12 +226,6 @@ export function* sendEmailHandler({ payload }: PayloadAction<SendEmailActionPayl
 
 export function* adminLogoutHandler() {
   try {
-    const { token } = yield userState();
-
-    yield call(client.post, '/api/v1/admin/logout', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
     yield put(disconnectFromChatServer({}));
     yield put(resetUser({}));
     yield put(resetChat({}));
@@ -246,11 +240,17 @@ export function* adminLogoutHandler() {
 export function* adminAuthHandler({ payload: auth }: PayloadAction<AdminAuthPayload>) {
   try {
     yield delay(1000);
-    const response: AdminAuthResponse = yield call(client.post, '/api/v1/admin/auth', {
-      auth,
-    });
-    yield put(addAdminAuthSuccessDetails(response));
-    yield put(adminAuthSuccess(response));
+    const response: AdminAuthResponse = yield call(
+      client.post,
+      '/api/v1/admin/chat/login',
+      {},
+      { auth }
+    );
+
+    const token: string = yield call(authAdminCustomToken, response.token);
+
+    yield put(setSessionId(response.sessionId));
+    yield put(adminAuthSuccess({ ...response, token }));
     yield put(connectToChatServer({}));
     yield put(addNotification({ id: uniqueId(), text: 'Logged In', type: 'success' }));
   } catch (e) {
