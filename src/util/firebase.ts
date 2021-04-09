@@ -32,7 +32,7 @@ class PhoneNumberAuthenticator {
         this._confirmation = await fb
           .auth()
           .signInWithPhoneNumber(
-            phoneNumber.replace(/[\s()-]+/g, ''),
+            `+1${phoneNumber.replace(/[\s()-]+/g, '')}`,
             this._recaptchaVerifier
           );
       } catch (e) {

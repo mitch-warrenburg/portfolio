@@ -2,7 +2,7 @@ $fade-out-duration: 750ms;
 
 .space-backdrop {
   position: fixed;
-  z-index: 2;
+  z-index: 4;
   top: 0;
   right: 0;
   bottom: 0;
@@ -13,7 +13,7 @@ $fade-out-duration: 750ms;
   background: black;
 
   &__stars {
-    z-index: 3;
+    z-index: 5;
     width: 100vw;
     height: 100%;
     padding: 0;

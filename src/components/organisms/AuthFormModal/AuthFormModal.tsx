@@ -22,7 +22,6 @@ const AuthFormModal: FC = () => {
       <Overlay active={isAuthFormModalOpen} />
       <Modal active={isAuthFormModalOpen}>
         <AuthForm
-          feature="email"
           formMessages={modalAuthFormMessages}
           onClickClose={closeButtonClickHandler}
         />

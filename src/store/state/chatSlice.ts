@@ -28,6 +28,7 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
   initialState: initialState,
   reducers: {
     websocketError: identity,
+    fetchSendToUser: identity,
     userSessionsEvent: identity,
     userConnectedEvent: identity,
     chatUserTypingEvent: (state, { payload }: PayloadAction<TypingEvent>) => {
@@ -79,16 +80,10 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     setCurrentChatUid: (state, { payload }: PayloadAction<string>) => {
       state.currentChatUid = payload;
     },
-    fetchSendToUser: state => {
-      state.isLoading = true;
-    },
     fetchSendToUserFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
-      state.isLoading = false;
     },
     fetchSendToUserSuccess: (state, { payload }: PayloadAction<FetchSendToUidResponse>) => {
-      state.isLoading = false;
-      state.error = undefined;
       state.currentChatUid = payload.uid;
       state.defaultChatUsername = payload.username;
     },

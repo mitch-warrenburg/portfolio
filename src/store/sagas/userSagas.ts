@@ -19,11 +19,9 @@ import {
 } from '../state/chatSlice';
 import {
   resetUser,
-  sendEmail,
   updateUserInfo,
   adminAuthFailure,
   adminAuthSuccess,
-  setAuthFormDraft,
   sendEmailSuccess,
   sendEmailFailure,
   adminLogoutFailure,
@@ -32,13 +30,12 @@ import {
   updateUserInfoFailure,
   getUserMetadataSuccess,
   authenticatePhoneNumber,
-  updateUserWithEmailFormData,
   authenticateConfirmationCode,
   authenticatePhoneNumberFailure,
   authenticatePhoneNumberSuccess,
-  updateAuthFormWithEmailFormData,
   authenticateConfirmationCodeFailure,
   authenticateConfirmationCodeSuccess,
+  setEmail,
 } from '../state/userSlice';
 import {
   UiState,
@@ -52,6 +49,7 @@ import {
   AdminAuthResponse,
   UserUpdateResponse,
   SendEmailActionPayload,
+  ActionResultType,
 } from '../types';
 
 // @ts-ignore because this library is broken
@@ -109,43 +107,21 @@ export function* advanceToNextAuthFormStateHandler() {
 }
 
 export function* updateUserInfoHandler({ payload }: PayloadAction<AuthFormDraft>) {
-  const {
-    pendingEmail,
-    authFormDraft: { lastUpdatedFrom },
-  } = yield userState();
-
   try {
     const response: UserUpdateResponse = yield call(client.put, '/api/v1/users', payload);
     yield put(setIsAuthFormModalOpen(false));
-
-    if (pendingEmail) {
-      yield put(
-        sendEmail({ ...pendingEmail, isUserFullyAuthenticated: true, uid: response.uid })
-      );
-    }
-    yield put(
-      addNotification({ id: uniqueId(), text: 'Session established', type: 'success' })
-    );
     yield put(updateUserInfoSuccess(response));
-
-    if (lastUpdatedFrom === 'chat' && response.username) {
-      yield put(connectToChatServer({}));
-    }
+    yield put(connectToChatServer({}));
+    yield notify('Session established', 'success');
   } catch (e) {
     yield put(setAuthFormStatus('phoneNumber'));
     yield put(updateUserInfoFailure(e.message));
-    yield put(
-      addNotification({
-        id: uniqueId(),
-        text: 'Something went wrong.  Please try again.',
-        type: 'failure',
-      })
-    );
+    yield notify('Something went wrong.  Please try again.', 'failure');
   }
 }
 
 export function* authenticateConfirmationCodeHandler({
-  payload: { confirmationCode, lastUpdatedFrom, username },
+  payload: { confirmationCode },
 }: PayloadAction<AuthFormDraft>) {
   try {
     const token: string = yield call(confirmSmsCode, confirmationCode);
@@ -155,28 +131,14 @@ export function* authenticateConfirmationCodeHandler({
       {},
       { headers: { Authorization: token } }
     );
-
-    if (lastUpdatedFrom === 'chat' && username) {
-      yield put(connectToChatServer({}));
-    }
-
+    yield put(connectToChatServer({}));
     yield put(authenticateConfirmationCodeSuccess(response));
     yield put(setAuthFormStatus('userInfo'));
-    yield put(
-      addNotification({ id: uniqueId(), text: 'Phone number verified', type: 'success' })
-    );
-    yield put(setAuthFormDraft({ confirmationCode: '' }));
+    yield notify('Phone number verified', 'success');
   } catch (e) {
-    yield put(setAuthFormDraft({ confirmationCode: '' }));
     yield put(authenticateConfirmationCodeFailure(e.message));
     yield put(setAuthFormStatus('phoneNumber'));
-    yield put(
-      addNotification({
-        id: uniqueId(),
-        text: 'Incorrect code.  Please try again.',
-        type: 'failure',
-      })
-    );
+    yield notify('Incorrect code.  Please try again.', 'failure');
   }
 }
 
@@ -187,40 +149,28 @@ export function* authenticatePhoneNumberHandler({
     yield call(authPhoneNumber, phoneNumber);
     yield put(authenticatePhoneNumberSuccess({}));
     yield put(setAuthFormStatus('confirmationCode'));
-    yield put(addNotification({ id: uniqueId(), text: 'Code sent', type: 'success' }));
+    yield notify('Code sent', 'success');
   } catch (e) {
-    yield put(
-      addNotification({
-        id: uniqueId(),
-        text: 'Something went wrong.  Please try again.',
-        type: 'failure',
-      })
-    );
     yield put(authenticatePhoneNumberFailure(e.message));
+    yield notify('Something went wrong.  Please try again.', 'failure');
   }
 }
 
 export function* sendEmailHandler({ payload }: PayloadAction<SendEmailActionPayload>) {
+  const { uid } = yield userState();
+
   try {
-    if (!payload.isUserFullyAuthenticated) {
-      yield put(updateAuthFormWithEmailFormData(payload));
-      yield put(setIsAuthFormModalOpen(true));
-    } else {
-      const emailRequest: SendEmailRequest = {
-        content: payload.content,
-        uid: payload.uid as string,
-        email: payload.formData.email,
-      };
-      yield call(client.post, '/api/v1/email/send', emailRequest);
-      yield put(updateUserWithEmailFormData(payload));
-      yield put(sendEmailSuccess(emailRequest));
-      yield put(addNotification({ id: uniqueId(), text: 'Email Sent', type: 'success' }));
-    }
+    const emailRequest: SendEmailRequest = {
+      uid,
+      ...payload,
+    };
+    yield put(setEmail(payload.email));
+    yield call(client.post, '/api/v1/email/send', emailRequest);
+    yield put(sendEmailSuccess(emailRequest));
+    yield notify('Email sent', 'success');
   } catch (e) {
     yield put(sendEmailFailure(e.message));
-    yield put(
-      addNotification({ id: uniqueId(), text: 'Failed to Send Email', type: 'failure' })
-    );
+    yield notify('Failed to Send Email', 'failure');
   }
 }
 
@@ -230,10 +180,10 @@ export function* adminLogoutHandler() {
     yield put(resetUser({}));
     yield put(resetChat({}));
     yield put(setIsChatOpen(false));
-    yield put(addNotification({ id: uniqueId(), text: 'Logged Out', type: 'success' }));
+    yield notify('Logged Out', 'success');
   } catch (e) {
     yield put(adminLogoutFailure({}));
-    yield put(addNotification({ id: uniqueId(), text: 'Logout Failed', type: 'failure' }));
+    yield notify('Logout Failed', 'failure');
   }
 }
 
@@ -252,10 +202,10 @@ export function* adminAuthHandler({ payload: auth }: PayloadAction<AdminAuthPayl
     yield put(setSessionId(response.sessionId));
     yield put(adminAuthSuccess({ ...response, token }));
     yield put(connectToChatServer({}));
-    yield put(addNotification({ id: uniqueId(), text: 'Logged In', type: 'success' }));
+    yield notify('Logged In', 'success');
   } catch (e) {
     yield put(adminAuthFailure(e.message));
-    yield put(addNotification({ id: uniqueId(), text: 'Login Failed', type: 'failure' }));
+    yield notify('Login Failed', 'failure');
   }
 }
 
@@ -305,6 +255,11 @@ export function* getUserMetadataHandler() {
   } catch (e) {
     yield put(getUserMetadataError(e.message || 'Unknown Error'));
   }
+}
+
+export function* notify(text: string, type: ActionResultType, delayMs = 300) {
+  yield delay(delayMs);
+  yield put(addNotification({ id: uniqueId(), text, type }));
 }
 
 // redux-saga's types are shit

@@ -90,7 +90,6 @@ const ChatMessengerWidget: FC = () => {
         <Content open={!isChatMinimized}>
           <Optional renderIf={isChatFormShown}>
             <AuthForm
-              feature="chat"
               isVisible={isChatFormShown}
               formMessages={chatAuthFormMessages}
               onClickClose={closeButtonClickHandler}

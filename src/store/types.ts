@@ -59,7 +59,6 @@ export interface UserState {
   isEmailSuccess: boolean;
   userMetadata: UserMetadata;
   authFormDraft: AuthFormDraft;
-  pendingEmail?: SendEmailActionPayload;
 }
 
 export interface AuthFormDraft {
@@ -68,7 +67,6 @@ export interface AuthFormDraft {
   username: string;
   phoneNumber: string;
   confirmationCode: string;
-  lastUpdatedFrom?: AuthFormFeature;
 }
 
 export interface UserMetadata {
@@ -223,14 +221,8 @@ export interface SendEmailRequest {
 }
 
 export interface SendEmailActionPayload {
-  formData: {
-    email: string;
-    username: string;
-    company: string;
-  };
-  uid?: string;
+  email: string;
   content: string;
-  isUserFullyAuthenticated: boolean;
 }
 
 export interface SendEmailResponse {
@@ -255,5 +247,3 @@ export interface EventUserInfo {
 export interface ScheduleEvent extends EventInput {
   extendedProps: {};
 }
-
-export type AuthFormFeature = 'email' | 'chat' | 'scheduling';

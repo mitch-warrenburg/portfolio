@@ -1,5 +1,5 @@
 import { IconProps } from '../../atoms/Icon';
-import { AuthFormStatus, AuthFormFeature } from '../../../store/types';
+import { AuthFormStatus } from '../../../store/types';
 import { HTMLAttributes, MutableRefObject } from 'react';
 
 export interface AuthFormMessages {
@@ -22,6 +22,5 @@ export interface AuthFormFieldsProps extends HTMLAttributes<HTMLDivElement> {
 export interface AuthFormProps extends HTMLAttributes<HTMLDivElement> {
   isVisible?: boolean;
   onClickClose?: () => any;
-  feature: AuthFormFeature;
   formMessages: AuthFormMessages;
 }

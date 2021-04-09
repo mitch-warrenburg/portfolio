@@ -1,4 +1,5 @@
 import React from 'react';
+import chroma from 'chroma-js';
 import { ButtonProps } from './types';
 import styled from 'styled-components';
 
@@ -33,7 +34,8 @@ const Button = styled.button<ButtonProps>`
 
   &:disabled {
     border-color: ${({ theme }) => theme.colors.font.inactive};
-    color: ${({ theme }) => theme.colors.font.inactive};
+    color: ${({ theme, transparent }) =>
+      transparent ? theme.colors.font.inactive : chroma('papayawhip').alpha(0.5).css()};
     cursor: initial;
   }
 `;

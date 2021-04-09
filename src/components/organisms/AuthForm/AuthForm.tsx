@@ -125,6 +125,18 @@ const FormButtonContainer = styled.div`
   padding-bottom: 30px;
 `;
 
+const PhoneNumberInputWrapper = styled.div`
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: 8px;
+    left: -24px;
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+`;
+
 const AuthFormFields: FC<AuthFormFieldsProps> = ({
   icon,
   prompt,
@@ -159,7 +171,7 @@ AuthFormFields.defaultProps = {
   currentAuthFormState: 'phoneNumber',
 };
 
-const AuthForm: FC<AuthFormProps> = ({ formMessages, feature, onClickClose, ...props }) => {
+const AuthForm: FC<AuthFormProps> = ({ formMessages, onClickClose, ...props }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const { authFormStatus } = useSelector<State, UiState>(({ ui }) => ui);
@@ -197,19 +209,17 @@ const AuthForm: FC<AuthFormProps> = ({ formMessages, feature, onClickClose, ...p
         setAuthFormDraft({
           ...authFormDraft,
           [field.name]: field.value,
-          lastUpdatedFrom: feature,
         })
       )
   );
 
   const maskedFieldChangeHandler: MaskChangeEventHandler = useEventCallback(
-    ({ value, name = '' }) =>
-      dispatch(setAuthFormDraft({ ...authFormDraft, [name]: value, lastUpdatedFrom: feature }))
+    ({ value, name = '' }) => dispatch(setAuthFormDraft({ ...authFormDraft, [name]: value }))
   );
 
   const submitButtonClickHandler = useEventCallback(() => {
     if (isFormValid) {
-      dispatch(advanceToNextAuthFormState(feature));
+      dispatch(advanceToNextAuthFormState({}));
     }
   });
 
@@ -242,18 +252,21 @@ const AuthForm: FC<AuthFormProps> = ({ formMessages, feature, onClickClose, ...p
           }}
           authFormStatus="phoneNumber"
           currentAuthFormState={authFormStatus}>
-          <MaskedFormField
-            label=""
-            ref={autoFocusFields.phoneNumber}
-            value={phoneNumber}
-            name="phoneNumber"
-            placeholder="Enter your phone number..."
-            mask="+1 (000) 000-0000"
-            disabled={isLoading}
-            onKeyDown={keyDownHandler}
-            onChange={fieldChangeHandler}
-            onMask={maskedFieldChangeHandler}
-          />
+          <PhoneNumberInputWrapper>
+            <span>+1</span>
+            <MaskedFormField
+              label=""
+              ref={autoFocusFields.phoneNumber}
+              value={phoneNumber}
+              name="phoneNumber"
+              placeholder="Enter your phone number..."
+              mask="(000) 000-0000"
+              disabled={isLoading}
+              onKeyDown={keyDownHandler}
+              onChange={fieldChangeHandler}
+              onMask={maskedFieldChangeHandler}
+            />
+          </PhoneNumberInputWrapper>
         </AuthFormFields>
         <AuthFormFields
           icon={{
@@ -267,6 +280,7 @@ const AuthForm: FC<AuthFormProps> = ({ formMessages, feature, onClickClose, ...p
           <MaskedFormField
             label=""
             mask="000000"
+            inputMode="tel"
             name="confirmationCode"
             value={confirmationCode}
             placeholder="Enter confirmation the code"

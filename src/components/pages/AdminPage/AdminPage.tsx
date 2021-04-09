@@ -12,6 +12,19 @@ import { adminLogout } from '../../../store/state/userSlice';
 import { RoundIconButton } from '../../atoms/RoundIconButton';
 import { INVALID_USER_ERROR_MSG } from '../../../globalConstants';
 
+const Container = styled.div`
+  > div {
+    left: 0;
+    max-width: 100vw;
+    height: 100%;
+
+    #admin-panel {
+      max-width: 100vw;
+      height: 100%;
+    }
+  }
+`;
+
 const HeaderContent = styled.div`
   display: flex;
   width: 100%;
@@ -45,20 +58,22 @@ const AdminPage: FC = () => {
   const logoutButtonClickHandler = useCallback(() => dispatch(adminLogout({})), []);
 
   return (
-    <PageTemplate>
-      <Panel>
-        <Header>
-          <HeaderContent>
-            <span>Chat Sessions</span>
-            <FlexBox justify="flex-end">
-              <RoundIconButton icon="home" onClick={homeButtonClickHandler} />
-              <RoundIconButton icon="sign-out-alt" onClick={logoutButtonClickHandler} />
-            </FlexBox>
-          </HeaderContent>
-        </Header>
-        <AdminChat />
-      </Panel>
-    </PageTemplate>
+    <Container id="ASS">
+      <PageTemplate>
+        <Panel id="admin-panel">
+          <Header>
+            <HeaderContent>
+              <span>Chat Sessions</span>
+              <FlexBox justify="flex-end">
+                <RoundIconButton icon="home" onClick={homeButtonClickHandler} />
+                <RoundIconButton icon="sign-out-alt" onClick={logoutButtonClickHandler} />
+              </FlexBox>
+            </HeaderContent>
+          </Header>
+          <AdminChat />
+        </Panel>
+      </PageTemplate>
+    </Container>
   );
 };
 

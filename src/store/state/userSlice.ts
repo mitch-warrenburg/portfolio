@@ -4,13 +4,11 @@ import {
   UserState,
   UserMetadata,
   AuthFormDraft,
-  AuthFormFeature,
   UserAuthResponse,
   AdminAuthResponse,
   SendEmailResponse,
   UserUpdateResponse,
   SubmitChatFormPayload,
-  SendEmailActionPayload,
 } from '../types';
 
 const initialState: UserState = {
@@ -25,7 +23,6 @@ const initialState: UserState = {
   isAdmin: false,
   isLoading: false,
   isEmailSuccess: false,
-  pendingEmail: undefined,
   userMetadata: {},
   authFormDraft: {
     email: '',
@@ -33,7 +30,6 @@ const initialState: UserState = {
     username: '',
     phoneNumber: '',
     confirmationCode: '',
-    lastUpdatedFrom: undefined,
   },
 };
 
@@ -42,35 +38,16 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
   initialState: initialState,
   reducers: {
     getUserMetadata: identity,
-    advanceToNextAuthFormState: (state, { payload }: PayloadAction<AuthFormFeature>) => {
-      state.authFormDraft.lastUpdatedFrom = payload;
-    },
+    advanceToNextAuthFormState: identity,
     submitChatForm: (state, { payload }: PayloadAction<SubmitChatFormPayload>) => {
       state.company = payload.company;
       state.username = payload.username;
     },
-    updateAuthFormWithEmailFormData: (
-      state,
-      { payload }: PayloadAction<SendEmailActionPayload>
-    ) => {
-      state.isLoading = false;
-      state.authFormDraft = {
-        ...state.authFormDraft,
-        ...payload.formData,
-      };
-      state.pendingEmail = payload;
-    },
-    updateUserWithEmailFormData: (
-      state,
-      { payload }: PayloadAction<SendEmailActionPayload>
-    ) => {
-      return {
-        ...state,
-        ...payload.formData,
-      };
-    },
     sendEmail: state => {
       state.isLoading = true;
+    },
+    setEmail: (state, { payload }: PayloadAction<string>) => {
+      state.email = payload;
     },
     sendEmailSuccess: (state, { payload }: PayloadAction<SendEmailResponse>) => {
       state.error = undefined;
@@ -81,7 +58,6 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
     sendEmailFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
       state.isLoading = false;
-      state.pendingEmail = undefined;
     },
     composeNewEmail: state => {
       state.isEmailSuccess = false;
@@ -130,14 +106,12 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
         ...payload,
         isLoading: false,
         error: undefined,
-        pendingEmail: undefined,
         authFormDraft: { ...initialState.authFormDraft },
       };
     },
     updateUserInfoFailure: (state, { payload }: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = payload;
-      state.pendingEmail = undefined;
     },
     authenticatePhoneNumber: state => {
       state.isLoading = true;
@@ -145,7 +119,6 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
     authenticatePhoneNumberFailure: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
       state.isLoading = false;
-      state.pendingEmail = undefined;
     },
     authenticatePhoneNumberSuccess: state => {
       state.isLoading = false;
@@ -163,12 +136,16 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
         ...payload,
         isLoading: false,
         error: undefined,
+        authFormDraft: {
+          ...state.authFormDraft,
+          company: payload.company || '',
+          username: payload.username || '',
+        },
       };
     },
     authenticateConfirmationCodeFailure: (state, { payload }: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = payload;
-      state.pendingEmail = undefined;
     },
     setAuthFormDraft: (state, { payload }: PayloadAction<AuthFormDraft>) => {
       state.authFormDraft = { ...state.authFormDraft, ...payload };
@@ -179,6 +156,7 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
 
 export const userReducer = userSlice.reducer;
 export const {
+  setEmail,
   resetUser,
   adminAuth,
   sendEmail,
@@ -200,11 +178,9 @@ export const {
   getUserMetadataSuccess,
   authenticatePhoneNumber,
   advanceToNextAuthFormState,
-  updateUserWithEmailFormData,
   authenticateConfirmationCode,
   authenticatePhoneNumberFailure,
   authenticatePhoneNumberSuccess,
-  updateAuthFormWithEmailFormData,
   authenticateConfirmationCodeFailure,
   authenticateConfirmationCodeSuccess,
 } = userSlice.actions;
