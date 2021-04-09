@@ -7,6 +7,7 @@ import {
   UserAuthResponse,
   AdminAuthResponse,
   SendEmailResponse,
+  FetchUserResponse,
   UserUpdateResponse,
   SubmitChatFormPayload,
 } from '../types';
@@ -37,8 +38,18 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
   name: 'user',
   initialState: initialState,
   reducers: {
+    fetchUser: identity,
     getUserMetadata: identity,
     advanceToNextAuthFormState: identity,
+    fetchUserSuccess: (state, { payload }: PayloadAction<FetchUserResponse>) => {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    fetchUserFailure: () => {
+      return initialState;
+    },
     submitChatForm: (state, { payload }: PayloadAction<SubmitChatFormPayload>) => {
       state.company = payload.company;
       state.username = payload.username;
@@ -157,6 +168,7 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
 export const userReducer = userSlice.reducer;
 export const {
   setEmail,
+  fetchUser,
   resetUser,
   adminAuth,
   sendEmail,
@@ -167,6 +179,8 @@ export const {
   composeNewEmail,
   adminAuthSuccess,
   adminAuthFailure,
+  fetchUserSuccess,
+  fetchUserFailure,
   sendEmailSuccess,
   sendEmailFailure,
   setAuthFormDraft,

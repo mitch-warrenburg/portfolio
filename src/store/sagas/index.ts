@@ -3,6 +3,7 @@ import { rehydrateStateWatcher, clearStateWatcher } from './globalSagas';
 import {
   adminAuthWatcher,
   sendEmailWatcher,
+  fetchUserWatcher,
   adminLogoutWatcher,
   updateUserInfoWatcher,
   getUserMetadataWatcher,
@@ -21,6 +22,7 @@ import {
 
 export default function* rootSaga() {
   const sagas = [
+    fetchUserWatcher,
     sendEmailWatcher,
     adminAuthWatcher,
     clearStateWatcher,

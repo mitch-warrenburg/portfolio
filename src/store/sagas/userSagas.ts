@@ -18,9 +18,12 @@ import {
   disconnectFromChatServer,
 } from '../state/chatSlice';
 import {
+  setEmail,
   resetUser,
   updateUserInfo,
   adminAuthFailure,
+  fetchUserSuccess,
+  fetchUserFailure,
   adminAuthSuccess,
   sendEmailSuccess,
   sendEmailFailure,
@@ -35,7 +38,6 @@ import {
   authenticatePhoneNumberSuccess,
   authenticateConfirmationCodeFailure,
   authenticateConfirmationCodeSuccess,
-  setEmail,
 } from '../state/userSlice';
 import {
   UiState,
@@ -45,11 +47,12 @@ import {
   AdminAuthPayload,
   SendEmailRequest,
   UserAuthResponse,
+  ActionResultType,
   UserUpdateRequest,
+  FetchUserResponse,
   AdminAuthResponse,
   UserUpdateResponse,
   SendEmailActionPayload,
-  ActionResultType,
 } from '../types';
 
 // @ts-ignore because this library is broken
@@ -86,6 +89,20 @@ export function* updateUserInfoWatcher() {
 
 export function* advanceToNextAuthFormStateWatcher() {
   yield takeEvery('user/advanceToNextAuthFormState', advanceToNextAuthFormStateHandler);
+}
+
+export function* fetchUserWatcher() {
+  yield takeEvery('user/fetchUser', fetchUserHandler);
+}
+
+export function* fetchUserHandler({ payload: uid }: PayloadAction<string>) {
+  try {
+    const response: FetchUserResponse = yield call(client.get, `/api/v1/users/${uid}`);
+    yield put(fetchUserSuccess(response));
+  } catch (e) {
+    yield put(fetchUserFailure(e.message));
+    yield put(resetChat({}));
+  }
 }
 
 export function* advanceToNextAuthFormStateHandler() {

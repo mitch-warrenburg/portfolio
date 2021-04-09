@@ -151,6 +151,8 @@ export interface UserUpdateResponse {
   metadata?: UserMetadata;
 }
 
+export type FetchUserResponse = UserUpdateResponse;
+
 export interface UserUpdateRequest {
   uid: string;
   email?: string;

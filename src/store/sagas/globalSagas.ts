@@ -3,7 +3,7 @@ import { State } from '../types';
 import { persistor } from '../index';
 import { takeEvery, select, put, call } from 'redux-saga/effects';
 import { resetUi, setIsAuthFormModalOpen } from '../state/uiSlice';
-import { clearUserLoadState, getUserMetadata, resetUser } from '../state/userSlice';
+import { clearUserLoadState, getUserMetadata, resetUser, fetchUser } from '../state/userSlice';
 import {
   resetChat,
   fetchSendToUser,
@@ -31,6 +31,9 @@ export function* handleAppInitialization() {
   const state: State = yield select();
   const { ui, user, chat } = state;
 
+  if (user.uid) {
+    yield put(fetchUser(user.uid));
+  }
   if (ui.isAuthFormModalOpen) {
     yield put(setIsAuthFormModalOpen(false));
   }
