@@ -40,6 +40,17 @@ const userSlice = createSlice<UserState, SliceCaseReducers<UserState>>({
     fetchUser: identity,
     getUserMetadata: identity,
     advanceToNextAuthFormState: identity,
+    updateEmail: state => {
+      state.isLoading = true;
+    },
+    updateEmailSuccess: state => {
+      state.isLoading = false;
+      state.error = undefined;
+    },
+    updateEmailFailure: (state, { payload }: PayloadAction<string>) => {
+      state.error = payload;
+      state.isLoading = false;
+    },
     fetchUserSuccess: (state, { payload }: PayloadAction<FetchUserResponse>) => {
       return {
         ...state,
@@ -168,6 +179,7 @@ export const {
   resetUser,
   adminAuth,
   sendEmail,
+  updateEmail,
   adminLogout,
   updateUserInfo,
   getUserMetadata,
@@ -179,6 +191,8 @@ export const {
   sendEmailSuccess,
   sendEmailFailure,
   setAuthFormDraft,
+  updateEmailSuccess,
+  updateEmailFailure,
   adminLogoutFailure,
   clearUserLoadState,
   getUserMetadataError,

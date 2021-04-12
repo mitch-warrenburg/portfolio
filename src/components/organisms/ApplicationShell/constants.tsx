@@ -114,12 +114,12 @@ export const contactMenuItems = (
     onClick: onClickChat,
   },
   {
-    id: 'schedule',
+    id: 'scheduling',
     content: (
       <>
         <Icon icon="calendar-check" />
         <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
-          Schedule
+          Scheduling
         </FlexBox>
       </>
     ),

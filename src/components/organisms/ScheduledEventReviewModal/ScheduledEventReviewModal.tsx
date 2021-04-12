@@ -8,7 +8,7 @@ import styled, { useTheme } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import ScheduledEventPanel from '../ScheduledEventPanel';
 import { ScheduledEventReviewModalProps } from './types';
-import { updateUserInfo } from '../../../store/state/userSlice';
+import { updateEmail } from '../../../store/state/userSlice';
 import { deleteScheduledEvent } from '../../../store/state/schedulerSlice';
 import { RootState, UserState, ScheduledEvent } from '../../../store/types';
 
@@ -50,8 +50,10 @@ const ScheduledEventReviewModal: FC<ScheduledEventReviewModalProps> = ({
     }
 
     if (emailValidator(email, true)) {
+      setEmailError('');
       if (!submitButtonDisabled) {
-        dispatch(updateUserInfo({ uid, email }));
+        dispatch(updateEmail({ uid, email }));
+        closeModalCb();
       }
     } else {
       setEmailError('A valid email is required');

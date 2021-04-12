@@ -2,6 +2,7 @@ import React, { FC, useState, useRef, MutableRefObject, useMemo, useEffect } fro
 import FullCalendar, {
   DateSelectArg,
   EventClickArg,
+  DateRangeInput,
   EventContentArg,
 } from '@fullcalendar/react';
 import Legend from '../Legend';
@@ -32,10 +33,10 @@ import './styles.scss';
 
 const CalendarContainer = styled.div`
   height: 856px;
-  padding-bottom: 50px;
+  margin-bottom: 50px;
 
   @media screen and (max-width: 780px), screen and (max-height: 600px) {
-    height: 600px;
+    height: 700px;
   }
 `;
 
@@ -48,7 +49,7 @@ const LegendContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   @media screen and (max-width: 780px), screen and (max-height: 600px) {
-    top: 566px;
+    top: 716px;
   }
 `;
 
@@ -83,9 +84,11 @@ const Scheduler: FC = () => {
   });
 
   const eventClickHandler = useEventCallback(
-    ({ view, event: { id, startStr, endStr, extendedProps } }: EventClickArg) => {
+    ({ view, event: { id, startStr, endStr, extendedProps, start, end } }: EventClickArg) => {
       if (width <= 780 && view.type === 'dayGridMonth') {
-        view.calendar.changeView('timeGridDay');
+        console.log(start, end);
+
+        view.calendar.changeView('timeGridDay', start as DateRangeInput);
         return;
       }
 
@@ -152,6 +155,10 @@ const Scheduler: FC = () => {
     }
   }, [width, calendarRef]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <LoadingOverlay isLoading={isLoading} message="Loading scheduled events..." />
@@ -175,8 +182,6 @@ const Scheduler: FC = () => {
           longPressDelay={500}
           ref={calendarRef}
           height="100%"
-          slotMinTime="06:00"
-          slotMaxTime="22:00"
           slotDuration="00:30:00"
           initialView={initialView}
           defaultTimedEventDuration="00:30:00"
@@ -200,6 +205,8 @@ const Scheduler: FC = () => {
           eventClick={eventClickHandler}
           dateClick={monthViewClickHandler}
           eventContent={scheduledEventRenderer}
+          slotMaxTime={businessHours[0].endTime}
+          slotMinTime={businessHours[0].startTime}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentPlugin]}
         />
       </CalendarContainer>

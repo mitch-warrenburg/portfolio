@@ -38,6 +38,7 @@ const ScheduleModal: FC<ScheduleModalProps> = ({
       if (!isUserFullyAuthenticated) {
         updateAuthStateStatus();
         dispatch(setIsAuthFormModalOpen(true));
+        window.scrollTo(0, 0);
       } else {
         dispatch(createScheduledEvent({ ...event, api }));
       }

@@ -224,6 +224,7 @@ const AuthForm: FC<AuthFormProps> = ({ formMessages, onClickClose, ...props }) =
   const submitButtonClickHandler = useEventCallback(() => {
     if (isFormValid) {
       dispatch(advanceToNextAuthFormState({}));
+      window.scrollTo(0, 0);
     }
   });
 

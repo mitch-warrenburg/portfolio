@@ -23,6 +23,8 @@ import {
   adminAuthSuccess,
   sendEmailSuccess,
   sendEmailFailure,
+  updateEmailFailure,
+  updateEmailSuccess,
   adminLogoutFailure,
   getUserMetadataError,
   updateUserInfoSuccess,
@@ -86,6 +88,21 @@ export function* advanceToNextAuthFormStateWatcher() {
 
 export function* fetchUserWatcher() {
   yield takeEvery('user/fetchUser', fetchUserHandler);
+}
+
+export function* updateEmailWatcher() {
+  yield takeEvery('user/updateEmail', updateEmailHandler);
+}
+
+export function* updateEmailHandler({ payload }: PayloadAction<UserUpdateRequest>) {
+  try {
+    const response: UserUpdateResponse = yield call(client.put, '/api/v1/users', payload);
+    yield put(updateEmailSuccess(response));
+    yield notify('Email updated', 'success');
+  } catch (e) {
+    yield put(updateEmailFailure(e));
+    yield notify('Unable to update email', 'failure');
+  }
 }
 
 export function* fetchUserHandler({ payload: uid }: PayloadAction<string>) {

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { ContactPageProps } from './types';
 import Section from '../../molecules/Section';
 import styled, { useTheme } from 'styled-components';
@@ -11,6 +11,10 @@ const Page = styled.div`
 
 const ContactPage: FC<ContactPageProps> = ({ openChatFn, openSchedulerFn, ...props }) => {
   const theme = useTheme();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Page {...props}>

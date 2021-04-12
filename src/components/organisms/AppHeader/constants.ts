@@ -21,6 +21,6 @@ export const locations = [
   },
   {
     id: '/app/scheduling',
-    content: 'Schedule',
+    content: 'Scheduling',
   },
 ];
