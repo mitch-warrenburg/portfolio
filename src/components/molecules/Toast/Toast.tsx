@@ -42,7 +42,7 @@ const Container = styled.div<ToastProps>`
     color: ${({ themeColor }) => chroma(themeColor).alpha(0.95).css()};
   }
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     height: 36px;
     font-size: 12px;
   }
@@ -81,7 +81,7 @@ const Toast: FC<ToastProps> = ({ id, icon, content, onToastComplete, ...props })
       classNames="toast"
       timeout={toastAnimationDurationMs}>
       <Container {...props} id={id} className="toast">
-        <FlexBox justify="flex-start">
+        <FlexBox fullWidth justify="flex-start">
           <Optional renderIf={icon}>
             <Icon icon="check" {...icon} />
           </Optional>

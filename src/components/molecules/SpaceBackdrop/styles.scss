@@ -1,4 +1,14 @@
+@import '../../../functions';
+
 $fade-out-duration: 750ms;
+
+$shadows-big: multiple-box-shadow(300);
+$shadows-small: multiple-box-shadow(2500);
+$shadows-medium: multiple-box-shadow(400);
+
+$shadows-big-small-screen: multiple-box-shadow-small-screen(100);
+$shadows-small-small-screen: multiple-box-shadow-small-screen(900);
+$shadows-medium-small-screen: multiple-box-shadow-small-screen(400);
 
 .space-backdrop {
   position: fixed;
@@ -12,12 +22,82 @@ $fade-out-duration: 750ms;
   margin: 0;
   background: black;
 
-  &__stars {
-    z-index: 5;
-    width: 100vw;
-    height: 100%;
-    padding: 0;
+  &__stars-1 {
+    width: 1px;
+    height: 1px;
     background: transparent;
+    border-radius: 50%;
+    box-shadow: $shadows-small;
+
+    &:after {
+      position: absolute;
+      top: 2000px;
+      width: 1px;
+      height: 1px;
+      background: transparent;
+      box-shadow: $shadows-small;
+      content: " ";
+    }
+
+    @media screen and (max-width: 780px), screen and (max-height: 600px) {
+      box-shadow: $shadows-small-small-screen;
+
+      &:after {
+        box-shadow: $shadows-small-small-screen;
+      }
+    }
+  }
+
+  &__stars-2 {
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: $shadows-medium;
+
+    &:after {
+      position: absolute;
+      top: 2000px;
+      width: 2px;
+      height: 2px;
+      background: transparent;
+      box-shadow: $shadows-medium;
+      content: " ";
+    }
+
+    @media screen and (max-width: 780px), screen and (max-height: 600px) {
+      box-shadow: $shadows-medium-small-screen;
+
+      &:after {
+        box-shadow: $shadows-medium-small-screen;
+      }
+    }
+  }
+
+  &__stars-3 {
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: $shadows-big;
+
+    &:after {
+      position: absolute;
+      top: 2000px;
+      width: 3px;
+      height: 3px;
+      background: transparent;
+      box-shadow: $shadows-big;
+      content: " ";
+    }
+
+    @media screen and (max-width: 780px), screen and (max-height: 600px) {
+      box-shadow: $shadows-big-small-screen;
+
+      &:after {
+        box-shadow: $shadows-big-small-screen;
+      }
+    }
   }
 
   &-enter {

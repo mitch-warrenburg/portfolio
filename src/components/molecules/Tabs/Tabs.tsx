@@ -8,7 +8,7 @@ const TabsContainer = styled.ul`
   display: flex;
   align-items: center;
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     display: none;
   }
 `;

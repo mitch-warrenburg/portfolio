@@ -6,7 +6,7 @@ const Tab = styled.li<TabProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
   border-bottom: 2px solid transparent;
   border-bottom: ${({ selected, theme }) =>
     selected ? `2px solid ${theme.colors.font.primary}` : 'none'};
@@ -14,6 +14,10 @@ const Tab = styled.li<TabProps>`
     selected ? theme.colors.font.primary : theme.colors.font.inactive};
   cursor: pointer;
   transition: color ease-in-out 300ms, background-color ease-in-out 200ms;
+
+  &:last-of-type {
+    padding-right: 0;
+  }
 
   &:hover {
     color: ${({ theme }) => theme.colors.font.primary};

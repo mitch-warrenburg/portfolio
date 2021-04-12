@@ -20,7 +20,7 @@ const Header = styled.div<HeaderProps>`
     display: none;
   }
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     padding: 0 16px;
 
     > button:last-of-type {

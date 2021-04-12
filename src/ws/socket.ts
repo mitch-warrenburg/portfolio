@@ -1,6 +1,8 @@
 import store from '../store';
+import { uniqueId } from 'lodash';
 import { io } from 'socket.io-client';
 import { IS_DEBUG } from '../store/config';
+import { addNotification } from '../store/state/uiSlice';
 import {
   CONNECT,
   DISCONNECT,
@@ -67,10 +69,6 @@ socket.on<typeof USER_SESSIONS>(USER_SESSIONS, (event: UserSessionsEvent) => {
   dispatch(userSessionsEvent(event));
 });
 
-socket.on<typeof PRIVATE_MESSAGE>(PRIVATE_MESSAGE, (event: ChatMessage) => {
-  dispatch(privateMessageEvent(event));
-});
-
 socket.on<typeof USER_CONNECTED>(USER_CONNECTED, (event: UserConnectedEvent) => {
   dispatch(userConnectedEvent(event));
 });
@@ -83,13 +81,31 @@ socket.on<typeof TYPING_STATUS>(TYPING_STATUS, (event: TypingEvent) => {
   dispatch(chatUserTypingEvent(event));
 });
 
+socket.on<typeof PRIVATE_MESSAGE>(PRIVATE_MESSAGE, (event: ChatMessage) => {
+  const { ui } = store.getState();
+
+  dispatch(privateMessageEvent(event));
+
+  if (ui.isChatOpen && ui.isChatMinimized) {
+    dispatch(
+      addNotification({ id: uniqueId(), text: 'Received new chat message', type: 'success' })
+    );
+  }
+});
+
 socket.on(DISCONNECT, async () => {
   console.log('Disconnected from Chat');
   setTimeout(() => {
     const {
+      user: { uid, username },
       chat: { error = '', sessionId },
     } = store.getState();
-    if (![INVALID_USER_ERROR_MSG, AUTH_ERROR_MSG].includes(error) && sessionId) {
+    if (
+      ![INVALID_USER_ERROR_MSG, AUTH_ERROR_MSG].includes(error) &&
+      uid &&
+      username &&
+      sessionId
+    ) {
       socket.connect();
     }
   }, 500);

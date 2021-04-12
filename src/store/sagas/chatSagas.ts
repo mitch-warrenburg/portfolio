@@ -1,7 +1,8 @@
 import socket from '../../ws';
 import client from '../../http/client';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { takeEvery, select, put, delay, call } from 'redux-saga/effects';
+import { chatState, userState } from './globalSagas';
+import { takeEvery, put, delay, call } from 'redux-saga/effects';
 import { INVALID_USER_ERROR_MSG, AUTH_ERROR_MSG } from '../../globalConstants';
 import {
   addUser,
@@ -12,9 +13,9 @@ import {
   setUserConnected,
   fetchSendToUserFailure,
   fetchSendToUserSuccess,
+  clearChatConnectionState,
 } from '../state/chatSlice';
 import {
-  ChatState,
   ChatUsers,
   UserSessionsEvent,
   UserConnectedEvent,
@@ -71,9 +72,15 @@ export function* disconnectFromChatServerHandler() {
 }
 
 export function* connectToChatServerHandler() {
-  yield socket.disconnect();
-  yield delay(250);
-  yield socket.connect();
+  const { uid, username } = yield userState();
+
+  if (uid && username) {
+    yield socket.disconnect();
+    yield delay(250);
+    yield socket.connect();
+  } else {
+    yield put(clearChatConnectionState({}));
+  }
 }
 
 export function* userSessionsEventHandler({
@@ -108,7 +115,3 @@ export function* userConnectedEventHandler({
     );
   }
 }
-
-export const chatState = () => {
-  return select(({ chat }) => chat as ChatState);
-};

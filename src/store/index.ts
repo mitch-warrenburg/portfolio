@@ -9,6 +9,7 @@ import { IS_PROD, persistConfig } from './config';
 import { Persistor } from 'redux-persist/es/types';
 import { createReduxEnhancer } from '@sentry/react';
 import persistStore from 'redux-persist/es/persistStore';
+import { schedulerReducer } from './state/schedulerSlice';
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
 const rootReducer: PersistedRootReducer = persistReducer(
@@ -17,6 +18,7 @@ const rootReducer: PersistedRootReducer = persistReducer(
     ui: uiReducer,
     chat: chatReducer,
     user: userReducer,
+    scheduler: schedulerReducer,
   })
 );
 

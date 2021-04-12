@@ -10,7 +10,7 @@ const Nav = styled.div`
   padding: 26px;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     display: none;
     visibility: hidden;
   }

@@ -28,7 +28,7 @@ const FormContainer = styled.form`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
 
   > div {
     width: 100%;

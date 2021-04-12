@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
-import Particles from 'react-tsparticles';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/types';
 import { CSSTransition } from 'react-transition-group';
-import { spaceBackdropParticlesOptions, backdropFadeOutDurationMs } from './constants';
+import { backdropFadeOutDurationMs } from './constants';
 import './styles.scss';
 
 const SpaceBackdrop: FC = () => {
@@ -17,11 +16,9 @@ const SpaceBackdrop: FC = () => {
       classNames="space-backdrop"
       timeout={backdropFadeOutDurationMs}>
       <div className="space-backdrop">
-        <Particles
-          id="space"
-          options={spaceBackdropParticlesOptions}
-          className="space-backdrop__stars"
-        />
+        <div className="space-backdrop__stars-1" />
+        <div className="space-backdrop__stars-2" />
+        <div className="space-backdrop__stars-3" />
       </div>
     </CSSTransition>
   );

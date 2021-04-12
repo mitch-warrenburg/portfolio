@@ -64,7 +64,7 @@ const AdminPage: FC = () => {
           <Header>
             <HeaderContent>
               <span>Chat Sessions</span>
-              <FlexBox justify="flex-end">
+              <FlexBox fullWidth justify="flex-end">
                 <RoundIconButton icon="home" onClick={homeButtonClickHandler} />
                 <RoundIconButton icon="sign-out-alt" onClick={logoutButtonClickHandler} />
               </FlexBox>

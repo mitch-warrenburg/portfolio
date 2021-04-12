@@ -18,7 +18,6 @@ const initialState: ChatState = {
   phoneNumber: undefined,
   currentChatUid: undefined,
   defaultChatUsername: undefined,
-  isLoading: false,
   isConnecting: false,
   users: {},
 };
@@ -62,7 +61,6 @@ const chatSlice = createSlice<ChatState, SliceCaseReducers<ChatState>>({
     },
     clearChatConnectionState: state => {
       state.error = undefined;
-      state.isLoading = false;
       state.isConnecting = false;
     },
     setChatError: (state, { payload }: PayloadAction<string>) => {

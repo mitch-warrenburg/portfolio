@@ -1,0 +1,15 @@
+@function multiple-box-shadow ($n) {
+  $value: '#{random(2800)}px #{random(2800)}px rgba(249,250,251, 0.8)';
+  @for $i from 2 through $n {
+    $value: '#{$value} , #{random(2800)}px #{random(2800)}px rgba(249,250,251, 0.8)';
+  }
+  @return unquote($value);
+}
+
+@function multiple-box-shadow-small-screen ($n) {
+  $value: '#{random(1400)}px #{random(1400)}px rgba(249,250,251, 0.8)';
+  @for $i from 2 through $n {
+    $value: '#{$value} , #{random(1400)}px #{random(1400)}px rgba(249,250,251, 0.8)';
+  }
+  @return unquote($value);
+}

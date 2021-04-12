@@ -16,7 +16,6 @@ import './_index.scss';
 
 const AdminLoginPage = lazy(() => import('./components/pages/AdminLoginPage'));
 const ToastNotifications = lazy(() => import('./components/organisms/ToastNotifications'));
-const PolygonWarpBackdrop = lazy(() => import('./components/molecules/PolygonWarpBackdrop'));
 const ChatMessengerWidget = lazy(() => import('./components/organisms/ChatMessengerWidget'));
 
 library.add(fab, fas, far);
@@ -27,13 +26,10 @@ const App: FC = () => {
   return (
     <RootErrorBoundary dispatch={dispatch}>
       <SpaceBackdrop />
-      <Suspense fallback={<SuspensePlaceholder />}>
-        <PolygonWarpBackdrop />
-      </Suspense>
-      <Suspense fallback={<SuspensePlaceholder />}>
+      <Suspense fallback={null}>
         <ToastNotifications />
       </Suspense>
-      <Suspense fallback={<SuspensePlaceholder />}>
+      <Suspense fallback={null}>
         <ChatMessengerWidget />
       </Suspense>
       <Switch>

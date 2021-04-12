@@ -11,7 +11,7 @@ const Container = styled.div`
   height: 100%;
   pointer-events: all;
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     left: 0;
   }
 `;

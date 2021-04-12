@@ -10,9 +10,8 @@ const Panel = styled.div<PanelProps>`
   max-width: 1280px;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.background.primary};
-  border-radius: 14px;
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     max-width: 100vw;
     height: 100%;
     margin-top: 0;

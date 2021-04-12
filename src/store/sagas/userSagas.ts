@@ -1,16 +1,12 @@
 import 'clientjs';
 import ClientJs from 'clientjs';
-import { uniqueId } from 'lodash';
 import { client } from '../../http';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { takeEvery, call, put, delay, select } from 'redux-saga/effects';
+import { setShowSummary } from '../state/schedulerSlice';
+import { takeEvery, call, put, delay } from 'redux-saga/effects';
+import { uiState, userState, notify, schedulerState } from './globalSagas';
 import { authPhoneNumber, confirmSmsCode, authAdminCustomToken } from '../../util';
-import {
-  setIsChatOpen,
-  addNotification,
-  setAuthFormStatus,
-  setIsAuthFormModalOpen,
-} from '../state/uiSlice';
+import { setIsChatOpen, setAuthFormStatus, setIsAuthFormModalOpen } from '../state/uiSlice';
 import {
   resetChat,
   setSessionId,
@@ -40,14 +36,11 @@ import {
   authenticateConfirmationCodeSuccess,
 } from '../state/userSlice';
 import {
-  UiState,
-  UserState,
   UserMetadata,
   AuthFormDraft,
   AdminAuthPayload,
   SendEmailRequest,
   UserAuthResponse,
-  ActionResultType,
   UserUpdateRequest,
   FetchUserResponse,
   AdminAuthResponse,
@@ -129,7 +122,10 @@ export function* updateUserInfoHandler({ payload }: PayloadAction<AuthFormDraft>
     yield put(setIsAuthFormModalOpen(false));
     yield put(updateUserInfoSuccess(response));
     yield put(connectToChatServer({}));
-    yield notify('Session established', 'success');
+    const { pendingEvent } = yield schedulerState();
+    if (pendingEvent) {
+      yield put(setShowSummary(true));
+    }
   } catch (e) {
     yield put(setAuthFormStatus('phoneNumber'));
     yield put(updateUserInfoFailure(e.message));
@@ -148,9 +144,9 @@ export function* authenticateConfirmationCodeHandler({
       {},
       { headers: { Authorization: token } }
     );
-    yield put(connectToChatServer({}));
     yield put(authenticateConfirmationCodeSuccess(response));
     yield put(setAuthFormStatus('userInfo'));
+    yield put(connectToChatServer({}));
     yield notify('Phone number verified', 'success');
   } catch (e) {
     yield put(authenticateConfirmationCodeFailure(e.message));
@@ -273,17 +269,3 @@ export function* getUserMetadataHandler() {
     yield put(getUserMetadataError(e.message || 'Unknown Error'));
   }
 }
-
-export function* notify(text: string, type: ActionResultType, delayMs = 300) {
-  yield delay(delayMs);
-  yield put(addNotification({ id: uniqueId(), text, type }));
-}
-
-// redux-saga's types are shit
-export const userState = (): UserState => {
-  return (select(({ user }) => user) as unknown) as UserState;
-};
-
-export const uiState = (): UiState => {
-  return (select(({ ui }) => ui) as unknown) as UiState;
-};

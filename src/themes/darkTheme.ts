@@ -17,7 +17,7 @@ const darkTheme: DefaultTheme = {
     },
     font: {
       primary: 'rgb(249,250,251)',
-      inactive: 'rgba(113, 119, 144, 0.8)',
+      inactive: 'rgb(113,119,144)',
       secondary: '',
       header: '#999ba5',
       transparentButton: 'rgba(249, 250, 251, 0.7)',
@@ -28,7 +28,7 @@ const darkTheme: DefaultTheme = {
       containerDarkest: '',
       containerLight: '',
       containerMedium: '',
-      primary: 'rgba(16, 18, 27, 0.8)',
+      primary: 'rgba(16, 18, 27, 0.6)',
       secondary: 'rgba(36, 39, 59, 1)',
       modal: 'rgba(22, 25, 37, 1)',
       dropdown: 'rgba(33, 36, 45, 1)',

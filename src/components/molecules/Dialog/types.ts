@@ -1,8 +1,8 @@
-import { HTMLAttributes, ReactNode, MouseEventHandler } from 'react';
+import { HTMLAttributes, MouseEventHandler, MutableRefObject } from 'react';
 
 export interface DialogProps extends HTMLAttributes<HTMLDivElement> {
   active?: boolean;
-  hasCloseButton?: boolean;
-  header?: ReactNode;
+  onClickAway?: (event: Event) => any;
+  ref?: MutableRefObject<HTMLDivElement>;
   onClickClose?: MouseEventHandler<HTMLButtonElement>;
 }

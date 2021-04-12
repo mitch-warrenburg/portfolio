@@ -12,10 +12,10 @@ const Button = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
   padding: 0 24px;
-  border: ${({ theme, transparent }) =>
-    transparent ? `1px solid ${theme.colors.font.transparentButton}` : 'none'};
-  background: ${({ theme, transparent }) =>
-    transparent ? 'transparent' : theme.colors.theme.primary};
+  border: ${({ color, theme, transparent }) =>
+    transparent ? `1px solid ${theme.colors.font.transparentButton}` : color || 'none'};
+  background: ${({ color, theme, transparent }) =>
+    transparent ? 'transparent' : color || theme.colors.theme.primary};
   border-radius: 20px;
   color: papayawhip;
   cursor: pointer;

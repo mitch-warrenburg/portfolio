@@ -12,7 +12,7 @@ export const techMenuItems = () => [
     content: (
       <>
         <Icon icon="react" prefix="fab" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           React
         </FlexBox>
       </>
@@ -23,7 +23,7 @@ export const techMenuItems = () => [
     content: (
       <>
         <Icon icon="sass" prefix="fab" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           SCSS
         </FlexBox>
       </>
@@ -34,7 +34,7 @@ export const techMenuItems = () => [
     content: (
       <>
         <Icon icon="leaf" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           Spring
         </FlexBox>
       </>
@@ -45,7 +45,7 @@ export const techMenuItems = () => [
     content: (
       <>
         <Icon icon="java" prefix="fab" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           Java
         </FlexBox>
       </>
@@ -62,7 +62,7 @@ export const aboutAppMenuItems = (
     content: (
       <>
         <Icon icon="play" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           Replay Intro
         </FlexBox>
       </>
@@ -74,7 +74,7 @@ export const aboutAppMenuItems = (
     content: (
       <>
         <Icon icon="microchip" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           What's Under the Hood?
         </FlexBox>
       </>
@@ -94,7 +94,7 @@ export const contactMenuItems = (
     content: (
       <>
         <Icon icon="envelope" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           Email
         </FlexBox>
       </>
@@ -106,7 +106,7 @@ export const contactMenuItems = (
     content: (
       <>
         <Icon icon="comments" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           Chat Now!
         </FlexBox>
       </>
@@ -118,7 +118,7 @@ export const contactMenuItems = (
     content: (
       <>
         <Icon icon="calendar-check" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           Schedule
         </FlexBox>
       </>
@@ -133,7 +133,7 @@ export const adminMenuItems = (onClickAdminConsole: () => any) => [
     content: (
       <>
         <Icon icon="user-lock" />
-        <FlexBox justify="flex-start" margin="0 0 0 8px">
+        <FlexBox fullWidth justify="flex-start" margin="0 0 0 8px">
           Access Admin Console
         </FlexBox>
       </>

@@ -10,7 +10,7 @@ const Footer = styled.footer`
   padding: 18px;
   background: ${({ theme }) => theme.colors.background.modal};
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     display: block;
   }
 `;

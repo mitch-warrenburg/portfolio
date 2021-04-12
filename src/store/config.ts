@@ -8,7 +8,7 @@ export const IS_PROD = process.env.NODE_ENV === 'production';
 
 export const persistConfig: PersistConfig<RootState> = {
   key: 'root',
-  version: 2,
+  version: 3,
   storage: localForage,
   blacklist: [],
 };

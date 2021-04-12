@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import { ModalProps } from './types';
 import styled from 'styled-components';
+import { useClickAway } from 'react-use';
 
 const Container = styled.div<ModalProps>`
   position: fixed;
@@ -19,7 +20,8 @@ const Container = styled.div<ModalProps>`
 const Content = styled.div`
   display: flex;
   width: 400px;
-  height: 420px;
+  height: 100%;
+  max-height: 520px;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.background.modal};
   border-radius: 14px;
@@ -29,24 +31,30 @@ const Content = styled.div`
   transition: all 0.3s;
   white-space: normal;
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 512px), screen and (max-height: 600px) {
     width: 100%;
     height: 100%;
+    max-height: none;
     border: 0;
     border-radius: 0;
   }
 `;
 
-const Modal: FC<ModalProps> = ({ children, ...props }) => {
+const Modal: FC<ModalProps> = ({ children, onClickAway = () => {}, ...props }) => {
+  const ref = useRef<HTMLInputElement>(null);
+
+  useClickAway(ref, onClickAway);
+
   return (
     <Container {...props}>
-      <Content>{children}</Content>
+      <Content ref={ref as any}>{children}</Content>
     </Container>
   );
 };
 
 Modal.defaultProps = {
   active: false,
+  onClickAway: () => {},
 };
 
 export default Modal;

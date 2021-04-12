@@ -39,7 +39,6 @@ const HeaderContainer = styled.div<CollapsibleElementProps>`
   transition: ease-in-out 150ms;
 
   @media screen and (min-width: 721px), screen and (min-height: 601px) {
-
     &:hover {
       background: ${({ open, theme }) =>
         open ? theme.colors.background.overlay : theme.colors.background.input};
@@ -61,7 +60,7 @@ const TitleContainer = styled.div`
     white-space: nowrap;
   }
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     font-size: 12px;
   }
 `;
@@ -264,7 +263,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({
     <>
       <Optional renderIf={users}>
         <HeaderContainer open={!isChatMinimized} onClick={onClickHeader}>
-          <FlexBox justify="flex-start">
+          <FlexBox fullWidth justify="flex-start">
             <Optional renderIf={!isChatMinimized}>
               <Avatar image={isAdmin ? ANONYMOUS_AVATAR : ADMIN_AVATAR} />
             </Optional>
@@ -275,7 +274,7 @@ const ChatMessenger: FC<ChatMessengerProps> = ({
               </Optional>
             </TitleContainer>
           </FlexBox>
-          <FlexBox justify="flex-end">
+          <FlexBox fullWidth justify="flex-end">
             <StatusIndicator status={connected ? 'success' : 'error'}>
               {connected ? 'Online' : 'Offline'}
             </StatusIndicator>

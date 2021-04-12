@@ -10,6 +10,10 @@ const SectionContainer = styled.section`
   justify-content: flex-start;
   padding: 0;
   margin-top: 56px;
+
+  :first-of-type {
+    margin-top: 16px;
+  }
 `;
 
 const Section: FC<SectionProps> = ({ children, header, ...props }) => {

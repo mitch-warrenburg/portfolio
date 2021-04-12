@@ -13,7 +13,7 @@ const FormButton: FC<FormButtonProps> = ({
   ...props
 }) => {
   return (
-    <Button {...props} disabled={disabled || isLoading}>
+    <Button {...props} disabled={disabled || isLoading} type="button">
       <Optional renderIf={isLoading}>
         <Loader size={1.25} durationSeconds={loaderAnimationDuration} color={loaderColor} />
       </Optional>

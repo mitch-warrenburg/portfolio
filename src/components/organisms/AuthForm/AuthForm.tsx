@@ -34,13 +34,17 @@ const Container = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
+  max-height: 520px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 30px;
   background: rgba(16, 18, 27, 0.6);
   border-radius: 14px;
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  transition: ease-in-out 200ms;
+
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
+    max-height: none;
     border: none;
     border-radius: 0;
   }
@@ -243,89 +247,87 @@ const AuthForm: FC<AuthFormProps> = ({ formMessages, onClickClose, ...props }) =
       <CloseButtonContainer>
         <IconButton icon="times-circle" size="2x" onClick={onClickClose} />
       </CloseButtonContainer>
-      <div>
-        <AuthFormFields
-          prompt={formMessages.phoneNumber}
-          icon={{
-            icon: 'mobile-alt',
-            color: chroma('#00adb5').css(),
-          }}
-          authFormStatus="phoneNumber"
-          currentAuthFormState={authFormStatus}>
-          <PhoneNumberInputWrapper>
-            <span>+1</span>
-            <MaskedFormField
-              label=""
-              ref={autoFocusFields.phoneNumber}
-              value={phoneNumber}
-              name="phoneNumber"
-              placeholder="Enter your phone number..."
-              mask="(000) 000-0000"
-              disabled={isLoading}
-              onKeyDown={keyDownHandler}
-              onChange={fieldChangeHandler}
-              onMask={maskedFieldChangeHandler}
-            />
-          </PhoneNumberInputWrapper>
-        </AuthFormFields>
-        <AuthFormFields
-          icon={{
-            icon: 'sms',
-            color: theme.colors.theme.success,
-            style: { alignSelf: 'flex-start' },
-          }}
-          prompt={formMessages.confirmationCode}
-          authFormStatus="confirmationCode"
-          currentAuthFormState={authFormStatus}>
+      <AuthFormFields
+        prompt={formMessages.phoneNumber}
+        icon={{
+          icon: 'mobile-alt',
+          color: chroma('#00adb5').css(),
+        }}
+        authFormStatus="phoneNumber"
+        currentAuthFormState={authFormStatus}>
+        <PhoneNumberInputWrapper>
+          <span>+1</span>
           <MaskedFormField
             label=""
-            mask="000000"
-            inputMode="tel"
-            name="confirmationCode"
-            value={confirmationCode}
-            placeholder="Enter confirmation the code"
+            ref={autoFocusFields.phoneNumber}
+            value={phoneNumber}
+            name="phoneNumber"
+            placeholder="Enter your phone number..."
+            mask="(000) 000-0000"
             disabled={isLoading}
             onKeyDown={keyDownHandler}
             onChange={fieldChangeHandler}
             onMask={maskedFieldChangeHandler}
-            ref={autoFocusFields.confirmationCode}
           />
-        </AuthFormFields>
-        <AuthFormFields
-          authFormStatus="userInfo"
-          currentAuthFormState={authFormStatus}
-          icon={{ icon: 'address-card', color: '#e2703a' }}
-          prompt={formMessages.userInfo}>
-          <FormField
-            value={username}
-            name="username"
-            label="Name"
-            onKeyDown={keyDownHandler}
-            disabled={isLoading}
-            ref={autoFocusFields.userInfo}
-            onChange={fieldChangeHandler}
-          />
-          <FormField
-            value={company}
-            name="company"
-            label="Company"
-            onKeyDown={keyDownHandler}
-            disabled={isLoading}
-            onChange={fieldChangeHandler}
-          />
-        </AuthFormFields>
-        <FormButtonContainer>
-          <FormButton
-            type="submit"
-            transparent
-            id="recaptcha-button"
-            disabled={!isFormValid}
-            isLoading={isLoading}
-            onClick={submitButtonClickHandler}>
-            Submit
-          </FormButton>
-        </FormButtonContainer>
-      </div>
+        </PhoneNumberInputWrapper>
+      </AuthFormFields>
+      <AuthFormFields
+        icon={{
+          icon: 'sms',
+          color: theme.colors.theme.success,
+          style: { alignSelf: 'flex-start' },
+        }}
+        prompt={formMessages.confirmationCode}
+        authFormStatus="confirmationCode"
+        currentAuthFormState={authFormStatus}>
+        <MaskedFormField
+          label=""
+          mask="000000"
+          inputMode="tel"
+          name="confirmationCode"
+          value={confirmationCode}
+          placeholder="Enter confirmation the code"
+          disabled={isLoading}
+          onKeyDown={keyDownHandler}
+          onChange={fieldChangeHandler}
+          onMask={maskedFieldChangeHandler}
+          ref={autoFocusFields.confirmationCode}
+        />
+      </AuthFormFields>
+      <AuthFormFields
+        authFormStatus="userInfo"
+        currentAuthFormState={authFormStatus}
+        icon={{ icon: 'address-card', color: '#e2703a' }}
+        prompt={formMessages.userInfo}>
+        <FormField
+          value={username}
+          name="username"
+          label="Name"
+          onKeyDown={keyDownHandler}
+          disabled={isLoading}
+          ref={autoFocusFields.userInfo}
+          onChange={fieldChangeHandler}
+        />
+        <FormField
+          value={company}
+          name="company"
+          label="Company"
+          onKeyDown={keyDownHandler}
+          disabled={isLoading}
+          onChange={fieldChangeHandler}
+        />
+      </AuthFormFields>
+      <FormButtonContainer>
+        <FormButton
+          type="submit"
+          transparent
+          id="recaptcha-button"
+          disabled={!isFormValid}
+          isLoading={isLoading}
+          onClick={submitButtonClickHandler}>
+          Submit
+        </FormButton>
+      </FormButtonContainer>
     </Container>
   );
 };

@@ -1,8 +1,84 @@
 :root {
-  --fc-border-color: black;
+  --fc-border-color: rgba(146, 151, 179, 0.6);
   --fc-daygrid-event-dot-width: 5px;
 }
 
-.fc-view-harness.fc-view-harness-passive {
-  background: rgba(22, 25, 37, 1) !important;
+.fc {
+  color: white;
+
+  th {
+    padding: 6px 0 !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+  }
+
+  td {
+    border-color: rgba(146, 151, 179, 0.13) !important;
+  }
+
+  &-toolbar-title {
+    font-size: 20px !important;
+    font-weight: normal;
+    text-wrap: none;
+    white-space: nowrap;
+
+    @media screen and (max-width: 780px), screen and (max-height: 600px) {
+      font-size: 16px !important;
+    }
+  }
+
+  &-day-today {
+    background: rgba(36, 39, 59, 0.3) !important;
+  }
+
+  &-popover {
+
+    &-body {
+      padding: 4px !important;
+    }
+  }
+
+  &-view-harness, &-popover {
+    background: rgb(12, 15, 25, 0.8) !important;
+  }
+
+  &-header-toolbar {
+    padding: 0 8px 16px 10px;
+    margin-bottom: 0 !important;
+  }
+
+  &-button#{&}-button-primary {
+    padding: 0 6px !important;
+    border: 1px solid black !important;
+    font-size: 15px;
+    outline: none !important;
+
+    &:focus {
+      border: 1px solid black !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+
+    &:not(:first-child) {
+      border-right: none !important;
+    }
+  }
+
+  &-dayGridMonth-button, &-timeGridWeek-button, &-timeGridDay-button, &-today-button {
+    padding: 4px 6px !important;
+  }
+
+  &-daygrid-event, &-timegrid-event {
+    overflow: hidden !important;
+    padding: 2px !important;
+    margin: 2px 2px !important;
+    color: rgba(249, 250, 251, 0.9) !important;
+    cursor: pointer;
+    font-size: 14px !important;
+    text-align: left !important;
+    text-overflow: ellipsis !important;
+    text-wrap: none !important;
+    vertical-align: center !important;
+    white-space: nowrap !important;
+  }
 }

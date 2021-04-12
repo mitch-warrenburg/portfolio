@@ -14,8 +14,10 @@ import { TerminalCommand, TerminalEmulatorProps, TerminalEmulatorState } from '.
 
 const Container = styled.div`
   width: 100%;
+  max-width: 1020px;
   min-height: 200px;
-  background-color: rgb(39, 39, 39, 0.7);
+  margin: 0 auto;
+  background-color: rgba(29, 28, 28, 0.9);
   border-radius: 4px;
   font-size: 14px;
 `;

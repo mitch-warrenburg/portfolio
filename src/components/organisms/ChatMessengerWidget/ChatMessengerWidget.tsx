@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState, useEffect } from 'react';
 import AuthForm from '../AuthForm';
 import styled from 'styled-components';
 import { fadeIn } from '../../animations';
@@ -29,7 +29,7 @@ const Container = styled.div<CollapsibleElementProps>`
   pointer-events: all;
   transition: ease-in-out 300ms;
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     right: 0;
     bottom: 0;
     max-width: ${({ open }) => (open ? '100vw' : '240px')};
@@ -53,7 +53,7 @@ const Content = styled.div<CollapsibleElementProps>`
   border-radius: ${({ open }) => (open ? 20 : 8)}px;
   transition: ease-in-out 300ms;
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     border: ${({ open }) => (open ? 'none' : '1px solid rgba(249, 250, 251, 0.3)')};
     border-radius: ${({ open }) => (open ? 0 : 8)};
   }
@@ -71,18 +71,20 @@ const ChatMessengerWidget: FC = () => {
   ]);
 
   const headerContainerClickHandler = useEventCallback(() => {
-    updateAuthStateStatus();
     dispatch(setIsChatMinimized(!isChatMinimized));
   });
 
   const closeButtonClickHandler = useEventCallback(() => {
-    updateAuthStateStatus();
     dispatch(setIsChatMinimized(true));
   });
 
   const textAreaFocusHandler = () => {
     setTimeout(() => setHeight(window.innerHeight), 100);
   };
+
+  useEffect(() => {
+    updateAuthStateStatus();
+  }, [isChatMinimized, isChatOpen]);
 
   return (
     <Optional renderIf={isChatOpen}>

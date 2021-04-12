@@ -82,7 +82,7 @@ const AdminLoginForm: FC = () => {
   }, [isAdmin]);
 
   return (
-    <FlexBox justify="flex-start" direction="column">
+    <FlexBox fullWidth justify="flex-start" direction="column">
       <Form>
         <FormField
           autoFocus
@@ -112,7 +112,7 @@ const AdminLoginForm: FC = () => {
           onClick={formSubmissionHandler}>
           Login
         </FormButton>
-        <FormButton transparent type="button" onClick={cancelButtonClickHandler}>
+        <FormButton transparent onClick={cancelButtonClickHandler}>
           Cancel
         </FormButton>
       </FormButtons>

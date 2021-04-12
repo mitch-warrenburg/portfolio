@@ -19,6 +19,7 @@ import {
   connectToChatServerWatcher,
   disconnectFromChatServerWatcher,
 } from './chatSagas';
+import { createScheduledEventWatcher, deleteScheduledEventWatcher } from './schedulerSagas';
 
 export default function* rootSaga() {
   const sagas = [
@@ -35,6 +36,8 @@ export default function* rootSaga() {
     userSessionsEventWatcher,
     userConnectedEventWatcher,
     connectToChatServerWatcher,
+    createScheduledEventWatcher,
+    deleteScheduledEventWatcher,
     authenticatePhoneNumberWatcher,
     disconnectFromChatServerWatcher,
     advanceToNextAuthFormStateWatcher,

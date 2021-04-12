@@ -1,11 +1,12 @@
 import { Action, Reducer } from 'redux';
-import { EventInput } from '@fullcalendar/common';
+import { CalendarApi } from '@fullcalendar/react';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 
 export interface RootState {
   ui: UiState;
   chat: ChatState;
   user: UserState;
+  scheduler: SchedulerState;
 }
 
 export type State = RootState & PersistPartial;
@@ -31,8 +32,6 @@ export interface UiState {
   notifications: Array<ActionResultNotification>;
 }
 
-export type AuthFormStatus = 'phoneNumber' | 'confirmationCode' | 'userInfo';
-
 export interface ChatState {
   users: ChatUsers;
   currentChatUid?: string;
@@ -42,7 +41,6 @@ export interface ChatState {
   phoneNumber?: string;
   error?: string;
   isConnecting: boolean;
-  isLoading: boolean;
 }
 
 export interface UserState {
@@ -60,6 +58,15 @@ export interface UserState {
   userMetadata: UserMetadata;
   authFormDraft: AuthFormDraft;
 }
+
+export interface SchedulerState {
+  error?: string;
+  isLoading: boolean;
+  pendingEvent?: PendingEvent;
+  showSummary: boolean;
+}
+
+export type AuthFormStatus = 'phoneNumber' | 'confirmationCode' | 'userInfo';
 
 export interface AuthFormDraft {
   email?: string;
@@ -195,11 +202,6 @@ export interface UserDisconnectedEvent {
   uid: string;
 }
 
-export interface SubmitChatFormPayload {
-  company: string;
-  username: string;
-}
-
 export interface AdminAuthPayload {
   username: string;
   password: string;
@@ -242,10 +244,35 @@ export type ChatEventType =
   | 'connect'
   | 'disconnect';
 
-export interface EventUserInfo {
-  username: string;
+export interface ExtendedScheduledEventProps {
+  currentUser: boolean;
 }
 
-export interface ScheduleEvent extends EventInput {
-  extendedProps: {};
+export interface ScheduledEventDraft {
+  end: string;
+  start: string;
+}
+
+export interface ScheduledEventRequest extends ScheduledEventDraft {
+  uid: string;
+  email: string;
+}
+
+export interface PendingEvent extends ScheduledEventDraft {
+  email: string;
+}
+
+export interface ScheduledEvent extends ScheduledEventDraft {
+  id: number;
+  extendedProps: ExtendedScheduledEventProps;
+}
+
+export interface CreateScheduledEventPayload extends ScheduledEventDraft {
+  email: string;
+  api: CalendarApi;
+}
+
+export interface DeleteScheduledEventPayload extends ScheduledEventDraft {
+  eventId: number;
+  api: CalendarApi;
 }

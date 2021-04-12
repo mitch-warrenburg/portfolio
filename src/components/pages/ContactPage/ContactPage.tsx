@@ -6,7 +6,7 @@ import Notification from '../../organisms/Notification';
 import EmailSection from '../../organisms/EmailSection';
 
 const Page = styled.div`
-  margin-bottom: 36px;
+  margin: 0 16px 36px 16px;
 `;
 
 const ContactPage: FC<ContactPageProps> = ({ openChatFn, openSchedulerFn, ...props }) => {

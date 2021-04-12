@@ -19,4 +19,8 @@ export const locations = [
     id: '/app/contact',
     content: 'Contact',
   },
+  {
+    id: '/app/scheduling',
+    content: 'Schedule',
+  },
 ];

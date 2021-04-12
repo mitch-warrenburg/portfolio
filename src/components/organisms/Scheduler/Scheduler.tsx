@@ -1,133 +1,209 @@
-import React, { FC, useState, useCallback } from 'react';
-import { uniqueId } from 'lodash';
-import styled from 'styled-components';
-import { SchedulerState } from './types';
+import React, { FC, useState, useRef, MutableRefObject, useMemo, useEffect } from 'react';
 import FullCalendar, {
-  EventApi,
-  formatDate,
   DateSelectArg,
   EventClickArg,
   EventContentArg,
 } from '@fullcalendar/react';
-import FlexBox from '../../atoms/FlexBox';
+import Legend from '../Legend';
+import styled from 'styled-components';
+import { useWindowSize } from 'react-use';
+import ScheduleModal from '../ScheduleModal';
+import momentPlugin from '@fullcalendar/moment';
+import { useEventCallback } from '../../../hooks';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
+import { useSelector, useDispatch } from 'react-redux';
+import useAuthState from '../../../hooks/useAuthState';
+import LoadingOverlay from '../../molecules/LoadingOverlay';
+import { allowSelection, toHourString } from '../../../util';
+import ScheduledEventBlock from '../../atoms/ScheduledEventBlock';
+import { confirmSummary } from '../../../store/state/schedulerSlice';
+import ScheduledEventReviewModal from '../ScheduledEventReviewModal';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { businessHours, calendarLegendItems, eventSources } from './constants';
+import {
+  RootState,
+  ScheduledEvent,
+  SchedulerState,
+  ScheduledEventDraft,
+  ExtendedScheduledEventProps,
+} from '../../../store/types';
 import './styles.scss';
 
-const initialEvents = [
-  {
-    id: uniqueId('event'),
-    title: 'All-day event',
-    start: '2021-03-30',
-  },
-  {
-    id: uniqueId('event'),
-    title: 'Timed event',
-    start: '2021-03-31T12:00:00',
-  },
-];
+const CalendarContainer = styled.div`
+  height: 856px;
+  padding-bottom: 50px;
 
-const Container = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
+    height: 600px;
+  }
 `;
 
-const EventList = styled.ul`
+const LegendContainer = styled.div`
+  position: absolute;
+  top: 830px;
+  right: 16px;
   display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: stretch;
+  height: 26px;
+  align-items: center;
   justify-content: flex-start;
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
+    top: 566px;
+  }
 `;
 
 const Scheduler: FC = () => {
-  const [{ events }, setState] = useState<SchedulerState>({ events: [] });
-
-  const eventsHandler = useCallback((events: Array<EventApi>) => {
-    setState(prev => ({ ...prev, events }));
-  }, []);
-
-  const eventRenderer = useCallback(
-    (content: EventContentArg) => (
-      <>
-        <b>{content.timeText}</b>
-        <i>{content.event.title}</i>
-      </>
-    ),
-    []
+  const dispatch = useDispatch();
+  const { width } = useWindowSize();
+  const { updateAuthStateStatus } = useAuthState();
+  const calendarRef: MutableRefObject<FullCalendar | null> = useRef(null);
+  const [eventDraft, setEventDraft] = useState<ScheduledEventDraft | undefined>();
+  const [selectedEvent, setSelectedEvent] = useState<ScheduledEvent | undefined>();
+  const { showSummary, pendingEvent } = useSelector<RootState, Partial<SchedulerState>>(
+    ({ scheduler }) => ({
+      showSummary: scheduler.showSummary,
+      pendingEvent: scheduler.pendingEvent,
+    })
+  );
+  const isLoading = useSelector<RootState, boolean>(
+    ({ user, scheduler, ui }) =>
+      (user.isLoading || scheduler.isLoading) && !ui.isAuthFormModalOpen
   );
 
-  const eventClickHandler = useCallback((click: EventClickArg) => {
-    console.log('clicked', click.event);
-  }, []);
+  const closeSchedulerModal = useEventCallback(() => {
+    setEventDraft(undefined);
+  });
 
-  const dateSelectHandler = useCallback((selection: DateSelectArg) => {
-    let title = prompt('Please enter a new title for your event');
-    let calendarApi = selection.view.calendar;
-
-    calendarApi.unselect(); // clear date selection
-    calendarApi.getEvents().forEach(console.log);
-
-    if (title) {
-      calendarApi.addEvent({
-        title,
-        constraint: () => '',
-        id: uniqueId('event'),
-        end: selection.endStr,
-        start: selection.startStr,
-        allDay: selection.allDay,
-        extendedProps: {
-          user: 'frank',
-        },
-      });
+  const closeReviewModal = useEventCallback(() => {
+    setSelectedEvent(undefined);
+    if (showSummary) {
+      updateAuthStateStatus();
+      dispatch(confirmSummary(false));
     }
-  }, []);
+  });
+
+  const eventClickHandler = useEventCallback(
+    ({ view, event: { id, startStr, endStr, extendedProps } }: EventClickArg) => {
+      if (width <= 780 && view.type === 'dayGridMonth') {
+        view.calendar.changeView('timeGridDay');
+        return;
+      }
+
+      if (extendedProps.currentUser) {
+        setSelectedEvent({
+          id: parseInt(id),
+          start: startStr,
+          end: endStr,
+          extendedProps: extendedProps as ExtendedScheduledEventProps,
+        });
+      }
+    }
+  );
+
+  const dateSelectHandler = useEventCallback(({ endStr, startStr, view }: DateSelectArg) => {
+    view.calendar.unselect();
+    setEventDraft({
+      end: endStr,
+      start: startStr,
+    });
+  });
+
+  const monthViewClickHandler = useEventCallback(({ date, view }: DateClickArg) => {
+    if (view.type === 'dayGridMonth') {
+      view.calendar.changeView('timeGridDay', date);
+    }
+  });
+
+  const headerToolbar = useMemo(
+    () => ({
+      left: `prev,next${width <= 780 ? '' : ',today'}`,
+      center: 'title',
+      right: `dayGridMonth,${width <= 780 ? '' : 'timeGridWeek,'}timeGridDay`,
+    }),
+    [width]
+  );
+
+  const initialView = useMemo(() => (width <= 780 ? 'dayGridMonth' : 'timeGridWeek'), [
+    width <= 780,
+  ]);
+
+  const scheduledEventRenderer = useEventCallback((content: EventContentArg) => {
+    const { backgroundColor, borderColor } = content.event;
+    const text = `${toHourString(content, 'startStr')}`;
+    return (
+      <ScheduledEventBlock
+        view={content.view.type}
+        borderColor={borderColor}
+        backgroundColor={backgroundColor}>
+        {`${text}${
+          width <= 780 && content.view.type !== 'timeGridDay'
+            ? ''
+            : `- ${toHourString(content, 'endStr')}`
+        }`}
+      </ScheduledEventBlock>
+    );
+  });
+
+  useEffect(() => {
+    const api = calendarRef.current?.getApi();
+
+    if (width <= 780 && api && api.view.type === 'timeGridWeek') {
+      api.changeView('dayGridMonth');
+    }
+  }, [width, calendarRef]);
 
   return (
-    <Container>
-      <EventList>
-        {events.map(({ id, start, title }) => (
-          <li key={id}>
-            <b>{formatDate(start!, { year: 'numeric', month: 'long', day: 'numeric' })}</b>
-            <i>{title}</i>
-          </li>
-        ))}
-      </EventList>
-
-      <FlexBox>
+    <>
+      <LoadingOverlay isLoading={isLoading} message="Loading scheduled events..." />
+      <ScheduleModal
+        calendarRef={calendarRef}
+        scheduledEventDraft={eventDraft}
+        closeModalCb={closeSchedulerModal}
+      />
+      <ScheduledEventReviewModal
+        calendarRef={calendarRef}
+        showSummary={!!showSummary}
+        closeModalCb={closeReviewModal}
+        event={showSummary ? pendingEvent : selectedEvent}
+      />
+      <LegendContainer>
+        <Legend items={calendarLegendItems} />
+      </LegendContainer>
+      <CalendarContainer>
         <FullCalendar
-          businessHours
-          slotMinTime="08:00"
-          slotMaxTime="18:00"
-          height="800px"
-          contentHeight="auto"
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
-          }}
-          initialView="dayGridMonth"
-          editable={true}
-          selectable={true}
-          selectMirror={true}
-          dayMaxEvents={true}
+          dayMaxEvents={4}
+          longPressDelay={500}
+          ref={calendarRef}
+          height="100%"
+          slotMinTime="06:00"
+          slotMaxTime="22:00"
+          slotDuration="00:30:00"
+          initialView={initialView}
+          defaultTimedEventDuration="00:30:00"
           weekends={false}
+          editable={false}
+          selectable={true}
+          allDaySlot={false}
+          nowIndicator={true}
+          selectMirror={false}
+          defaultAllDay={false}
+          eventOverlap={false}
+          selectOverlap={false}
+          slotEventOverlap={false}
+          forceEventDuration={true}
+          eventStartEditable={false}
           select={dateSelectHandler}
-          eventContent={eventRenderer}
-          initialEvents={initialEvents}
+          eventSources={eventSources}
+          selectAllow={allowSelection}
+          headerToolbar={headerToolbar}
+          businessHours={businessHours}
           eventClick={eventClickHandler}
-          eventsSet={eventsHandler}
-          eventAdd={console.log}
-          eventChange={console.log}
-          eventRemove={console.log}
+          dateClick={monthViewClickHandler}
+          eventContent={scheduledEventRenderer}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, momentPlugin]}
         />
-      </FlexBox>
-    </Container>
+      </CalendarContainer>
+    </>
   );
 };
 

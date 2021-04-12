@@ -1,10 +1,10 @@
 import React, { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { PanelProps } from '../../atoms/Panel';
-import { RoundIconButton } from '../../atoms/RoundIconButton';
 import styled, { useTheme } from 'styled-components';
 import PageTemplate from '../../templates/PageTemplate';
 import AdminLoginForm from '../../organisms/AdminLoginForm';
+import { RoundIconButton } from '../../atoms/RoundIconButton';
 
 const Container = styled.div<PanelProps>`
   position: fixed;
@@ -14,7 +14,8 @@ const Container = styled.div<PanelProps>`
   flex-direction: column;
   align-self: center;
   padding: 20px;
-  background: ${({ theme }) => theme.colors.background.primary};
+  border: 1px solid rgb(255, 255, 255, 0.5);
+  background: ${({ theme }) => theme.colors.background.menuHover};
   border-radius: 14px;
   justify-self: center;
 `;

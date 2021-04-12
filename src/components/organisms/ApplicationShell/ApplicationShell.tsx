@@ -3,7 +3,9 @@ import NavBar from '../NavBar';
 import AppHeader from '../AppHeader';
 import Scheduler from '../Scheduler';
 import styled from 'styled-components';
+import Divider from '../../atoms/Divider';
 import MobileFooter from '../MobileFooter';
+import { useLocation } from 'react-router';
 import Optional from '../../atoms/Optional';
 import AuthFormModal from '../AuthFormModal';
 import Section from '../../molecules/Section';
@@ -20,7 +22,6 @@ import {
   contactMenuItems,
   terminalCommands,
   aboutAppMenuItems,
-  APP_SHELL_MARGIN,
   APP_HEADER_HEIGHT,
 } from './constants';
 import {
@@ -32,17 +33,12 @@ import {
 const Shell = styled.div`
   position: relative;
   overflow: hidden;
-  max-width: 1280px;
-  height: calc(100% - ${APP_SHELL_MARGIN}px * 2);
-  margin: ${APP_SHELL_MARGIN}px auto;
-  background: rgba(16, 18, 27, 0.8);
-  border-radius: 14px;
+  max-width: 1920px;
+  height: 100%;
+  margin: 0 auto;
+  background: rgba(16, 18, 27, 0.6);
 
-  @media screen and (max-width: 1280px) {
-    margin: ${APP_SHELL_MARGIN}px;
-  }
-
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
     height: 100%;
     margin: 0 auto;
     border-radius: 0;
@@ -75,22 +71,23 @@ const PageContainer = styled.div`
   height: 100%;
 `;
 
-const PageContent = styled.div`
+const PageContent = styled.div<{ path: string }>`
   display: flex;
   width: 100%;
   flex: 2 0 100%;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  padding: 20px;
+  padding: ${({ path }) => (path === '/app/scheduling' ? '10px 0' : '20px 32px')};
 
-  @media screen and (max-width: 720px), screen and (max-height: 600px) {
-    padding: 20px 10px;
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
+    padding: ${({ path }) => (path === '/app/scheduling' ? '10px 0' : '20px 10px')};
   }
 `;
 
 const ApplicationShell: FC = () => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
   const panelContentRef = useRef<HTMLDivElement>(null);
   const history: History<LocationState> = useHistory();
   const { hasRunIntro, isChatOpen, isChatMinimized } = useSelector<RootState, UiState>(
@@ -126,7 +123,7 @@ const ApplicationShell: FC = () => {
   }, []);
 
   const navToScheduler = useCallback(() => {
-    history.push('/app/schedule');
+    history.push('/app/scheduling');
     scrollToTop();
   }, []);
 
@@ -174,13 +171,16 @@ const ApplicationShell: FC = () => {
           <PageContainer>
             <NavBar menus={menus} />
             <PageTemplate>
-              <PageContent>
-                <TerminalEmulator commands={terminalCommands} />
+              <PageContent path={pathname}>
+                <Optional renderIf={pathname !== '/app/scheduling'}>
+                  <TerminalEmulator commands={terminalCommands} />
+                  <Divider />
+                </Optional>
                 <Switch>
                   <Route path="/app/contact">
                     <ContactPage openChatFn={openChat} openSchedulerFn={navToScheduler} />
                   </Route>
-                  <Route path="/app/schedule">
+                  <Route path="/app/scheduling">
                     <Scheduler />
                   </Route>
                   <Route exact path="/app">
