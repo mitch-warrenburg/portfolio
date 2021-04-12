@@ -29,6 +29,7 @@ import {
   setHasRunIntro,
   setIsChatMinimized,
 } from '../../../store/state/uiSlice';
+import AboutAppPage from '../AboutAppPage';
 
 const Shell = styled.div`
   position: relative;
@@ -195,9 +196,7 @@ const ApplicationShell: FC = () => {
                   <Route path="/app/experience">
                     <Section header="Experience">Okay</Section>
                   </Route>
-                  <Route path="/app/about-app">
-                    <Section header="What's under the Hood?">BADASS SHIT</Section>
-                  </Route>
+                  <Route path="/app/about-app" component={AboutAppPage} />
                 </Switch>
               </PageContent>
               <MobileFooter menus={menus} />

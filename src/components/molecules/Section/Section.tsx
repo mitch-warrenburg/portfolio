@@ -10,9 +10,16 @@ const SectionContainer = styled.section`
   justify-content: flex-start;
   padding: 0;
   margin-top: 56px;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
 
   :first-of-type {
     margin-top: 16px;
+  }
+
+  @media screen and (max-width: 780px), screen and (max-height: 600px) {
+    font-size: 14px;
   }
 `;
 
