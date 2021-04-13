@@ -12,7 +12,7 @@ const SectionContainer = styled.section`
   margin-top: 56px;
   font-weight: normal;
   letter-spacing: normal;
-  line-height: 1;
+  line-height: 1.2;
 
   :first-of-type {
     margin-top: 16px;

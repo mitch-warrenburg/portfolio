@@ -8,15 +8,16 @@ import MobileFooter from '../MobileFooter';
 import { useLocation } from 'react-router';
 import Optional from '../../atoms/Optional';
 import AuthFormModal from '../AuthFormModal';
-import Section from '../../molecules/Section';
 import { History, LocationState } from 'history';
-import { useEventCallback } from '../../../hooks';
+import AboutMePage from '../../pages/AboutMePage';
 import ContactPage from '../../pages/ContactPage';
 import TerminalEmulator from '../TerminalEmulator';
+import AboutAppPage from '../../pages/AboutAppPage';
 import { useDispatch, useSelector } from 'react-redux';
 import PageTemplate from '../../templates/PageTemplate';
 import { RootState, UiState } from '../../../store/types';
 import { Switch, useHistory, Route } from 'react-router-dom';
+import { useEventCallback, useScrollTop } from '../../../hooks';
 import {
   adminMenuItems,
   contactMenuItems,
@@ -29,7 +30,6 @@ import {
   setHasRunIntro,
   setIsChatMinimized,
 } from '../../../store/state/uiSlice';
-import AboutAppPage from '../AboutAppPage';
 
 const Shell = styled.div`
   position: relative;
@@ -161,6 +161,8 @@ const ApplicationShell: FC = () => {
     !hasRunIntro && history.push('/');
   }, [hasRunIntro]);
 
+  useScrollTop();
+
   return (
     <Optional renderIf={hasRunIntro}>
       <Shell>
@@ -178,23 +180,12 @@ const ApplicationShell: FC = () => {
                   <Divider />
                 </Optional>
                 <Switch>
+                  <Route exact path="/app" component={AboutMePage} />
                   <Route path="/app/contact">
                     <ContactPage openChatFn={openChat} openSchedulerFn={navToScheduler} />
                   </Route>
                   <Route path="/app/scheduling">
                     <Scheduler />
-                  </Route>
-                  <Route exact path="/app">
-                    <Section header="About Me">Stuff about me</Section>
-                  </Route>
-                  <Route path="/app/skills">
-                    <Section header="Skills">Okay</Section>
-                  </Route>
-                  <Route path="/app/notable-work">
-                    <Section header="Notable Work">Okay</Section>
-                  </Route>
-                  <Route path="/app/experience">
-                    <Section header="Experience">Okay</Section>
                   </Route>
                   <Route path="/app/about-app" component={AboutAppPage} />
                 </Switch>

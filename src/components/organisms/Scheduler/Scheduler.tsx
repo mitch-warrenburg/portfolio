@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { useWindowSize } from 'react-use';
 import ScheduleModal from '../ScheduleModal';
 import momentPlugin from '@fullcalendar/moment';
-import { useEventCallback } from '../../../hooks';
+import { useEventCallback, useScrollTop } from '../../../hooks';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,7 +42,7 @@ const CalendarContainer = styled.div`
 
 const LegendContainer = styled.div`
   position: absolute;
-  top: 830px;
+  top: 872px;
   right: 16px;
   display: flex;
   height: 26px;
@@ -155,9 +155,7 @@ const Scheduler: FC = () => {
     }
   }, [width, calendarRef]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useScrollTop();
 
   return (
     <>

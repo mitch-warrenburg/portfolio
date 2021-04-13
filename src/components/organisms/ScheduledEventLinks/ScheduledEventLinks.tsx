@@ -47,9 +47,9 @@ const ScheduledEventLinks: FC<ScheduledEventLinksProps> = ({
         text: 'Open with Office',
         href: office365(calendarEvent),
         icon: {
-          icon: 'yahoo',
+          icon: 'microsoft',
           prefix: 'fab',
-          color: '#6001d2',
+          color: '#0078d4',
         },
       },
       {

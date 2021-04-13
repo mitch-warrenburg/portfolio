@@ -6,4 +6,5 @@ export interface IconLinkProps extends HTMLAttributes<HTMLDivElement> {
   href: string;
   icon?: IconProps;
   img?: string;
+  newTab?: boolean;
 }

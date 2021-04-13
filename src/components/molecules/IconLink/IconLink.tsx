@@ -22,7 +22,7 @@ const Image = styled.img`
   height: 14px;
 `;
 
-const IconLink: FC<IconLinkProps> = ({ img, icon, text, href, ...props }) => {
+const IconLink: FC<IconLinkProps> = ({ img, icon, text, href, newTab = true, ...props }) => {
   return (
     <Container {...props}>
       <Optional renderIf={icon}>
@@ -31,7 +31,7 @@ const IconLink: FC<IconLinkProps> = ({ img, icon, text, href, ...props }) => {
       <Optional renderIf={img}>
         <Image alt="text" src={img} />
       </Optional>
-      <Link target="_blank" href={href}>
+      <Link target={newTab ? '_blank' : undefined} href={href}>
         {text}
       </Link>
     </Container>
