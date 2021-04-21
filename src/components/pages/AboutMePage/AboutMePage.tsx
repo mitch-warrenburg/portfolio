@@ -63,6 +63,24 @@ const AboutMePage: FC = () => {
             icon={{ icon: 'comments', color: theme.colors.theme.pending, size: 'lg' }}
           />
         </LinksContainer>
+        <Header>Source Code</Header>
+        <LinksContainer>
+          <IconLink
+            text="React Frontend"
+            href="https://github.com/mitch-warrenburg/portfolio"
+            icon={{ icon: 'github', prefix: 'fab', color: 'white', size: 'lg' }}
+          />
+          <IconLink
+            text=" NodeJS Chat Server"
+            href="https://github.com/mitch-warrenburg/portfolio-chat-server"
+            icon={{ icon: 'github', prefix: 'fab', color: 'white', size: 'lg' }}
+          />
+          <IconLink
+            text="Spring Boot Auth, Email and Scheduling API Server"
+            href="https://github.com/mitch-warrenburg/portfolio-server"
+            icon={{ icon: 'github', prefix: 'fab', color: 'white', size: 'lg' }}
+          />
+        </LinksContainer>
       </Container>
     </Section>
   );

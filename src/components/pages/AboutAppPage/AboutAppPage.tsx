@@ -107,9 +107,9 @@ const AboutAppPage: FC = () => {
           (postgresql-backed) API's for user management and scheduling. Since there are no
           Firebase integrations with Spring security, the implementation is entirely custom.
           Session http-only cookies are used to identify users and authenticate requests to
-          protected endpoints. The Email feature simply interfaces with Sendgrid's API services.
-          GCP's Secret Manager Spring Cloud integration is used to configure secrets in
-          realtime. The following are notable libraries utilized for this service:
+          protected endpoints. The Email feature simply interfaces with Sendgrid's API
+          services. GCP's Secret Manager Spring Cloud integration is used to configure secrets
+          in realtime. The following are notable libraries utilized for this service:
         </p>
         <TextList>
           <li>Spring Cloud Google Secret Manager</li>
@@ -122,14 +122,13 @@ const AboutAppPage: FC = () => {
         <Header>The Backend - NodeJS Chat Server</Header>
         <p>
           &nbsp;&nbsp;The nodeJS server exposes a websocket-based API for the chat feature. It
-          integrates with the Spring Boot server to facilitate secure connections for users whom
-          have authenticated. It also exposes some restful endpoints for administrative
+          integrates with the Spring Boot server to facilitate secure connections for users
+          whom have authenticated. It also exposes some restful endpoints for administrative
           purposes and server health checks. The libraries used for this microservice are:
           <TextList>
             <li>Socket.io</li>
             <li>Express</li>
             <li>Firebase Admin Client</li>
-            <li>Sendgrid Java Client</li>
             <li>Redis (Node Driver)</li>
             <li>Axios</li>
           </TextList>
