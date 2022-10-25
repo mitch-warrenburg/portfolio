@@ -1,0 +1,15 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: portfolio-client-horizontal-autoscaler
+  namespace: portfolio
+  labels:
+    app: portfolio-client
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: portfolio-client
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80

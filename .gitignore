@@ -12,3 +12,4 @@ coverage/
 *.log
 .eslintcache
 package-lock.json
+.idea/markdown.xml

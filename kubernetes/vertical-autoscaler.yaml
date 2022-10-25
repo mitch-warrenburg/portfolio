@@ -1,0 +1,21 @@
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: portfolio-client-vertical-autoscaler
+  namespace: portfolio
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: portfolio-client
+  updatePolicy:
+    updateMode: Auto
+  resourcePolicy:
+    containerPolicies:
+      - containerName: portfolio-client-container
+        minAllowed:
+          cpu: "10m"
+          memory: "128Mi"
+        maxAllowed:
+          cpu: "100m"
+          memory: "256Mi"
